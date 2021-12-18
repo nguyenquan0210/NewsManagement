@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32002.261
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsManagement.WebApp", "NewsManagement.WebApp\NewsManagement.WebApp.csproj", "{6FB8E79A-2911-4C02-B5EB-9B61638BE66D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsManagement.WebApp", "NewsManagement.WebApp\NewsManagement.WebApp.csproj", "{6FB8E79A-2911-4C02-B5EB-9B61638BE66D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6DD6B893-43EB-4B65-84AC-BD173CFA15A6}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
