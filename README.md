@@ -1,4 +1,4 @@
-# ASP.NET Core 5.0 project from TEDU
+# ASP.NET Core 5.0 project from QUANHOA
 ## Technologies
 - ASP.NET Core 5.0
 - Entity Framework Core 5.0
