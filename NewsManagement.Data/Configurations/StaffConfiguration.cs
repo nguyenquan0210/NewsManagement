@@ -21,7 +21,7 @@ namespace NewsManagement.Data.Configurations
 
             builder.Property(x => x.Address).IsRequired().HasMaxLength(int.MaxValue);
 
-            builder.Property(x => x.Email).IsRequired().HasMaxLength(100);
+            builder.Property(x => x.Email).IsRequired().IsUnicode(false).HasMaxLength(100);
 
             builder.Property(x => x.PhoneNumber).IsRequired().HasMaxLength(11);
 

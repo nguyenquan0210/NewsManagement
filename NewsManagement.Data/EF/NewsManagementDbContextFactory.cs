@@ -6,23 +6,23 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace eShopSolution.Data.EF
+namespace NewsManagement.Data.EF
 {
-    public class EShopDbContextFactory : IDesignTimeDbContextFactory<DbContext>
+    public class NewsManagementDbContextFactory : IDesignTimeDbContextFactory<DBContext>
     {
-        public DbContext CreateDbContext(string[] args)
+        public DBContext CreateDbContext(string[] args)
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-            var connectionString = configuration.GetConnectionString("NewsManagement");
+            var connectionString = configuration.GetConnectionString("NewsManagementDb");
 
-            var optionsBuilder = new DbContextOptionsBuilder<DbContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<DBContext>();
             optionsBuilder.UseSqlServer(connectionString);
 
-            return new DbContext(optionsBuilder.Options);
+            return new DBContext(optionsBuilder.Options);
         }
     }
 }

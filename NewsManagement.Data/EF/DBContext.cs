@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NewsManagement.Data.EF
 {
-    class DBContext : DbContext
+    public class DBContext : DbContext
     {
         public DBContext(DbContextOptions options) : base(options)
         {
@@ -20,20 +20,27 @@ namespace NewsManagement.Data.EF
             modelBuilder.ApplyConfiguration(new AccountTypeConfiguration());
             modelBuilder.ApplyConfiguration(new AccountConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
-            modelBuilder.ApplyConfiguration(new NewsConfiguration());
-            modelBuilder.ApplyConfiguration(new AdvertiseConfiguration());
-            modelBuilder.ApplyConfiguration(new ActiveUserConfiguration());
-            modelBuilder.ApplyConfiguration(new CityConfiguration());
-            modelBuilder.ApplyConfiguration(new ClientConfiguration());
-            modelBuilder.ApplyConfiguration(new CommentConfiguration());
-            modelBuilder.ApplyConfiguration(new ContactConfiguration());
-            modelBuilder.ApplyConfiguration(new EventConfiguration());
-            modelBuilder.ApplyConfiguration(new OrderConfiguration());
-            modelBuilder.ApplyConfiguration(new RatingConfiguration());
-            modelBuilder.ApplyConfiguration(new ServiceConfiguration());
-            modelBuilder.ApplyConfiguration(new StaffConfiguration());
             modelBuilder.ApplyConfiguration(new TopicConfiguration());
+            modelBuilder.ApplyConfiguration(new EventConfiguration());
+            modelBuilder.ApplyConfiguration(new CityConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new StaffConfiguration());
+            modelBuilder.ApplyConfiguration(new NewsConfiguration());
+            
+            modelBuilder.ApplyConfiguration(new ActiveUserConfiguration());
+           
+            modelBuilder.ApplyConfiguration(new ClientConfiguration());
+            modelBuilder.ApplyConfiguration(new ServiceConfiguration());
+            modelBuilder.ApplyConfiguration(new ContactConfiguration());
+            
+            modelBuilder.ApplyConfiguration(new OrderConfiguration());
+            modelBuilder.ApplyConfiguration(new AdvertiseConfiguration());
+            modelBuilder.ApplyConfiguration(new RatingConfiguration());
+
+            modelBuilder.ApplyConfiguration(new CommentConfiguration());
+
+
+
 
         }
 
