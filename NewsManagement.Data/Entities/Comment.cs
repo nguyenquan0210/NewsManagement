@@ -9,7 +9,7 @@ namespace NewsManagement.Data.Entities
 {
     public class Comment
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         public int UserId { get; set; }
 
@@ -18,6 +18,8 @@ namespace NewsManagement.Data.Entities
         public int NewsId { get; set; }
 
         public News News { get; set; }
+
+        public int Answer { get; set; }
 
         public Status Type { get; set; }
 

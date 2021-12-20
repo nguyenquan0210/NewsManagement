@@ -22,6 +22,8 @@ namespace NewsManagement.Data.Entities
 
         public string Email { get; set; }
 
+        public string Img { get; set; }
+
         public DateTime Date { get; set; }
     }
 }

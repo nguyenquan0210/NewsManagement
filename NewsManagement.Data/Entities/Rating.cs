@@ -8,7 +8,7 @@ namespace NewsManagement.Data.Entities
 {
     public class Rating
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         public int UserId { get; set; }
 

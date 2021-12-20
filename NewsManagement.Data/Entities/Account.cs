@@ -9,7 +9,7 @@ namespace NewsManagement.Data.Entities
 {
     public class Account
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         public int AccountTypeId { get; set; }
 
@@ -22,5 +22,13 @@ namespace NewsManagement.Data.Entities
         public Status Status { get; set; }
 
         public DateTime Date { get; set; }
+
+        public User Users { get; set; }
+
+        public Staff Staff { get; set; }
+
+        public Client Client { get; set; }
+
+        public List<News> News { get; set; }
     }
 }

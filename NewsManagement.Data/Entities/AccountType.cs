@@ -8,8 +8,10 @@ namespace NewsManagement.Data.Entities
 {
     public class AccountType
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         public string Name { get; set; }
+
+        public List<Account> Accounts { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace NewsManagement.Data.Entities
 {
     public class Order
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         public int ClientId { get; set; }
 
@@ -24,5 +24,7 @@ namespace NewsManagement.Data.Entities
         public DateTime Date { get; set; }
 
         public OrderStatus Status { get; set; }
+
+        public List<Advertise> Advertises { get; set; }
     }
 }

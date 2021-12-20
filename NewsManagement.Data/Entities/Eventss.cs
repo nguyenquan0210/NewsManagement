@@ -9,7 +9,7 @@ namespace NewsManagement.Data.Entities
 {
     public class Eventss
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         public string Name { get; set; }
 
@@ -19,8 +19,10 @@ namespace NewsManagement.Data.Entities
 
         public Category Category { get; set; }
 
-        public Status Hot { get; set; }
+        public bool Hot { get; set; }
 
         public int SortOrder { get; set; }
+
+        public List<News> News { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace NewsManagement.Data.Entities
 {
     public class Advertise
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         public int OrderId { get; set; }
 
@@ -21,7 +21,7 @@ namespace NewsManagement.Data.Entities
 
         public string Url { get; set; }
 
-        public string Img { get; set; }
+        public string UrlImg { get; set; }
 
         public DateTime Published_Date { get; set; }
 

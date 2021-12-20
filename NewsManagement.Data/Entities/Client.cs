@@ -21,5 +21,8 @@ namespace NewsManagement.Data.Entities
         public string PhoneNumber { get; set; }
 
         public string Img { get; set; }
+
+        public List<Order> Orders { get; set; }
+
     }
 }

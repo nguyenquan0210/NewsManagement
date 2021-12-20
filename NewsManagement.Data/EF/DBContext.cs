@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NewsManagement.Data.Configurations;
 using NewsManagement.Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,28 @@ namespace NewsManagement.Data.EF
     {
         public DBContext(DbContextOptions options) : base(options)
         {
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new AccountTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new AccountConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
+            modelBuilder.ApplyConfiguration(new NewsConfiguration());
+            modelBuilder.ApplyConfiguration(new AdvertiseConfiguration());
+            modelBuilder.ApplyConfiguration(new ActiveUserConfiguration());
+            modelBuilder.ApplyConfiguration(new CityConfiguration());
+            modelBuilder.ApplyConfiguration(new ClientConfiguration());
+            modelBuilder.ApplyConfiguration(new CommentConfiguration());
+            modelBuilder.ApplyConfiguration(new ContactConfiguration());
+            modelBuilder.ApplyConfiguration(new EventConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderConfiguration());
+            modelBuilder.ApplyConfiguration(new RatingConfiguration());
+            modelBuilder.ApplyConfiguration(new ServiceConfiguration());
+            modelBuilder.ApplyConfiguration(new StaffConfiguration());
+            modelBuilder.ApplyConfiguration(new TopicConfiguration());
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+
         }
 
         public DbSet<News> Newss { get; set; }
@@ -36,7 +59,6 @@ namespace NewsManagement.Data.EF
 
         public DbSet<Eventss> Eventsses { get; set; }
 
-        public DbSet<NewsInLink> NewsInLinks { get; set; }
 
         public DbSet<Order> Orders { get; set; }
 

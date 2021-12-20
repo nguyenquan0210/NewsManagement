@@ -21,5 +21,11 @@ namespace NewsManagement.Data.Entities
         public string PhoneNumber { get; set; }
 
         public string Img { get; set; }
+
+        public List<ActiveUser> ActiveUsers { get; set; }
+
+        public List<Comment> Comments { get; set; }
+
+        public List<Rating> Ratings { get; set; }
     }
 }

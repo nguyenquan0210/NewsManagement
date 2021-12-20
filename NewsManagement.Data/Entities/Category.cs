@@ -9,12 +9,14 @@ namespace NewsManagement.Data.Entities
 {
     public class Category
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         public string Name { get; set; }
 
         public Status Status { get; set; }
 
         public int SortOrder { get; set; }
+
+        public List<Eventss> Eventsses { get; set; }
     }
 }

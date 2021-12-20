@@ -9,18 +9,20 @@ namespace NewsManagement.Data.Entities
 {
     public class Servicess
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         public string Title { get; set; }
 
         public string Description { get; set; }
 
-        public string Period { get; set; }
+        public int Period { get; set; }
 
         public decimal Price { get; set; }
 
         public DateTime Date { get; set; }
 
         public Status Status { get; set; }
+
+        public List<Order> Orders { get; set; }
     }
 }

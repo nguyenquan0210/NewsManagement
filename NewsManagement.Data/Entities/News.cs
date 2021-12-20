@@ -12,7 +12,7 @@ namespace NewsManagement.Data.Entities
     
     public class News
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         public string Title { get; set; }
 
@@ -37,5 +37,22 @@ namespace NewsManagement.Data.Entities
         public Status Status { get; set; }
 
         public string Keyword { get; set; }
+
+        public int EventId { get; set; }
+        public Eventss Eventss { get; set; }
+
+        public int AccountId { get; set; }
+
+        public Account Account { get; set; }
+
+        public int CityId { get; set; }
+        public City City { get; set; }
+
+        public int TopicId { get; set; }
+        public Topic Topic { get; set; }
+
+        public List<Comment> Comments { get; set; }
+
+        public List<Rating> Ratings { get; set; }
     }
 }

@@ -9,12 +9,16 @@ namespace NewsManagement.Data.Entities
 {
     public class Topic
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         public string Name { get; set; }
 
         public Status Status { get; set; }
 
-        public Status Hot { get; set; }
+        public int SortOrder { get; set; }
+
+        public bool Hot { get; set; }
+
+        public List<News> News { get; set; }
     }
 }
