@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Migrations;
 using NewsManagement.Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -20,10 +21,10 @@ namespace NewsManagement.Data.Configurations
 
             builder.Property(x => x.Title).IsRequired().HasMaxLength(255);
 
-            builder.Property(x => x.Title).HasDefaultValue(0);
-
-            builder.HasOne(x => x.User).WithMany(x => x.Comments).HasForeignKey(x => x.UserId);
+            
             builder.HasOne(x => x.News).WithMany(x => x.Comments).HasForeignKey(x => x.NewsId);
+
+            builder.HasOne(x => x.User).WithMany(x => x.Comments).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.ClientCascade);
         }
     }
 }

@@ -18,8 +18,6 @@ namespace NewsManagement.Data.Configurations
 
             builder.Property(x => x.Id).UseIdentityColumn();
 
-            builder.Property(x => x.DateActive).HasDefaultValue(DateTime.Now);
-
             builder.HasOne(x => x.User).WithMany(x => x.ActiveUsers).HasForeignKey(x => x.UserId);
         }
     }

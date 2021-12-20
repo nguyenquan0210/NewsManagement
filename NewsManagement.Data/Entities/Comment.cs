@@ -21,7 +21,7 @@ namespace NewsManagement.Data.Entities
 
         public int Answer { get; set; }
 
-        public Status Type { get; set; }
+        public bool Type { get; set; }
 
         public string Title { get; set; }
 
