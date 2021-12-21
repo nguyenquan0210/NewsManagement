@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NewsManagement.Data.Configurations;
 using NewsManagement.Data.Entities;
+using NewsManagement.Data.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +40,8 @@ namespace NewsManagement.Data.EF
 
             modelBuilder.ApplyConfiguration(new CommentConfiguration());
 
-
+            //Data seeding
+            modelBuilder.Seed();
 
 
         }

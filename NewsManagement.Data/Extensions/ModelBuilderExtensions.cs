@@ -26,7 +26,7 @@ namespace NewsManagement.Data.Extensions
               new Account() { Id = 1, UserName = "Admin" ,Password = hasher.HashPassword(null,"quan"),AccountTypeId = 1, Status = Status.Active, Date = DateTime.Now },
               new Account() { Id = 2, UserName = "nhanvien1" ,Password = hasher.HashPassword(null,"quan"),AccountTypeId = 2, Status = Status.Active, Date = DateTime.Now },
               new Account() { Id = 3, UserName = "quan" ,Password = hasher.HashPassword(null,"quan"),AccountTypeId = 4, Status = Status.Active, Date = DateTime.Now },
-              new Account() { Id = 4, UserName = "Client", Password = hasher.HashPassword(null, "quan"), AccountTypeId = 3, Status = Status.Active, Date = DateTime.Now }
+              new Account() { Id = 4, UserName = "Client1", Password = hasher.HashPassword(null, "quan"), AccountTypeId = 3, Status = Status.Active, Date = DateTime.Now }
 
               );
             modelBuilder.Entity<User>().HasData(
