@@ -30,8 +30,6 @@ namespace NewsManagement.Data.Entities
 
         public Status News_Hot { get; set; }
 
-        public int Display_On { get; set; }
-
         public DateTime Date { get; set; }
 
         public Status Status { get; set; }
