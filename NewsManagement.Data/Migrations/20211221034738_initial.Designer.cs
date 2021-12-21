@@ -12,7 +12,7 @@ using NewsManagement.Data.EF;
 namespace NewsManagement.Data.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20211220122957_initial")]
+    [Migration("20211221034738_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,6 +56,44 @@ namespace NewsManagement.Data.Migrations
                     b.HasIndex("AccountTypeId");
 
                     b.ToTable("Account", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccountTypeId = 1,
+                            Date = new DateTime(2021, 12, 21, 10, 47, 37, 723, DateTimeKind.Local).AddTicks(3653),
+                            Password = "AQAAAAEAACcQAAAAEDZeMOKRMEkW5DHBu4vOq6Jz1ospU+UCA90UTv3/LQKZMdVLNBBY3M1jEIo5n9zu9g==",
+                            Status = 1,
+                            UserName = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AccountTypeId = 2,
+                            Date = new DateTime(2021, 12, 21, 10, 47, 37, 730, DateTimeKind.Local).AddTicks(8477),
+                            Password = "AQAAAAEAACcQAAAAEDAtrsJP5LtrYGDfaMMm2Ui1i+x47z7wZMsS+Nnqv7yJ43YO7UTdLQMPEdy8//mfdg==",
+                            Status = 1,
+                            UserName = "nhanvien1"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AccountTypeId = 4,
+                            Date = new DateTime(2021, 12, 21, 10, 47, 37, 738, DateTimeKind.Local).AddTicks(2530),
+                            Password = "AQAAAAEAACcQAAAAEOaRc4KkwtOdlzvbBShZUKHxculqMT1h2EfaBDEvKRiQlkoYOSzmBOOls53eJeWZeQ==",
+                            Status = 1,
+                            UserName = "quan"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AccountTypeId = 3,
+                            Date = new DateTime(2021, 12, 21, 10, 47, 37, 745, DateTimeKind.Local).AddTicks(2799),
+                            Password = "AQAAAAEAACcQAAAAEP5S2NSnjcjCu8hwXLY0jcyLGGFd3ilhkVQP2xrmB3iy/djfw/KSgZsCx4RxI8uxjw==",
+                            Status = 1,
+                            UserName = "Client"
+                        });
                 });
 
             modelBuilder.Entity("NewsManagement.Data.Entities.AccountType", b =>
@@ -74,6 +112,28 @@ namespace NewsManagement.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AccountType", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Nhân viên"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Khách hàng"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Người dùng"
+                        });
                 });
 
             modelBuilder.Entity("NewsManagement.Data.Entities.ActiveUser", b =>
@@ -147,6 +207,20 @@ namespace NewsManagement.Data.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("Advertise", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "<H3>Mã sản phẩm 212364001</H3> <br> <p>Lòng nồi làm từ chất liệu hợp kim nhôm dạng niêu bền bỉ, nấu ngon</p> <br> <p>Dung tích 1.8 lít dùng phù hợp cho gia đình 4 - 6 người</p> <br> <p>Nồi dạng cơ sử dụng đơn giản Công suất 700W nấu cơm nhanh và ngon</p>",
+                            Expire_Date = new DateTime(2022, 1, 21, 10, 47, 37, 745, DateTimeKind.Local).AddTicks(3642),
+                            OrderId = 1,
+                            Published_Date = new DateTime(2021, 12, 21, 10, 47, 37, 745, DateTimeKind.Local).AddTicks(3641),
+                            Status = 1,
+                            Title = "Nồi Cơm Niêu Điện 1.8L Mishio MK248 700W",
+                            Url = "https://gsshop.vn/noi-com-nieu-dien-1-8l-mishio-mk248-700w-212364001.html?utm_source=google-gdn&device=c&agid=125553696715&cid=13888844554&creative=533462530738&keyword==&gclid=CjwKCAiA7dKMBhBCEiwAO_crFKJ6eS3GoAuXugINVAKwsZ9MCnVk00vTjvdm_twOSriDHsQj6vCEFhoCxSgQAvD_BwE",
+                            UrlImg = "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSpq3Kunb8u-YtUU15Sf-V6IfvRAez268ugpA7VT2JKiQWHrvnxSxGAS5Ycvg&usqp=CAI"
+                        });
                 });
 
             modelBuilder.Entity("NewsManagement.Data.Entities.Category", b =>
@@ -174,6 +248,29 @@ namespace NewsManagement.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CategoryNews", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Xã Hội",
+                            SortOrder = 1,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Xã Hội",
+                            SortOrder = 2,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Xã Hội",
+                            SortOrder = 3,
+                            Status = 1
+                        });
                 });
 
             modelBuilder.Entity("NewsManagement.Data.Entities.City", b =>
@@ -198,6 +295,43 @@ namespace NewsManagement.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("City", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Đà nẵng",
+                            SortOrder = 1,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Hà Nội",
+                            SortOrder = 1,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "TP HCM",
+                            SortOrder = 1,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Hải Phòng",
+                            SortOrder = 1,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Cần Thơ",
+                            SortOrder = 1,
+                            Status = 1
+                        });
                 });
 
             modelBuilder.Entity("NewsManagement.Data.Entities.Client", b =>
@@ -233,6 +367,17 @@ namespace NewsManagement.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Client", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 4,
+                            Address = "Quảng Nam",
+                            Company = "Trung tâm phát triển phần mềm - ĐH Đà Nẵng",
+                            Email = "nguyenquan52000@gmail.com",
+                            Img = "user1.jpg",
+                            PhoneNumber = "0373951042"
+                        });
                 });
 
             modelBuilder.Entity("NewsManagement.Data.Entities.Comment", b =>
@@ -270,6 +415,28 @@ namespace NewsManagement.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Comment", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Answer = 0,
+                            Date = new DateTime(2021, 12, 21, 10, 47, 37, 745, DateTimeKind.Local).AddTicks(3575),
+                            NewsId = 1,
+                            Title = "Covid-19",
+                            Type = true,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Answer = 0,
+                            Date = new DateTime(2021, 12, 21, 10, 47, 37, 745, DateTimeKind.Local).AddTicks(3577),
+                            NewsId = 1,
+                            Title = "13",
+                            Type = false,
+                            UserId = 3
+                        });
                 });
 
             modelBuilder.Entity("NewsManagement.Data.Entities.Contact", b =>
@@ -362,6 +529,35 @@ namespace NewsManagement.Data.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Eventss", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 1,
+                            Hot = true,
+                            Name = "Vòng loại World Cup 2022",
+                            SortOrder = 1,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryId = 1,
+                            Hot = true,
+                            Name = "Tiêm vaccine Covid-19 cho trẻ em",
+                            SortOrder = 1,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryId = 1,
+                            Hot = true,
+                            Name = "Loạt ca nhiễm nCoV mới ở Việt Nam",
+                            SortOrder = 1,
+                            Status = 1
+                        });
                 });
 
             modelBuilder.Entity("NewsManagement.Data.Entities.News", b =>
@@ -391,9 +587,6 @@ namespace NewsManagement.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
-
-                    b.Property<int>("Display_On")
-                        .HasColumnType("int");
 
                     b.Property<int>("EventId")
                         .HasColumnType("int");
@@ -442,6 +635,25 @@ namespace NewsManagement.Data.Migrations
                     b.HasIndex("TopicId");
 
                     b.ToTable("News", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccountId = 1,
+                            CityId = 2,
+                            Content = "<p>Sở Y tế H&agrave; Nội tối 29/11 cho biết tr&ecirc;n địa b&agrave;n th&agrave;nh phố ghi nhận 390 ca dương t&iacute;nh, trong đ&oacute; c&oacute; 220 ca cộng đồng, 109 ca tại khu c&aacute;ch ly v&agrave; 61 ca tại khu phong toả. Đ&acirc;y l&agrave; ng&agrave;y ghi nhận số ca mắc trong 24 giờ v&agrave; ca cộng đồng cao nhất từ trước tới nay.</p> ",
+                            Date = new DateTime(2021, 12, 21, 10, 47, 37, 745, DateTimeKind.Local).AddTicks(3555),
+                            Description = "Với 220 ca cộng đồng trong tổng 390 ca nhiễm ghi nhận, ngày 29/11 đánh dấu mốc kỷ lục về dịch COVID-19 ở Hà Nội.",
+                            EventId = 3,
+                            Img = "29112021_081723_PM_news1.jpg",
+                            Keyword = "covid-19,Hà nội",
+                            News_Hot = 1,
+                            Status = 1,
+                            Title = "Hà Nội lập kỷ lục 'kép': 390 ca nhiễm mới, 220 ca cộng đồng",
+                            TopicId = 4,
+                            Viewss = 0
+                        });
                 });
 
             modelBuilder.Entity("NewsManagement.Data.Entities.Order", b =>
@@ -476,6 +688,17 @@ namespace NewsManagement.Data.Migrations
                     b.HasIndex("ServiceId");
 
                     b.ToTable("Order", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ClientId = 4,
+                            Date = new DateTime(2021, 12, 21, 10, 47, 37, 745, DateTimeKind.Local).AddTicks(3625),
+                            ServiceId = 1,
+                            Status = 0,
+                            Title = "đơn hàng demo"
+                        });
                 });
 
             modelBuilder.Entity("NewsManagement.Data.Entities.Rating", b =>
@@ -507,6 +730,16 @@ namespace NewsManagement.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Rating", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Checkrating = "13",
+                            NewsId = 1,
+                            UserId = 3,
+                            Value = 5
+                        });
                 });
 
             modelBuilder.Entity("NewsManagement.Data.Entities.Servicess", b =>
@@ -544,6 +777,18 @@ namespace NewsManagement.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Servicess", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Date = new DateTime(2021, 12, 21, 10, 47, 37, 745, DateTimeKind.Local).AddTicks(3609),
+                            Description = "Quảng cáo tất cả các loại sản phẩm, đảm bảo uy tín chất lượng liên tục, dễ dàng nâp cấp lên gói khác,...",
+                            Period = 1,
+                            Price = 200000m,
+                            Status = 1,
+                            Title = "Dịch vụ quảng cáo 1 tháng"
+                        });
                 });
 
             modelBuilder.Entity("NewsManagement.Data.Entities.Staff", b =>
@@ -557,9 +802,6 @@ namespace NewsManagement.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Birthday")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -586,6 +828,18 @@ namespace NewsManagement.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Staff", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 2,
+                            Address = "Quảng Nam",
+                            Birthday = new DateTime(2000, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "nguyenquan52000@gmail.com",
+                            Img = "user1.jpg",
+                            Name = "Nguyễn Đình Quân",
+                            PhoneNumber = "0373951042"
+                        });
                 });
 
             modelBuilder.Entity("NewsManagement.Data.Entities.Topic", b =>
@@ -617,6 +871,48 @@ namespace NewsManagement.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Topic", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Hot = false,
+                            Name = "Món ngon mỗi ngày",
+                            SortOrder = 1,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Hot = true,
+                            Name = " Thời tiết hôm nay",
+                            SortOrder = 1,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Hot = true,
+                            Name = "Tai nạn giao thông",
+                            SortOrder = 1,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Hot = true,
+                            Name = " Tin tức thời sự",
+                            SortOrder = 1,
+                            Status = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Hot = true,
+                            Name = "Quân sự nước ngoài",
+                            SortOrder = 1,
+                            Status = 1
+                        });
                 });
 
             modelBuilder.Entity("NewsManagement.Data.Entities.User", b =>
@@ -647,6 +943,17 @@ namespace NewsManagement.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("User", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 3,
+                            Address = "Quảng Nam",
+                            Birthday = new DateTime(2000, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Img = "user1.jpg",
+                            Name = "Nguyễn Đình Quân",
+                            PhoneNumber = "0373951042"
+                        });
                 });
 
             modelBuilder.Entity("NewsManagement.Data.Entities.Account", b =>
@@ -788,7 +1095,7 @@ namespace NewsManagement.Data.Migrations
                     b.HasOne("NewsManagement.Data.Entities.User", "User")
                         .WithMany("Ratings")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.Navigation("News");

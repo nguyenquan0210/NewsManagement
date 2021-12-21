@@ -24,6 +24,5 @@ namespace NewsManagement.Data.Entities
 
         public string Img { get; set; }
 
-        public DateTime Date { get; set; }
     }
 }
