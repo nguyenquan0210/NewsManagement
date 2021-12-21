@@ -24,8 +24,9 @@ namespace NewsManagement.Data.Entities
 
         public List<ActiveUser> ActiveUsers { get; set; }
 
+        public List<Rating> Ratings { get; set; }
+
         public List<Comment> Comments { get; set; }
 
-        public List<Rating> Ratings { get; set; }
     }
 }
