@@ -6,12 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NewsManagement.Data\NewsManagement.Data.csproj" />
-    <ProjectReference Include="..\NewsManagement.demo\NewsManagement.demo.csproj" />
-    <ProjectReference Include="..\NewsManagement.Utilities\NewsManagement.Utilities.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Dtos\" />
   </ItemGroup>
 
 </Project>

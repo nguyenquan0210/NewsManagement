@@ -1,7 +1,7 @@
-﻿using eShopSolution.Data.Enums;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using NewsManagement.Data.Entities;
+using NewsManagement.Data.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
