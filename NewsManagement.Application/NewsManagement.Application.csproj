@@ -4,4 +4,14 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App"  />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NewsManagement.Data\NewsManagement.Data.csproj" />
+    <ProjectReference Include="..\NewsManagement.Utilities\NewsManagement.Utilities.csproj" />
+    <ProjectReference Include="..\NewsManagement.ViewModels\NewsManagement.ViewModels.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -5,9 +5,15 @@ VisualStudioVersion = 16.0.32002.261
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsManagement.WebApp", "NewsManagement.WebApp\NewsManagement.WebApp.csproj", "{6FB8E79A-2911-4C02-B5EB-9B61638BE66D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsManagement.Data", "NewsManagement.Data\NewsManagement.Data.csproj", "{28A22CE2-6393-4CE2-9898-0EF50D9B8098}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsManagement.Data", "NewsManagement.Data\NewsManagement.Data.csproj", "{28A22CE2-6393-4CE2-9898-0EF50D9B8098}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsManagement.Application", "NewsManagement.Application\NewsManagement.Application.csproj", "{5AD316A6-4BEC-481F-9161-6D5FDD0B7D93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsManagement.Application", "NewsManagement.Application\NewsManagement.Application.csproj", "{5AD316A6-4BEC-481F-9161-6D5FDD0B7D93}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsManagement.Utilities", "NewsManagement.Utilities\NewsManagement.Utilities.csproj", "{5500F6C4-F901-4719-B255-A7E295BF7CD7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsManagement.ViewModels", "NewsManagement.ViewModels\NewsManagement.ViewModels.csproj", "{BEA1AEF8-AA33-4D07-8BB1-2A90E90C074E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsManagement.BackendApi", "NewsManagement.BackendApi\NewsManagement.BackendApi.csproj", "{A39BA53D-0490-4FC9-B193-EA5C060C7FFF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +33,18 @@ Global
 		{5AD316A6-4BEC-481F-9161-6D5FDD0B7D93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5AD316A6-4BEC-481F-9161-6D5FDD0B7D93}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5AD316A6-4BEC-481F-9161-6D5FDD0B7D93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5500F6C4-F901-4719-B255-A7E295BF7CD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5500F6C4-F901-4719-B255-A7E295BF7CD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5500F6C4-F901-4719-B255-A7E295BF7CD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5500F6C4-F901-4719-B255-A7E295BF7CD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEA1AEF8-AA33-4D07-8BB1-2A90E90C074E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEA1AEF8-AA33-4D07-8BB1-2A90E90C074E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEA1AEF8-AA33-4D07-8BB1-2A90E90C074E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEA1AEF8-AA33-4D07-8BB1-2A90E90C074E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A39BA53D-0490-4FC9-B193-EA5C060C7FFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A39BA53D-0490-4FC9-B193-EA5C060C7FFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A39BA53D-0490-4FC9-B193-EA5C060C7FFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A39BA53D-0490-4FC9-B193-EA5C060C7FFF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

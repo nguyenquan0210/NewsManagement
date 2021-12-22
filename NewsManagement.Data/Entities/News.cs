@@ -1,4 +1,4 @@
-﻿using eShopSolution.Data.Enums;
+﻿using NewsManagement.Data.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NewsManagement.Data.Entities
 {
-    
+
     public class News
     {
         public int Id { get; set; }
