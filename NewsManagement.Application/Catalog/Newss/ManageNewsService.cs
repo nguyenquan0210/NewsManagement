@@ -6,7 +6,6 @@ using NewsManagement.Data.Entities;
 using NewsManagement.Data.Enums;
 using NewsManagement.Utilities.Exceptions;
 using NewsManagement.ViewModels.Catalog.Newss;
-using NewsManagement.ViewModels.Catalog.Newss.Manage;
 using NewsManagement.ViewModels.Common;
 using System;
 using System.Collections.Generic;
@@ -18,12 +17,12 @@ using System.Threading.Tasks;
 
 namespace NewsManagement.Application.Catalog.Newss
 {
-    public class ManageNewsSevice : IManageNewsSevice
+    public class ManageNewsService : IManageNewsService
     {
         private readonly DBContext _context;
         private readonly IStorageService _storageService;
         private const string USER_CONTENT_FOLDER_NAME = "user-content";
-        public ManageNewsSevice(DBContext context, IStorageService storageService)
+        public ManageNewsService(DBContext context, IStorageService storageService)
         {
             _context = context;
             _storageService = storageService;
@@ -62,7 +61,7 @@ namespace NewsManagement.Application.Catalog.Newss
 
       
         
-        public async Task<PagedResult<NewsViewModel>> GetAllPaging(GetNewsPagingRequest request)
+        public async Task<PagedResult<NewsViewModel>> GetAllPaging(GetManageNewsPagingRequest request)
         {
             var query = from n in _context.Newss
                         join e in _context.Eventsses on n.EventId equals e.Id

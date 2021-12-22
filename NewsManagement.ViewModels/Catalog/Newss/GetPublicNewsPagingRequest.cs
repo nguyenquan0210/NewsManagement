@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NewsManagement.ViewModels.Catalog.Newss.Public
+namespace NewsManagement.ViewModels.Catalog.Newss
 {
-    public class GetNewsPagingRequest : PagingResultBase
+    public class GetPublicNewsPagingRequest : PagingResultBase
     {
         public int? CategoryId { get; set; }
     }

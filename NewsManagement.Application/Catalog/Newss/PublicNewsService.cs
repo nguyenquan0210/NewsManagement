@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using NewsManagement.Data.EF;
 using NewsManagement.ViewModels.Catalog.Newss;
-using NewsManagement.ViewModels.Catalog.Newss.Public;
 using NewsManagement.ViewModels.Common;
 using System;
 using System.Collections.Generic;
@@ -11,15 +10,15 @@ using System.Threading.Tasks;
 
 namespace NewsManagement.Application.Catalog.Newss
 {
-    public class PublicNewsSevice : IPublicNewsSevice
+    public class PublicNewsService : IPublicNewsService
     {
         private readonly DBContext _context;
         private const string USER_CONTENT_FOLDER_NAME = "user-content";
-        public PublicNewsSevice(DBContext context)
+        public PublicNewsService(DBContext context)
         {
             _context = context;
         }
-        public async Task<PagedResult<NewsViewModel>> GetAllByCategoryId(GetNewsPagingRequest request)
+        public async Task<PagedResult<NewsViewModel>> GetAllByCategoryId(GetPublicNewsPagingRequest request)
         {
             var query = from n in _context.Newss
                         join e in _context.Eventsses on n.EventId equals e.Id
@@ -44,6 +43,27 @@ namespace NewsManagement.Application.Catalog.Newss
             };
 
             return pageResult;
+        }
+
+        public async Task<List<NewsViewModel>> GetAll()
+        {
+            var query = from n in _context.Newss
+                        join e in _context.Eventsses on n.EventId equals e.Id
+                        join c in _context.Categories on e.CategoryId equals c.Id
+                        select new { n, c };
+
+            var data = await query.Select(x => new NewsViewModel()
+                {
+                Id = x.n.Id,
+                Title = x.n.Title,
+                Description = x.n.Description,
+                Img = x.n.Img,
+                Keyword = x.n.Keyword,
+                CateName = x.c.Name
+
+            }).ToListAsync();
+
+            return data;
         }
     }
 }
