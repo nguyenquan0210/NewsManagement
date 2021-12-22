@@ -13,7 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsManagement.Utilities", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsManagement.ViewModels", "NewsManagement.ViewModels\NewsManagement.ViewModels.csproj", "{BEA1AEF8-AA33-4D07-8BB1-2A90E90C074E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsManagement.BackendApi", "NewsManagement.BackendApi\NewsManagement.BackendApi.csproj", "{A39BA53D-0490-4FC9-B193-EA5C060C7FFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsManagement.BackendApi", "NewsManagement.BackendApi\NewsManagement.BackendApi.csproj", "{A39BA53D-0490-4FC9-B193-EA5C060C7FFF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Infrastructure", "1. Infrastructure", "{93B14AFC-9D84-49B2-BFF7-A76CB171EBA3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Domain", "2. Domain", "{AA652987-52F7-446E-AB31-45739BD614F4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Hosts", "3. Hosts", "{8235AFF3-9232-4E58-B04B-F5938847B81C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +54,14 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6FB8E79A-2911-4C02-B5EB-9B61638BE66D} = {8235AFF3-9232-4E58-B04B-F5938847B81C}
+		{28A22CE2-6393-4CE2-9898-0EF50D9B8098} = {AA652987-52F7-446E-AB31-45739BD614F4}
+		{5AD316A6-4BEC-481F-9161-6D5FDD0B7D93} = {AA652987-52F7-446E-AB31-45739BD614F4}
+		{5500F6C4-F901-4719-B255-A7E295BF7CD7} = {93B14AFC-9D84-49B2-BFF7-A76CB171EBA3}
+		{BEA1AEF8-AA33-4D07-8BB1-2A90E90C074E} = {93B14AFC-9D84-49B2-BFF7-A76CB171EBA3}
+		{A39BA53D-0490-4FC9-B193-EA5C060C7FFF} = {8235AFF3-9232-4E58-B04B-F5938847B81C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E3FD69B6-9B4E-4893-95F3-CCDD64DC73F8}

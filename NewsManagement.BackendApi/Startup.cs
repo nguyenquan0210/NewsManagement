@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using NewsManagement.Application.Catalog.Newss;
+using NewsManagement.Application.Common;
 using NewsManagement.Data.EF;
 using NewsManagement.Utilities.Constants;
 using System;
@@ -32,7 +33,10 @@ namespace NewsManagement.BackendApi
                 options.UseSqlServer(Configuration.GetConnectionString(SystemConstants.MainConnectionString)));
 
             //Declare DI
+            services.AddTransient<IStorageService, FileStorageService>();
+
             services.AddTransient<IPublicNewsService, PublicNewsService>();
+            services.AddTransient<IManageNewsService, ManageNewsService>();
 
             services.AddControllersWithViews();
 
