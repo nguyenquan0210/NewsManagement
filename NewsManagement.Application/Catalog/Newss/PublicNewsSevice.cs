@@ -14,7 +14,6 @@ namespace NewsManagement.Application.Catalog.Newss
     public class PublicNewsSevice : IPublicNewsSevice
     {
         private readonly DBContext _context;
-        /* private readonly IStorageService _storageService;*/
         private const string USER_CONTENT_FOLDER_NAME = "user-content";
         public PublicNewsSevice(DBContext context)
         {

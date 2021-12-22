@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using NewsManagement.Application.Common;
 using NewsManagement.Data.EF;
 using NewsManagement.Data.Entities;
 using NewsManagement.Data.Enums;
@@ -19,11 +21,12 @@ namespace NewsManagement.Application.Catalog.Newss
     public class ManageNewsSevice : IManageNewsSevice
     {
         private readonly DBContext _context;
-       /* private readonly IStorageService _storageService;*/
+        private readonly IStorageService _storageService;
         private const string USER_CONTENT_FOLDER_NAME = "user-content";
-        public ManageNewsSevice(DBContext context)
+        public ManageNewsSevice(DBContext context, IStorageService storageService)
         {
             _context = context;
+            _storageService = storageService;
         }
         public async Task<int> Create(NewsCreateRequest request)
         {
@@ -33,7 +36,7 @@ namespace NewsManagement.Application.Catalog.Newss
                 Description = request.Description,
                 Content = request.Content,
                 Url = request.Url,
-                Img = request.Img,
+                Img = await this.SaveFile(request.ThumbnailImage),
                 Video = request.Video,
                 News_Hot = request.News_Hot,
                 Keyword = request.Keyword,
@@ -97,7 +100,13 @@ namespace NewsManagement.Application.Catalog.Newss
             news.Description = request.Description;
             news.Content = request.Content;
             news.Url = request.Url;
-            news.Img = request.Img;
+            if(request.ThumbnailImage != null)
+            {
+                await _storageService.DeleteFileAsync(news.Img);
+                news.Img = await this.SaveFile(request.ThumbnailImage);
+
+            }
+
             news.Video = request.Video;
             news.News_Hot = request.News_Hot;
             news.Status = request.Status;
@@ -117,13 +126,13 @@ namespace NewsManagement.Application.Catalog.Newss
             await _context.SaveChangesAsync();
         }
 
-       /* private async Task<string> SaveFile(IFormFile file)
+        private async Task<string> SaveFile(IFormFile file)
         {
             var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
             var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
             await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
             return "/" + USER_CONTENT_FOLDER_NAME + "/" + fileName;
-        }*/
+        }
 
     }
 }

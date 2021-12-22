@@ -5,13 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NewsManagement.Data\NewsManagement.Data.csproj" />
-    <ProjectReference Include="..\NewsManagement.demo\NewsManagement.demo.csproj" />
-    <ProjectReference Include="..\NewsManagement.Utilities\NewsManagement.Utilities.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.App"  />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Dtos\" />
+    <ProjectReference Include="..\NewsManagement.Data\NewsManagement.Data.csproj" />
+    <ProjectReference Include="..\NewsManagement.Utilities\NewsManagement.Utilities.csproj" />
+    <ProjectReference Include="..\NewsManagement.ViewModels\NewsManagement.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

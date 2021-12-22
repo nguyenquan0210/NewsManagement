@@ -1,4 +1,5 @@
-﻿using NewsManagement.Data.Enums;
+﻿using Microsoft.AspNetCore.Http;
+using NewsManagement.Data.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +18,6 @@ namespace NewsManagement.ViewModels.Catalog.Newss.Manage
 
         public string Url { get; set; }
 
-        public string Img { get; set; }
-
         public string Video { get; set; }
 
         public Status News_Hot { get; set; }
@@ -33,6 +32,8 @@ namespace NewsManagement.ViewModels.Catalog.Newss.Manage
         public int CityId { get; set; }
 
         public int TopicId { get; set; }
+
+        public IFormFile ThumbnailImage { get; set; }
 
     }
 }

@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsManagement.Data", "News
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsManagement.Application", "NewsManagement.Application\NewsManagement.Application.csproj", "{5AD316A6-4BEC-481F-9161-6D5FDD0B7D93}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsManagement.Utilities", "NewsManagement.Utilities\NewsManagement.Utilities.csproj", "{5500F6C4-F901-4719-B255-A7E295BF7CD7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NewsManagement.Utilities", "NewsManagement.Utilities\NewsManagement.Utilities.csproj", "{5500F6C4-F901-4719-B255-A7E295BF7CD7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsManagement.demo", "NewsManagement.demo\NewsManagement.demo.csproj", "{AA2468B2-48FC-472A-B911-61CF40171FAE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewsManagement.ViewModels", "NewsManagement.ViewModels\NewsManagement.ViewModels.csproj", "{BEA1AEF8-AA33-4D07-8BB1-2A90E90C074E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{5500F6C4-F901-4719-B255-A7E295BF7CD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5500F6C4-F901-4719-B255-A7E295BF7CD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5500F6C4-F901-4719-B255-A7E295BF7CD7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AA2468B2-48FC-472A-B911-61CF40171FAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AA2468B2-48FC-472A-B911-61CF40171FAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AA2468B2-48FC-472A-B911-61CF40171FAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AA2468B2-48FC-472A-B911-61CF40171FAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEA1AEF8-AA33-4D07-8BB1-2A90E90C074E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEA1AEF8-AA33-4D07-8BB1-2A90E90C074E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEA1AEF8-AA33-4D07-8BB1-2A90E90C074E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEA1AEF8-AA33-4D07-8BB1-2A90E90C074E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
