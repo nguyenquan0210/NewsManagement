@@ -9,23 +9,19 @@ using System.Threading.Tasks;
 
 namespace NewsManagement.Data.Configurations
 {
-    public class UserConfiguration : IEntityTypeConfiguration<User>
+    public class AppUserConfiguration : IEntityTypeConfiguration<AppUser>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public void Configure(EntityTypeBuilder<AppUser> builder)
         {
-            builder.ToTable("User");
+            builder.ToTable("AppUsers");
 
-            builder.HasKey(x => x.Id);
+            builder.Property(x => x.FirstName).IsRequired().HasMaxLength(100);
 
-            builder.Property(x => x.Name).IsRequired().HasMaxLength(100);
+            builder.Property(x => x.LastName).IsRequired().HasMaxLength(100);
 
             builder.Property(x => x.Address).HasMaxLength(255);
 
-            builder.Property(x => x.PhoneNumber).HasMaxLength(11);
-
             builder.Property(x => x.Img).HasMaxLength(255);
-
-            builder.HasOne(x => x.Account).WithOne(x => x.Users).HasForeignKey<User>(x => x.Id);
         }
     }
 }

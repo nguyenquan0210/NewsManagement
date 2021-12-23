@@ -41,7 +41,7 @@ namespace NewsManagement.Application.Catalog.Newss
                 Keyword = request.Keyword,
                 Viewss = 0,
                 Status = Status.Active,
-                AccountId = request.AccountId,
+                UserId = request.UserId,
                 CityId = request.CityId,
                 EventId = request.EventId,
                 TopicId = request.TopicId
@@ -111,7 +111,7 @@ namespace NewsManagement.Application.Catalog.Newss
             news.News_Hot = request.News_Hot;
             news.Status = request.Status;
             news.Keyword = request.Keyword;
-            news.AccountId = request.AccountId;
+            news.UserId = request.UserId;
             news.EventId = request.EventId;
             news.CityId = request.CityId;
             news.TopicId = request.TopicId;

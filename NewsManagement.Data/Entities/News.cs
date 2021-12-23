@@ -39,9 +39,9 @@ namespace NewsManagement.Data.Entities
         public int EventId { get; set; }
         public Eventss Eventss { get; set; }
 
-        public int AccountId { get; set; }
+        public Guid UserId { get; set; }
 
-        public Account Account { get; set; }
+        public AppUser AppUser { get; set; }
 
         public int CityId { get; set; }
         public City City { get; set; }

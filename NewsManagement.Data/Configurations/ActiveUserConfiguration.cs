@@ -18,7 +18,7 @@ namespace NewsManagement.Data.Configurations
 
             builder.Property(x => x.Id).UseIdentityColumn();
 
-            builder.HasOne(x => x.User).WithMany(x => x.ActiveUsers).HasForeignKey(x => x.UserId);
+            builder.HasOne(x => x.AppUser).WithMany(x => x.ActiveUsers).HasForeignKey(x => x.UserId);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace NewsManagement.Data.Configurations
 
             builder.Property(x => x.Title).IsRequired().HasMaxLength(255);
 
-            builder.HasOne(x => x.Client).WithMany(x => x.Orders).HasForeignKey(x => x.ClientId);
+            builder.HasOne(x => x.AppUser).WithMany(x => x.Orders).HasForeignKey(x => x.UserId);
             builder.HasOne(x => x.Servicess).WithMany(x => x.Orders).HasForeignKey(x => x.ServiceId);
         }
     }

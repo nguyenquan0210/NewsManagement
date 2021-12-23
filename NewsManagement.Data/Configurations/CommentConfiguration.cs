@@ -24,7 +24,7 @@ namespace NewsManagement.Data.Configurations
             
             builder.HasOne(x => x.News).WithMany(x => x.Comments).HasForeignKey(x => x.NewsId);
 
-            builder.HasOne(x => x.User).WithMany(x => x.Comments).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.ClientCascade);
+            builder.HasOne(x => x.AppUser).WithMany(x => x.Comments).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.ClientCascade);
         }
     }
 }

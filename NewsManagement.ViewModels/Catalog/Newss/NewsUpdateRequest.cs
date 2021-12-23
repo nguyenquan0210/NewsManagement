@@ -43,7 +43,7 @@ namespace NewsManagement.ViewModels.Catalog.Newss
         public int EventId { get; set; }
 
         [Required]
-        public int AccountId { get; set; }
+        public Guid UserId { get; set; }
 
         [Required]
         public int CityId { get; set; }

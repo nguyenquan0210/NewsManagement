@@ -11,11 +11,11 @@ namespace NewsManagement.BackendApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class NewsController : ControllerBase
+    public class NewssController : ControllerBase
     {
         private readonly IPublicNewsService _publicNewsSevice;
         private readonly IManageNewsService _manageNewsService;
-        public NewsController(IPublicNewsService publicNewsSevice, IManageNewsService manageNewsService)
+        public NewssController(IPublicNewsService publicNewsSevice, IManageNewsService manageNewsService)
         {
             _publicNewsSevice = publicNewsSevice;
             _manageNewsService = manageNewsService;
