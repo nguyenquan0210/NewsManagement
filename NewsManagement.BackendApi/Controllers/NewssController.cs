@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NewsManagement.Application.Catalog.Newss;
 using NewsManagement.ViewModels.Catalog.Newss;
@@ -11,6 +12,7 @@ namespace NewsManagement.BackendApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class NewssController : ControllerBase
     {
         private readonly IPublicNewsService _publicNewsSevice;

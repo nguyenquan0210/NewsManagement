@@ -84,7 +84,7 @@ namespace NewsManagement.Application.Catalog.Newss
 
             var pageResult = new PagedResult<NewsViewModel>()
             {
-                TotalRecord = totalRow,
+                TotalRecords = totalRow,
                 Items = data
             };
 

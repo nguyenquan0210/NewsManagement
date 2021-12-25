@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace NewsManagement.ViewModels.Common
 {
-    public class PagedResult<T> : PagedResultBase
+    public class PagingRequestBase
     {
-        public List<T> Items { set; get; }
+        public int PageIndex { get; set; }
+
+        public int PageSize { get; set; }
     }
 }

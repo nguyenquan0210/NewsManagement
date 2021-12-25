@@ -13,7 +13,7 @@ namespace NewsManagement.Data.Entities
 
         public string LastName { get; set; }
 
-        public DateTime? Dob { get; set; }
+        public DateTime Dob { get; set; }
 
         public string Address { get; set; }
 

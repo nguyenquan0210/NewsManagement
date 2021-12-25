@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace NewsManagement.ViewModels.Common
 {
-    public class PagedResult<T> : PagedResultBase
+    public class ApiResult<T>
     {
-        public List<T> Items { set; get; }
+        public bool IsSuccessed { get; set; }
+
+        public string Message { get; set; }
+
+        public T ResultObj { get; set; }
     }
 }
