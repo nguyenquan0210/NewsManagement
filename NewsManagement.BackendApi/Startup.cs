@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,6 +16,7 @@ using NewsManagement.Application.System.Users;
 using NewsManagement.Data.EF;
 using NewsManagement.Data.Entities;
 using NewsManagement.Utilities.Constants;
+using NewsManagement.ViewModels.System.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -55,6 +57,9 @@ namespace NewsManagement.BackendApi
             services.AddTransient<IUserService, UserService>();
 
             services.AddControllersWithViews();
+
+            services.AddControllers()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>());
 
             services.AddSwaggerGen(c =>
             {
