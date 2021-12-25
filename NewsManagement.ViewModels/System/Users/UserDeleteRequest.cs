@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NewsManagement.ViewModels.Common
+namespace NewsManagement.ViewModels.System.Users
 {
-    public class PagedResult<T> : PagedResultBase
+    public class UserDeleteRequest
     {
-        public List<T> Items { set; get; }
+        public Guid Id { get; set; }
     }
 }

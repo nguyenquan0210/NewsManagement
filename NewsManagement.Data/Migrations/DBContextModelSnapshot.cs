@@ -22,7 +22,7 @@ namespace NewsManagement.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("NewsManagement.Data.Entities.Account", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -30,108 +30,100 @@ namespace NewsManagement.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("AccountTypeId")
-                        .HasColumnType("int");
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountTypeId");
+                    b.ToTable("AppRoleClaims", (string)null);
+                });
 
-                    b.ToTable("Account", (string)null);
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("AppUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.ToTable("AppUserRoles", (string)null);
 
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            AccountTypeId = 1,
-                            Date = new DateTime(2021, 12, 21, 10, 47, 37, 723, DateTimeKind.Local).AddTicks(3653),
-                            Password = "AQAAAAEAACcQAAAAEDZeMOKRMEkW5DHBu4vOq6Jz1ospU+UCA90UTv3/LQKZMdVLNBBY3M1jEIo5n9zu9g==",
-                            Status = 1,
-                            UserName = "Admin"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AccountTypeId = 2,
-                            Date = new DateTime(2021, 12, 21, 10, 47, 37, 730, DateTimeKind.Local).AddTicks(8477),
-                            Password = "AQAAAAEAACcQAAAAEDAtrsJP5LtrYGDfaMMm2Ui1i+x47z7wZMsS+Nnqv7yJ43YO7UTdLQMPEdy8//mfdg==",
-                            Status = 1,
-                            UserName = "nhanvien1"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            AccountTypeId = 4,
-                            Date = new DateTime(2021, 12, 21, 10, 47, 37, 738, DateTimeKind.Local).AddTicks(2530),
-                            Password = "AQAAAAEAACcQAAAAEOaRc4KkwtOdlzvbBShZUKHxculqMT1h2EfaBDEvKRiQlkoYOSzmBOOls53eJeWZeQ==",
-                            Status = 1,
-                            UserName = "quan"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            AccountTypeId = 3,
-                            Date = new DateTime(2021, 12, 21, 10, 47, 37, 745, DateTimeKind.Local).AddTicks(2799),
-                            Password = "AQAAAAEAACcQAAAAEP5S2NSnjcjCu8hwXLY0jcyLGGFd3ilhkVQP2xrmB3iy/djfw/KSgZsCx4RxI8uxjw==",
-                            Status = 1,
-                            UserName = "Client"
+                            UserId = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
+                            RoleId = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc")
                         });
                 });
 
-            modelBuilder.Entity("NewsManagement.Data.Entities.AccountType", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("AccountType", (string)null);
+                    b.HasKey("UserId");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Admin"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Nhân viên"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Khách hàng"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Người dùng"
-                        });
+                    b.ToTable("AppUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("NewsManagement.Data.Entities.ActiveUser", b =>
@@ -148,8 +140,8 @@ namespace NewsManagement.Data.Migrations
                     b.Property<TimeSpan?>("TimeActive")
                         .HasColumnType("time");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -211,13 +203,145 @@ namespace NewsManagement.Data.Migrations
                         {
                             Id = 1,
                             Description = "<H3>Mã sản phẩm 212364001</H3> <br> <p>Lòng nồi làm từ chất liệu hợp kim nhôm dạng niêu bền bỉ, nấu ngon</p> <br> <p>Dung tích 1.8 lít dùng phù hợp cho gia đình 4 - 6 người</p> <br> <p>Nồi dạng cơ sử dụng đơn giản Công suất 700W nấu cơm nhanh và ngon</p>",
-                            Expire_Date = new DateTime(2022, 1, 21, 10, 47, 37, 745, DateTimeKind.Local).AddTicks(3642),
+                            Expire_Date = new DateTime(2022, 1, 23, 11, 13, 58, 312, DateTimeKind.Local).AddTicks(844),
                             OrderId = 1,
-                            Published_Date = new DateTime(2021, 12, 21, 10, 47, 37, 745, DateTimeKind.Local).AddTicks(3641),
+                            Published_Date = new DateTime(2021, 12, 23, 11, 13, 58, 312, DateTimeKind.Local).AddTicks(844),
                             Status = 1,
                             Title = "Nồi Cơm Niêu Điện 1.8L Mishio MK248 700W",
                             Url = "https://gsshop.vn/noi-com-nieu-dien-1-8l-mishio-mk248-700w-212364001.html?utm_source=google-gdn&device=c&agid=125553696715&cid=13888844554&creative=533462530738&keyword==&gclid=CjwKCAiA7dKMBhBCEiwAO_crFKJ6eS3GoAuXugINVAKwsZ9MCnVk00vTjvdm_twOSriDHsQj6vCEFhoCxSgQAvD_BwE",
                             UrlImg = "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSpq3Kunb8u-YtUU15Sf-V6IfvRAez268ugpA7VT2JKiQWHrvnxSxGAS5Ycvg&usqp=CAI"
+                        });
+                });
+
+            modelBuilder.Entity("NewsManagement.Data.Entities.AppRole", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
+                            ConcurrencyStamp = "8fa53076-cb7f-45a3-a85a-6878760ceea8",
+                            Description = "Administrator role",
+                            Name = "admin",
+                            NormalizedName = "admin"
+                        });
+                });
+
+            modelBuilder.Entity("NewsManagement.Data.Entities.AppUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Address")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("Dob")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Img")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
+                            AccessFailedCount = 0,
+                            Address = "Quảng Nam City",
+                            ConcurrencyStamp = "d5f276b1-301b-4127-8dc2-12bce2e4b27c",
+                            Dob = new DateTime(2000, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "nguyenquan52000@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "Quan",
+                            Img = "userAdmin.png",
+                            LastName = "Nguyen",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "nguyenquan52000@gmail.com",
+                            NormalizedUserName = "admin",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKTn4f0yCYp+JGbRRJdNoASh/MUzERmtwYa9acGdgtXWUgRi4gnQ2KZQwVdvcGJ3Ig==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "admin"
                         });
                 });
 
@@ -332,52 +456,6 @@ namespace NewsManagement.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("NewsManagement.Data.Entities.Client", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("Company")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<string>("Img")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(11)
-                        .HasColumnType("nvarchar(11)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Client", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 4,
-                            Address = "Quảng Nam",
-                            Company = "Trung tâm phát triển phần mềm - ĐH Đà Nẵng",
-                            Email = "nguyenquan52000@gmail.com",
-                            Img = "user1.jpg",
-                            PhoneNumber = "0373951042"
-                        });
-                });
-
             modelBuilder.Entity("NewsManagement.Data.Entities.Comment", b =>
                 {
                     b.Property<int>("Id")
@@ -403,8 +481,8 @@ namespace NewsManagement.Data.Migrations
                     b.Property<bool>("Type")
                         .HasColumnType("bit");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -419,21 +497,21 @@ namespace NewsManagement.Data.Migrations
                         {
                             Id = 1,
                             Answer = 0,
-                            Date = new DateTime(2021, 12, 21, 10, 47, 37, 745, DateTimeKind.Local).AddTicks(3575),
+                            Date = new DateTime(2021, 12, 23, 11, 13, 58, 312, DateTimeKind.Local).AddTicks(786),
                             NewsId = 1,
                             Title = "Covid-19",
                             Type = true,
-                            UserId = 3
+                            UserId = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de")
                         },
                         new
                         {
                             Id = 2,
                             Answer = 0,
-                            Date = new DateTime(2021, 12, 21, 10, 47, 37, 745, DateTimeKind.Local).AddTicks(3577),
+                            Date = new DateTime(2021, 12, 23, 11, 13, 58, 312, DateTimeKind.Local).AddTicks(788),
                             NewsId = 1,
                             Title = "13",
                             Type = false,
-                            UserId = 3
+                            UserId = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de")
                         });
                 });
 
@@ -566,9 +644,6 @@ namespace NewsManagement.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("AccountId")
-                        .HasColumnType("int");
-
                     b.Property<int>("CityId")
                         .HasColumnType("int");
 
@@ -616,6 +691,9 @@ namespace NewsManagement.Data.Migrations
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Video")
                         .HasColumnType("nvarchar(max)");
 
@@ -624,13 +702,13 @@ namespace NewsManagement.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AccountId");
-
                     b.HasIndex("CityId");
 
                     b.HasIndex("EventId");
 
                     b.HasIndex("TopicId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("News", (string)null);
 
@@ -638,10 +716,9 @@ namespace NewsManagement.Data.Migrations
                         new
                         {
                             Id = 1,
-                            AccountId = 1,
                             CityId = 2,
                             Content = "<p>Sở Y tế H&agrave; Nội tối 29/11 cho biết tr&ecirc;n địa b&agrave;n th&agrave;nh phố ghi nhận 390 ca dương t&iacute;nh, trong đ&oacute; c&oacute; 220 ca cộng đồng, 109 ca tại khu c&aacute;ch ly v&agrave; 61 ca tại khu phong toả. Đ&acirc;y l&agrave; ng&agrave;y ghi nhận số ca mắc trong 24 giờ v&agrave; ca cộng đồng cao nhất từ trước tới nay.</p> ",
-                            Date = new DateTime(2021, 12, 21, 10, 47, 37, 745, DateTimeKind.Local).AddTicks(3555),
+                            Date = new DateTime(2021, 12, 23, 11, 13, 58, 312, DateTimeKind.Local).AddTicks(761),
                             Description = "Với 220 ca cộng đồng trong tổng 390 ca nhiễm ghi nhận, ngày 29/11 đánh dấu mốc kỷ lục về dịch COVID-19 ở Hà Nội.",
                             EventId = 3,
                             Img = "29112021_081723_PM_news1.jpg",
@@ -650,6 +727,7 @@ namespace NewsManagement.Data.Migrations
                             Status = 1,
                             Title = "Hà Nội lập kỷ lục 'kép': 390 ca nhiễm mới, 220 ca cộng đồng",
                             TopicId = 4,
+                            UserId = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             Viewss = 0
                         });
                 });
@@ -661,9 +739,6 @@ namespace NewsManagement.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -679,11 +754,14 @@ namespace NewsManagement.Data.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("ClientId");
-
                     b.HasIndex("ServiceId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Order", (string)null);
 
@@ -691,11 +769,11 @@ namespace NewsManagement.Data.Migrations
                         new
                         {
                             Id = 1,
-                            ClientId = 4,
-                            Date = new DateTime(2021, 12, 21, 10, 47, 37, 745, DateTimeKind.Local).AddTicks(3625),
+                            Date = new DateTime(2021, 12, 23, 11, 13, 58, 312, DateTimeKind.Local).AddTicks(831),
                             ServiceId = 1,
                             Status = 0,
-                            Title = "đơn hàng demo"
+                            Title = "đơn hàng demo",
+                            UserId = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de")
                         });
                 });
 
@@ -715,8 +793,8 @@ namespace NewsManagement.Data.Migrations
                     b.Property<int>("NewsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Value")
                         .HasColumnType("int");
@@ -735,7 +813,7 @@ namespace NewsManagement.Data.Migrations
                             Id = 1,
                             Checkrating = "13",
                             NewsId = 1,
-                            UserId = 3,
+                            UserId = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             Value = 5
                         });
                 });
@@ -780,63 +858,12 @@ namespace NewsManagement.Data.Migrations
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2021, 12, 21, 10, 47, 37, 745, DateTimeKind.Local).AddTicks(3609),
+                            Date = new DateTime(2021, 12, 23, 11, 13, 58, 312, DateTimeKind.Local).AddTicks(815),
                             Description = "Quảng cáo tất cả các loại sản phẩm, đảm bảo uy tín chất lượng liên tục, dễ dàng nâp cấp lên gói khác,...",
                             Period = 1,
                             Price = 200000m,
                             Status = 1,
                             Title = "Dịch vụ quảng cáo 1 tháng"
-                        });
-                });
-
-            modelBuilder.Entity("NewsManagement.Data.Entities.Staff", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(2147483647)
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Birthday")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<string>("Img")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(11)
-                        .HasColumnType("nvarchar(11)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Staff", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 2,
-                            Address = "Quảng Nam",
-                            Birthday = new DateTime(2000, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "nguyenquan52000@gmail.com",
-                            Img = "user1.jpg",
-                            Name = "Nguyễn Đình Quân",
-                            PhoneNumber = "0373951042"
                         });
                 });
 
@@ -913,67 +940,15 @@ namespace NewsManagement.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("NewsManagement.Data.Entities.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Address")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<DateTime?>("Birthday")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Img")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasMaxLength(11)
-                        .HasColumnType("nvarchar(11)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("User", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 3,
-                            Address = "Quảng Nam",
-                            Birthday = new DateTime(2000, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Img = "user1.jpg",
-                            Name = "Nguyễn Đình Quân",
-                            PhoneNumber = "0373951042"
-                        });
-                });
-
-            modelBuilder.Entity("NewsManagement.Data.Entities.Account", b =>
-                {
-                    b.HasOne("NewsManagement.Data.Entities.AccountType", "AccountType")
-                        .WithMany("Accounts")
-                        .HasForeignKey("AccountTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AccountType");
-                });
-
             modelBuilder.Entity("NewsManagement.Data.Entities.ActiveUser", b =>
                 {
-                    b.HasOne("NewsManagement.Data.Entities.User", "User")
+                    b.HasOne("NewsManagement.Data.Entities.AppUser", "AppUser")
                         .WithMany("ActiveUsers")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("AppUser");
                 });
 
             modelBuilder.Entity("NewsManagement.Data.Entities.Advertise", b =>
@@ -987,17 +962,6 @@ namespace NewsManagement.Data.Migrations
                     b.Navigation("Order");
                 });
 
-            modelBuilder.Entity("NewsManagement.Data.Entities.Client", b =>
-                {
-                    b.HasOne("NewsManagement.Data.Entities.Account", "Account")
-                        .WithOne("Client")
-                        .HasForeignKey("NewsManagement.Data.Entities.Client", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Account");
-                });
-
             modelBuilder.Entity("NewsManagement.Data.Entities.Comment", b =>
                 {
                     b.HasOne("NewsManagement.Data.Entities.News", "News")
@@ -1006,15 +970,15 @@ namespace NewsManagement.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NewsManagement.Data.Entities.User", "User")
+                    b.HasOne("NewsManagement.Data.Entities.AppUser", "AppUser")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
-                    b.Navigation("News");
+                    b.Navigation("AppUser");
 
-                    b.Navigation("User");
+                    b.Navigation("News");
                 });
 
             modelBuilder.Entity("NewsManagement.Data.Entities.Eventss", b =>
@@ -1030,12 +994,6 @@ namespace NewsManagement.Data.Migrations
 
             modelBuilder.Entity("NewsManagement.Data.Entities.News", b =>
                 {
-                    b.HasOne("NewsManagement.Data.Entities.Account", "Account")
-                        .WithMany("News")
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("NewsManagement.Data.Entities.City", "City")
                         .WithMany("News")
                         .HasForeignKey("CityId")
@@ -1054,7 +1012,13 @@ namespace NewsManagement.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Account");
+                    b.HasOne("NewsManagement.Data.Entities.AppUser", "AppUser")
+                        .WithMany("News")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
 
                     b.Navigation("City");
 
@@ -1065,19 +1029,19 @@ namespace NewsManagement.Data.Migrations
 
             modelBuilder.Entity("NewsManagement.Data.Entities.Order", b =>
                 {
-                    b.HasOne("NewsManagement.Data.Entities.Client", "Client")
-                        .WithMany("Orders")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("NewsManagement.Data.Entities.Servicess", "Servicess")
                         .WithMany("Orders")
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Client");
+                    b.HasOne("NewsManagement.Data.Entities.AppUser", "AppUser")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
 
                     b.Navigation("Servicess");
                 });
@@ -1090,53 +1054,28 @@ namespace NewsManagement.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NewsManagement.Data.Entities.User", "User")
+                    b.HasOne("NewsManagement.Data.Entities.AppUser", "AppUser")
                         .WithMany("Ratings")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
+                    b.Navigation("AppUser");
+
                     b.Navigation("News");
-
-                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("NewsManagement.Data.Entities.Staff", b =>
+            modelBuilder.Entity("NewsManagement.Data.Entities.AppUser", b =>
                 {
-                    b.HasOne("NewsManagement.Data.Entities.Account", "Account")
-                        .WithOne("Staff")
-                        .HasForeignKey("NewsManagement.Data.Entities.Staff", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("ActiveUsers");
 
-                    b.Navigation("Account");
-                });
-
-            modelBuilder.Entity("NewsManagement.Data.Entities.User", b =>
-                {
-                    b.HasOne("NewsManagement.Data.Entities.Account", "Account")
-                        .WithOne("Users")
-                        .HasForeignKey("NewsManagement.Data.Entities.User", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Account");
-                });
-
-            modelBuilder.Entity("NewsManagement.Data.Entities.Account", b =>
-                {
-                    b.Navigation("Client");
+                    b.Navigation("Comments");
 
                     b.Navigation("News");
 
-                    b.Navigation("Staff");
+                    b.Navigation("Orders");
 
-                    b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("NewsManagement.Data.Entities.AccountType", b =>
-                {
-                    b.Navigation("Accounts");
+                    b.Navigation("Ratings");
                 });
 
             modelBuilder.Entity("NewsManagement.Data.Entities.Category", b =>
@@ -1147,11 +1086,6 @@ namespace NewsManagement.Data.Migrations
             modelBuilder.Entity("NewsManagement.Data.Entities.City", b =>
                 {
                     b.Navigation("News");
-                });
-
-            modelBuilder.Entity("NewsManagement.Data.Entities.Client", b =>
-                {
-                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("NewsManagement.Data.Entities.Eventss", b =>
@@ -1179,15 +1113,6 @@ namespace NewsManagement.Data.Migrations
             modelBuilder.Entity("NewsManagement.Data.Entities.Topic", b =>
                 {
                     b.Navigation("News");
-                });
-
-            modelBuilder.Entity("NewsManagement.Data.Entities.User", b =>
-                {
-                    b.Navigation("ActiveUsers");
-
-                    b.Navigation("Comments");
-
-                    b.Navigation("Ratings");
                 });
 #pragma warning restore 612, 618
         }

@@ -14,33 +14,40 @@ namespace NewsManagement.Data.Extensions
     {
         public static void Seed(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AccountType>().HasData(
-               new AccountType() { Id = 1, Name = "Admin" },
-               new AccountType() { Id = 2, Name = "Nhân viên" },
-               new AccountType() { Id = 3, Name = "Khách hàng" },
-               new AccountType() { Id = 4, Name = "Người dùng" }
+            // any guid
+            var roleId = new Guid("8D04DCE2-969A-435D-BBA4-DF3F325983DC");
+            var adminId = new Guid("69BD714F-9576-45BA-B5B7-F00649BE00DE");
+            modelBuilder.Entity<AppRole>().HasData(new AppRole
+            {
+                Id = roleId,
+                Name = "admin",
+                NormalizedName = "admin",
+                Description = "Administrator role"
+            });
 
-               );
-            var hasher = new PasswordHasher<Account>();
-            modelBuilder.Entity<Account>().HasData(
-              new Account() { Id = 1, UserName = "Admin" ,Password = hasher.HashPassword(null,"quan"),AccountTypeId = 1, Status = Status.Active, Date = DateTime.Now },
-              new Account() { Id = 2, UserName = "nhanvien1" ,Password = hasher.HashPassword(null,"quan"),AccountTypeId = 2, Status = Status.Active, Date = DateTime.Now },
-              new Account() { Id = 3, UserName = "quan" ,Password = hasher.HashPassword(null,"quan"),AccountTypeId = 4, Status = Status.Active, Date = DateTime.Now },
-              new Account() { Id = 4, UserName = "Client1", Password = hasher.HashPassword(null, "quan"), AccountTypeId = 3, Status = Status.Active, Date = DateTime.Now }
+            var hasher = new PasswordHasher<AppUser>();
+            modelBuilder.Entity<AppUser>().HasData(new AppUser
+            {
+                Id = adminId,
+                UserName = "admin",
+                NormalizedUserName = "admin",
+                Email = "nguyenquan52000@gmail.com",
+                NormalizedEmail = "nguyenquan52000@gmail.com",
+                EmailConfirmed = true,
+                PasswordHash = hasher.HashPassword(null, "quax2h1408$"),
+                SecurityStamp = string.Empty,
+                FirstName = "Quan",
+                LastName = "Nguyen",
+                Dob = new DateTime(2000, 10, 02),
+                Address = "Quảng Nam City",
+                Img = "userAdmin.png"
+            });
 
-              );
-            modelBuilder.Entity<User>().HasData(
-              new User() { Id = 3, Name = "Nguyễn Đình Quân" , Birthday = new DateTime(2000, 10, 02), Address = "Quảng Nam", PhoneNumber = "0373951042", Img = "user1.jpg" }
-              
-              );
-            modelBuilder.Entity<Client>().HasData(
-              new Client() { Id = 4, Company = "Trung tâm phát triển phần mềm - ĐH Đà Nẵng", Email = "nguyenquan52000@gmail.com", Address = "Quảng Nam", PhoneNumber = "0373951042", Img = "user1.jpg" }
-
-              );
-            modelBuilder.Entity<Staff>().HasData(
-             new Staff() { Id = 2, Name = "Nguyễn Đình Quân", Birthday = new DateTime(2000, 10, 02), Email = "nguyenquan52000@gmail.com", Address = "Quảng Nam", PhoneNumber = "0373951042", Img = "user1.jpg" }
-
-             );
+            modelBuilder.Entity<IdentityUserRole<Guid>>().HasData(new IdentityUserRole<Guid>
+            {
+                RoleId = roleId,
+                UserId = adminId
+            });
             modelBuilder.Entity<Category>().HasData(
                new Category() { Id = 1, Name = "Xã Hội" , Status = Status.Active, SortOrder = 1},
                new Category() { Id = 2, Name = "Xã Hội" , Status = Status.Active, SortOrder = 2},
@@ -76,7 +83,7 @@ namespace NewsManagement.Data.Extensions
                    Keyword = "covid-19,Hà nội",
                    Date = DateTime.Now,
                    News_Hot = Status.Active,
-                   AccountId = 1,
+                   UserId = adminId,
                    CityId = 2,
                    EventId = 3,
                    TopicId = 4
@@ -84,17 +91,17 @@ namespace NewsManagement.Data.Extensions
                
                );
             modelBuilder.Entity<Comment>().HasData(
-              new Comment() { Id = 1, Title = "Covid-19", Date = DateTime.Now, NewsId = 1,UserId = 3, Type = true },
-              new Comment() { Id = 2, Title = "13", Date = DateTime.Now, NewsId = 1,UserId = 3, Type = false }
+              new Comment() { Id = 1, Title = "Covid-19", Date = DateTime.Now, NewsId = 1,UserId = adminId, Type = true },
+              new Comment() { Id = 2, Title = "13", Date = DateTime.Now, NewsId = 1,UserId = adminId, Type = false }
               );
             modelBuilder.Entity<Rating>().HasData(
-              new Rating() { Id = 1, Checkrating = "13", Value = 5, NewsId = 1, UserId = 3 }
+              new Rating() { Id = 1, Checkrating = "13", Value = 5, NewsId = 1, UserId = adminId }
               );
             modelBuilder.Entity<Servicess>().HasData(
               new Servicess() { Id = 1, Title = "Dịch vụ quảng cáo 1 tháng", Description = "Quảng cáo tất cả các loại sản phẩm, đảm bảo uy tín chất lượng liên tục, dễ dàng nâp cấp lên gói khác,...", Period = 1, Price = 200000, Date = DateTime.Now, Status = Status.Active }
               );
             modelBuilder.Entity<Order>().HasData(
-             new Order() { Id = 1, Title = "đơn hàng demo",  ClientId = 4, ServiceId = 1, Date = DateTime.Now, Status = OrderStatus.InProgress }
+             new Order() { Id = 1, Title = "đơn hàng demo",  UserId = adminId, ServiceId = 1, Date = DateTime.Now, Status = OrderStatus.InProgress }
              );
             modelBuilder.Entity<Advertise>().HasData(
             new Advertise() { Id = 1, 

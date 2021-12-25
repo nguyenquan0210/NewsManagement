@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using NewsManagement.Data.Configurations;
 using NewsManagement.Data.Entities;
 using NewsManagement.Data.Extensions;
@@ -10,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace NewsManagement.Data.EF
 {
-    public class DBContext : DbContext
+    public class DBContext : IdentityDbContext<AppUser, AppRole, Guid>
     {
         public DBContext(DbContextOptions options) : base(options)
         {
@@ -18,19 +20,19 @@ namespace NewsManagement.Data.EF
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new AccountTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new AccountConfiguration());
+            modelBuilder.ApplyConfiguration(new AppRoleConfiguration());
+           
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
             modelBuilder.ApplyConfiguration(new TopicConfiguration());
             modelBuilder.ApplyConfiguration(new EventConfiguration());
             modelBuilder.ApplyConfiguration(new CityConfiguration());
-            modelBuilder.ApplyConfiguration(new UserConfiguration());
-            modelBuilder.ApplyConfiguration(new StaffConfiguration());
+            modelBuilder.ApplyConfiguration(new AppUserConfiguration());
+            
             modelBuilder.ApplyConfiguration(new NewsConfiguration());
             
             modelBuilder.ApplyConfiguration(new ActiveUserConfiguration());
            
-            modelBuilder.ApplyConfiguration(new ClientConfiguration());
+            
             modelBuilder.ApplyConfiguration(new ServiceConfiguration());
             modelBuilder.ApplyConfiguration(new ContactConfiguration());
             
@@ -39,6 +41,13 @@ namespace NewsManagement.Data.EF
             modelBuilder.ApplyConfiguration(new RatingConfiguration());
 
             modelBuilder.ApplyConfiguration(new CommentConfiguration());
+
+            modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims");
+            modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new { x.UserId, x.RoleId });
+            modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("AppUserLogins").HasKey(x => x.UserId);
+
+            modelBuilder.Entity<IdentityRoleClaim<Guid>>().ToTable("AppRoleClaims");
+            modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens").HasKey(x => x.UserId);
 
             //Data seeding
             modelBuilder.Seed();
@@ -50,17 +59,13 @@ namespace NewsManagement.Data.EF
 
         public DbSet<Category> Categories { get; set; }
 
-        public DbSet<Account> Accounts { get; set; }
-
-        public DbSet<AccountType> AccountTypes { get; set; }
+        public DbSet<AppRole> AppRoles { get; set; }
 
         public DbSet<ActiveUser> ActiveUsers { get; set; }
 
         public DbSet<Advertise> Advertises { get; set; }
 
         public DbSet<City> Cities { get; set; }
-
-        public DbSet<Client> Clients { get; set; }
 
         public DbSet<Comment> Comments { get; set; }
 
@@ -75,10 +80,8 @@ namespace NewsManagement.Data.EF
 
         public DbSet<Servicess> Servicesses { get; set; }
 
-        public DbSet<Staff> Staffs { get; set; }
-
         public DbSet<Topic> Topics { get; set; }
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<AppUser> AppUsers { get; set; }
     }
 }

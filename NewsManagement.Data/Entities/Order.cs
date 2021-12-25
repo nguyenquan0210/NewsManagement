@@ -11,9 +11,9 @@ namespace NewsManagement.Data.Entities
     {
         public int Id { get; set; }
 
-        public int ClientId { get; set; }
+        public Guid UserId { get; set; }
 
-        public Client Client { get; set; }
+        public AppUser AppUser { get; set; }
 
         public int ServiceId { get; set; }
 

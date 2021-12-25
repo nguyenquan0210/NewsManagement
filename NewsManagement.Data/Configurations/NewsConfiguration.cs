@@ -29,7 +29,7 @@ namespace NewsManagement.Data.Configurations
 
             builder.Property(x => x.Keyword).IsRequired().HasMaxLength(255);
 
-            builder.HasOne(x => x.Account).WithMany(x => x.News).HasForeignKey(x => x.AccountId);
+            builder.HasOne(x => x.AppUser).WithMany(x => x.News).HasForeignKey(x => x.UserId);
 
             builder.HasOne(x => x.Eventss).WithMany(x => x.News).HasForeignKey(x => x.EventId);
 

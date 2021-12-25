@@ -22,5 +22,6 @@ namespace NewsManagement.Application.Catalog.Newss
        
 
         Task<PagedResult<NewsViewModel>> GetAllPaging(GetManageNewsPagingRequest request);
+        Task<NewsViewModel> GetById(int newsId);
     }
 }

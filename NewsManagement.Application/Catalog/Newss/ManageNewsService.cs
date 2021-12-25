@@ -41,13 +41,14 @@ namespace NewsManagement.Application.Catalog.Newss
                 Keyword = request.Keyword,
                 Viewss = 0,
                 Status = Status.Active,
-                AccountId = request.AccountId,
+                UserId = request.UserId,
                 CityId = request.CityId,
                 EventId = request.EventId,
                 TopicId = request.TopicId
             };
             _context.Newss.Add(news);
-            return await _context.SaveChangesAsync();
+             await _context.SaveChangesAsync();
+            return news.Id;
         }
 
         public async Task<int> Delete(int NewsId)
@@ -83,7 +84,7 @@ namespace NewsManagement.Application.Catalog.Newss
 
             var pageResult = new PagedResult<NewsViewModel>()
             {
-                TotalRecord = totalRow,
+                TotalRecords = totalRow,
                 Items = data
             };
 
@@ -110,7 +111,7 @@ namespace NewsManagement.Application.Catalog.Newss
             news.News_Hot = request.News_Hot;
             news.Status = request.Status;
             news.Keyword = request.Keyword;
-            news.AccountId = request.AccountId;
+            news.UserId = request.UserId;
             news.EventId = request.EventId;
             news.CityId = request.CityId;
             news.TopicId = request.TopicId;
@@ -133,5 +134,21 @@ namespace NewsManagement.Application.Catalog.Newss
             return "/" + USER_CONTENT_FOLDER_NAME + "/" + fileName;
         }
 
+        public async Task<NewsViewModel> GetById(int newsId)
+        {
+            var news = await _context.Newss.FindAsync(newsId);
+            
+
+            var rs = new NewsViewModel()
+            {
+                Id = news.Id,
+                Title = news.Title,
+                Description = news.Description,
+                Img = news.Img,
+                Keyword = news.Keyword
+            };
+
+            return rs;
+        }
     }
 }

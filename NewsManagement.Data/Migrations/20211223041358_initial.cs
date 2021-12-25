@@ -10,16 +10,118 @@ namespace NewsManagement.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AccountType",
+                name: "AppRoleClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AccountType", x => x.Id);
+                    table.PrimaryKey("PK_AppRoleClaims", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppRoles",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NormalizedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppUserClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppUserClaims", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppUserLogins",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProviderKey = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppUserLogins", x => x.UserId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppUserRoles",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppUserRoles", x => new { x.UserId, x.RoleId });
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppUsers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Dob = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Img = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppUserTokens",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    LoginProvider = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppUserTokens", x => x.UserId);
                 });
 
             migrationBuilder.CreateTable(
@@ -108,24 +210,22 @@ namespace NewsManagement.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Account",
+                name: "ActiveUser",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AccountTypeId = table.Column<int>(type: "int", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DateActive = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TimeActive = table.Column<TimeSpan>(type: "time", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Account", x => x.Id);
+                    table.PrimaryKey("PK_ActiveUser", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Account_AccountType_AccountTypeId",
-                        column: x => x.AccountTypeId,
-                        principalTable: "AccountType",
+                        name: "FK_ActiveUser_AppUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AppUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -154,68 +254,30 @@ namespace NewsManagement.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Client",
+                name: "Order",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    Company = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Email = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
-                    Img = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ServiceId = table.Column<int>(type: "int", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Client", x => x.Id);
+                    table.PrimaryKey("PK_Order", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Client_Account_Id",
-                        column: x => x.Id,
-                        principalTable: "Account",
+                        name: "FK_Order_AppUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AppUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Staff",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Birthday = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", maxLength: 2147483647, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: false),
-                    Email = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
-                    Img = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Staff", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Staff_Account_Id",
-                        column: x => x.Id,
-                        principalTable: "Account",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "User",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Birthday = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Address = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(11)", maxLength: 11, nullable: true),
-                    Img = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_User", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_User_Account_Id",
-                        column: x => x.Id,
-                        principalTable: "Account",
+                        name: "FK_Order_Servicess_ServiceId",
+                        column: x => x.ServiceId,
+                        principalTable: "Servicess",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -238,7 +300,7 @@ namespace NewsManagement.Data.Migrations
                     Status = table.Column<int>(type: "int", nullable: false),
                     Keyword = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     EventId = table.Column<int>(type: "int", nullable: false),
-                    AccountId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CityId = table.Column<int>(type: "int", nullable: false),
                     TopicId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -246,9 +308,9 @@ namespace NewsManagement.Data.Migrations
                 {
                     table.PrimaryKey("PK_News", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_News_Account_AccountId",
-                        column: x => x.AccountId,
-                        principalTable: "Account",
+                        name: "FK_News_AppUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AppUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -269,112 +331,6 @@ namespace NewsManagement.Data.Migrations
                         principalTable: "Topic",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Order",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ClientId = table.Column<int>(type: "int", nullable: false),
-                    ServiceId = table.Column<int>(type: "int", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Order", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Order_Client_ClientId",
-                        column: x => x.ClientId,
-                        principalTable: "Client",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Order_Servicess_ServiceId",
-                        column: x => x.ServiceId,
-                        principalTable: "Servicess",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ActiveUser",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    DateActive = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TimeActive = table.Column<TimeSpan>(type: "time", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ActiveUser", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ActiveUser_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Comment",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    NewsId = table.Column<int>(type: "int", nullable: false),
-                    Answer = table.Column<int>(type: "int", nullable: false),
-                    Type = table.Column<bool>(type: "bit", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Comment", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Comment_News_NewsId",
-                        column: x => x.NewsId,
-                        principalTable: "News",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Comment_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Rating",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    NewsId = table.Column<int>(type: "int", nullable: false),
-                    Checkrating = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Value = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Rating", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Rating_News_NewsId",
-                        column: x => x.NewsId,
-                        principalTable: "News",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Rating_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -403,16 +359,76 @@ namespace NewsManagement.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.InsertData(
-                table: "AccountType",
-                columns: new[] { "Id", "Name" },
-                values: new object[,]
+            migrationBuilder.CreateTable(
+                name: "Comment",
+                columns: table => new
                 {
-                    { 1, "Admin" },
-                    { 2, "Nhân viên" },
-                    { 3, "Khách hàng" },
-                    { 4, "Người dùng" }
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    NewsId = table.Column<int>(type: "int", nullable: false),
+                    Answer = table.Column<int>(type: "int", nullable: false),
+                    Type = table.Column<bool>(type: "bit", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Comment_AppUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AppUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Comment_News_NewsId",
+                        column: x => x.NewsId,
+                        principalTable: "News",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Rating",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    NewsId = table.Column<int>(type: "int", nullable: false),
+                    Checkrating = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Value = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Rating", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Rating_AppUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AppUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Rating_News_NewsId",
+                        column: x => x.NewsId,
+                        principalTable: "News",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "AppRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
+                values: new object[] { new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"), "8fa53076-cb7f-45a3-a85a-6878760ceea8", "Administrator role", "admin", "admin" });
+
+            migrationBuilder.InsertData(
+                table: "AppUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"), new Guid("69bd714f-9576-45ba-b5b7-f00649be00de") });
+
+            migrationBuilder.InsertData(
+                table: "AppUsers",
+                columns: new[] { "Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "Dob", "Email", "EmailConfirmed", "FirstName", "Img", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"), 0, "Quảng Nam City", "d5f276b1-301b-4127-8dc2-12bce2e4b27c", new DateTime(2000, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "nguyenquan52000@gmail.com", true, "Quan", "userAdmin.png", "Nguyen", false, null, "nguyenquan52000@gmail.com", "admin", "AQAAAAEAACcQAAAAEKTn4f0yCYp+JGbRRJdNoASh/MUzERmtwYa9acGdgtXWUgRi4gnQ2KZQwVdvcGJ3Ig==", null, false, "", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "CategoryNews",
@@ -439,7 +455,7 @@ namespace NewsManagement.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Servicess",
                 columns: new[] { "Id", "Date", "Description", "Period", "Price", "Status", "Title" },
-                values: new object[] { 1, new DateTime(2021, 12, 21, 10, 47, 37, 745, DateTimeKind.Local).AddTicks(3609), "Quảng cáo tất cả các loại sản phẩm, đảm bảo uy tín chất lượng liên tục, dễ dàng nâp cấp lên gói khác,...", 1, 200000m, 1, "Dịch vụ quảng cáo 1 tháng" });
+                values: new object[] { 1, new DateTime(2021, 12, 23, 11, 13, 58, 312, DateTimeKind.Local).AddTicks(815), "Quảng cáo tất cả các loại sản phẩm, đảm bảo uy tín chất lượng liên tục, dễ dàng nâp cấp lên gói khác,...", 1, 200000m, 1, "Dịch vụ quảng cáo 1 tháng" });
 
             migrationBuilder.InsertData(
                 table: "Topic",
@@ -458,17 +474,6 @@ namespace NewsManagement.Data.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Account",
-                columns: new[] { "Id", "AccountTypeId", "Date", "Password", "Status", "UserName" },
-                values: new object[,]
-                {
-                    { 1, 1, new DateTime(2021, 12, 21, 10, 47, 37, 723, DateTimeKind.Local).AddTicks(3653), "AQAAAAEAACcQAAAAEDZeMOKRMEkW5DHBu4vOq6Jz1ospU+UCA90UTv3/LQKZMdVLNBBY3M1jEIo5n9zu9g==", 1, "Admin" },
-                    { 2, 2, new DateTime(2021, 12, 21, 10, 47, 37, 730, DateTimeKind.Local).AddTicks(8477), "AQAAAAEAACcQAAAAEDAtrsJP5LtrYGDfaMMm2Ui1i+x47z7wZMsS+Nnqv7yJ43YO7UTdLQMPEdy8//mfdg==", 1, "nhanvien1" },
-                    { 3, 4, new DateTime(2021, 12, 21, 10, 47, 37, 738, DateTimeKind.Local).AddTicks(2530), "AQAAAAEAACcQAAAAEOaRc4KkwtOdlzvbBShZUKHxculqMT1h2EfaBDEvKRiQlkoYOSzmBOOls53eJeWZeQ==", 1, "quan" },
-                    { 4, 3, new DateTime(2021, 12, 21, 10, 47, 37, 745, DateTimeKind.Local).AddTicks(2799), "AQAAAAEAACcQAAAAEP5S2NSnjcjCu8hwXLY0jcyLGGFd3ilhkVQP2xrmB3iy/djfw/KSgZsCx4RxI8uxjw==", 1, "Client1" }
-                });
-
-            migrationBuilder.InsertData(
                 table: "Eventss",
                 columns: new[] { "Id", "CategoryId", "Hot", "Name", "SortOrder", "Status" },
                 values: new object[,]
@@ -479,53 +484,34 @@ namespace NewsManagement.Data.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Client",
-                columns: new[] { "Id", "Address", "Company", "Email", "Img", "PhoneNumber" },
-                values: new object[] { 4, "Quảng Nam", "Trung tâm phát triển phần mềm - ĐH Đà Nẵng", "nguyenquan52000@gmail.com", "user1.jpg", "0373951042" });
-
-            migrationBuilder.InsertData(
-                table: "News",
-                columns: new[] { "Id", "AccountId", "CityId", "Content", "Date", "Description", "EventId", "Img", "Keyword", "News_Hot", "Status", "Title", "TopicId", "Url", "Video", "Viewss" },
-                values: new object[] { 1, 1, 2, "<p>Sở Y tế H&agrave; Nội tối 29/11 cho biết tr&ecirc;n địa b&agrave;n th&agrave;nh phố ghi nhận 390 ca dương t&iacute;nh, trong đ&oacute; c&oacute; 220 ca cộng đồng, 109 ca tại khu c&aacute;ch ly v&agrave; 61 ca tại khu phong toả. Đ&acirc;y l&agrave; ng&agrave;y ghi nhận số ca mắc trong 24 giờ v&agrave; ca cộng đồng cao nhất từ trước tới nay.</p> ", new DateTime(2021, 12, 21, 10, 47, 37, 745, DateTimeKind.Local).AddTicks(3555), "Với 220 ca cộng đồng trong tổng 390 ca nhiễm ghi nhận, ngày 29/11 đánh dấu mốc kỷ lục về dịch COVID-19 ở Hà Nội.", 3, "29112021_081723_PM_news1.jpg", "covid-19,Hà nội", 1, 1, "Hà Nội lập kỷ lục 'kép': 390 ca nhiễm mới, 220 ca cộng đồng", 4, null, null, 0 });
-
-            migrationBuilder.InsertData(
-                table: "Staff",
-                columns: new[] { "Id", "Address", "Birthday", "Email", "Img", "Name", "PhoneNumber" },
-                values: new object[] { 2, "Quảng Nam", new DateTime(2000, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "nguyenquan52000@gmail.com", "user1.jpg", "Nguyễn Đình Quân", "0373951042" });
-
-            migrationBuilder.InsertData(
-                table: "User",
-                columns: new[] { "Id", "Address", "Birthday", "Img", "Name", "PhoneNumber" },
-                values: new object[] { 3, "Quảng Nam", new DateTime(2000, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "user1.jpg", "Nguyễn Đình Quân", "0373951042" });
-
-            migrationBuilder.InsertData(
-                table: "Comment",
-                columns: new[] { "Id", "Answer", "Date", "NewsId", "Title", "Type", "UserId" },
-                values: new object[,]
-                {
-                    { 1, 0, new DateTime(2021, 12, 21, 10, 47, 37, 745, DateTimeKind.Local).AddTicks(3575), 1, "Covid-19", true, 3 },
-                    { 2, 0, new DateTime(2021, 12, 21, 10, 47, 37, 745, DateTimeKind.Local).AddTicks(3577), 1, "13", false, 3 }
-                });
-
-            migrationBuilder.InsertData(
                 table: "Order",
-                columns: new[] { "Id", "ClientId", "Date", "ServiceId", "Status", "Title" },
-                values: new object[] { 1, 4, new DateTime(2021, 12, 21, 10, 47, 37, 745, DateTimeKind.Local).AddTicks(3625), 1, 0, "đơn hàng demo" });
-
-            migrationBuilder.InsertData(
-                table: "Rating",
-                columns: new[] { "Id", "Checkrating", "NewsId", "UserId", "Value" },
-                values: new object[] { 1, "13", 1, 3, 5 });
+                columns: new[] { "Id", "Date", "ServiceId", "Status", "Title", "UserId" },
+                values: new object[] { 1, new DateTime(2021, 12, 23, 11, 13, 58, 312, DateTimeKind.Local).AddTicks(831), 1, 0, "đơn hàng demo", new Guid("69bd714f-9576-45ba-b5b7-f00649be00de") });
 
             migrationBuilder.InsertData(
                 table: "Advertise",
                 columns: new[] { "Id", "Description", "Expire_Date", "OrderId", "Published_Date", "Status", "Title", "Url", "UrlImg" },
-                values: new object[] { 1, "<H3>Mã sản phẩm 212364001</H3> <br> <p>Lòng nồi làm từ chất liệu hợp kim nhôm dạng niêu bền bỉ, nấu ngon</p> <br> <p>Dung tích 1.8 lít dùng phù hợp cho gia đình 4 - 6 người</p> <br> <p>Nồi dạng cơ sử dụng đơn giản Công suất 700W nấu cơm nhanh và ngon</p>", new DateTime(2022, 1, 21, 10, 47, 37, 745, DateTimeKind.Local).AddTicks(3642), 1, new DateTime(2021, 12, 21, 10, 47, 37, 745, DateTimeKind.Local).AddTicks(3641), 1, "Nồi Cơm Niêu Điện 1.8L Mishio MK248 700W", "https://gsshop.vn/noi-com-nieu-dien-1-8l-mishio-mk248-700w-212364001.html?utm_source=google-gdn&device=c&agid=125553696715&cid=13888844554&creative=533462530738&keyword==&gclid=CjwKCAiA7dKMBhBCEiwAO_crFKJ6eS3GoAuXugINVAKwsZ9MCnVk00vTjvdm_twOSriDHsQj6vCEFhoCxSgQAvD_BwE", "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSpq3Kunb8u-YtUU15Sf-V6IfvRAez268ugpA7VT2JKiQWHrvnxSxGAS5Ycvg&usqp=CAI" });
+                values: new object[] { 1, "<H3>Mã sản phẩm 212364001</H3> <br> <p>Lòng nồi làm từ chất liệu hợp kim nhôm dạng niêu bền bỉ, nấu ngon</p> <br> <p>Dung tích 1.8 lít dùng phù hợp cho gia đình 4 - 6 người</p> <br> <p>Nồi dạng cơ sử dụng đơn giản Công suất 700W nấu cơm nhanh và ngon</p>", new DateTime(2022, 1, 23, 11, 13, 58, 312, DateTimeKind.Local).AddTicks(844), 1, new DateTime(2021, 12, 23, 11, 13, 58, 312, DateTimeKind.Local).AddTicks(844), 1, "Nồi Cơm Niêu Điện 1.8L Mishio MK248 700W", "https://gsshop.vn/noi-com-nieu-dien-1-8l-mishio-mk248-700w-212364001.html?utm_source=google-gdn&device=c&agid=125553696715&cid=13888844554&creative=533462530738&keyword==&gclid=CjwKCAiA7dKMBhBCEiwAO_crFKJ6eS3GoAuXugINVAKwsZ9MCnVk00vTjvdm_twOSriDHsQj6vCEFhoCxSgQAvD_BwE", "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSpq3Kunb8u-YtUU15Sf-V6IfvRAez268ugpA7VT2JKiQWHrvnxSxGAS5Ycvg&usqp=CAI" });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Account_AccountTypeId",
-                table: "Account",
-                column: "AccountTypeId");
+            migrationBuilder.InsertData(
+                table: "News",
+                columns: new[] { "Id", "CityId", "Content", "Date", "Description", "EventId", "Img", "Keyword", "News_Hot", "Status", "Title", "TopicId", "Url", "UserId", "Video", "Viewss" },
+                values: new object[] { 1, 2, "<p>Sở Y tế H&agrave; Nội tối 29/11 cho biết tr&ecirc;n địa b&agrave;n th&agrave;nh phố ghi nhận 390 ca dương t&iacute;nh, trong đ&oacute; c&oacute; 220 ca cộng đồng, 109 ca tại khu c&aacute;ch ly v&agrave; 61 ca tại khu phong toả. Đ&acirc;y l&agrave; ng&agrave;y ghi nhận số ca mắc trong 24 giờ v&agrave; ca cộng đồng cao nhất từ trước tới nay.</p> ", new DateTime(2021, 12, 23, 11, 13, 58, 312, DateTimeKind.Local).AddTicks(761), "Với 220 ca cộng đồng trong tổng 390 ca nhiễm ghi nhận, ngày 29/11 đánh dấu mốc kỷ lục về dịch COVID-19 ở Hà Nội.", 3, "29112021_081723_PM_news1.jpg", "covid-19,Hà nội", 1, 1, "Hà Nội lập kỷ lục 'kép': 390 ca nhiễm mới, 220 ca cộng đồng", 4, null, new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"), null, 0 });
+
+            migrationBuilder.InsertData(
+                table: "Comment",
+                columns: new[] { "Id", "Answer", "Date", "NewsId", "Title", "Type", "UserId" },
+                values: new object[] { 1, 0, new DateTime(2021, 12, 23, 11, 13, 58, 312, DateTimeKind.Local).AddTicks(786), 1, "Covid-19", true, new Guid("69bd714f-9576-45ba-b5b7-f00649be00de") });
+
+            migrationBuilder.InsertData(
+                table: "Comment",
+                columns: new[] { "Id", "Answer", "Date", "NewsId", "Title", "Type", "UserId" },
+                values: new object[] { 2, 0, new DateTime(2021, 12, 23, 11, 13, 58, 312, DateTimeKind.Local).AddTicks(788), 1, "13", false, new Guid("69bd714f-9576-45ba-b5b7-f00649be00de") });
+
+            migrationBuilder.InsertData(
+                table: "Rating",
+                columns: new[] { "Id", "Checkrating", "NewsId", "UserId", "Value" },
+                values: new object[] { 1, "13", 1, new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"), 5 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ActiveUser_UserId",
@@ -553,11 +539,6 @@ namespace NewsManagement.Data.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_News_AccountId",
-                table: "News",
-                column: "AccountId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_News_CityId",
                 table: "News",
                 column: "CityId");
@@ -573,14 +554,19 @@ namespace NewsManagement.Data.Migrations
                 column: "TopicId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Order_ClientId",
-                table: "Order",
-                column: "ClientId");
+                name: "IX_News_UserId",
+                table: "News",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Order_ServiceId",
                 table: "Order",
                 column: "ServiceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Order_UserId",
+                table: "Order",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Rating_NewsId",
@@ -602,6 +588,24 @@ namespace NewsManagement.Data.Migrations
                 name: "Advertise");
 
             migrationBuilder.DropTable(
+                name: "AppRoleClaims");
+
+            migrationBuilder.DropTable(
+                name: "AppRoles");
+
+            migrationBuilder.DropTable(
+                name: "AppUserClaims");
+
+            migrationBuilder.DropTable(
+                name: "AppUserLogins");
+
+            migrationBuilder.DropTable(
+                name: "AppUserRoles");
+
+            migrationBuilder.DropTable(
+                name: "AppUserTokens");
+
+            migrationBuilder.DropTable(
                 name: "Comment");
 
             migrationBuilder.DropTable(
@@ -611,22 +615,16 @@ namespace NewsManagement.Data.Migrations
                 name: "Rating");
 
             migrationBuilder.DropTable(
-                name: "Staff");
-
-            migrationBuilder.DropTable(
                 name: "Order");
 
             migrationBuilder.DropTable(
                 name: "News");
 
             migrationBuilder.DropTable(
-                name: "User");
-
-            migrationBuilder.DropTable(
-                name: "Client");
-
-            migrationBuilder.DropTable(
                 name: "Servicess");
+
+            migrationBuilder.DropTable(
+                name: "AppUsers");
 
             migrationBuilder.DropTable(
                 name: "City");
@@ -638,13 +636,7 @@ namespace NewsManagement.Data.Migrations
                 name: "Topic");
 
             migrationBuilder.DropTable(
-                name: "Account");
-
-            migrationBuilder.DropTable(
                 name: "CategoryNews");
-
-            migrationBuilder.DropTable(
-                name: "AccountType");
         }
     }
 }
