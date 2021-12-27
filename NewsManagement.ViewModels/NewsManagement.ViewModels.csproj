@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,6 +11,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NewsManagement.Data\NewsManagement.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="System\Roles\" />
   </ItemGroup>
 
 </Project>

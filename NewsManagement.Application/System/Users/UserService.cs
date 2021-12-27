@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using NewsManagement.Data.Entities;
+using NewsManagement.Data.Enums;
 using NewsManagement.ViewModels.Common;
 using NewsManagement.ViewModels.System.Users;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -134,7 +135,39 @@ namespace NewsManagement.Application.System.Users
             return new ApiSuccessResult<PagedResult<UserVm>>(pagedResult);
         }
 
-        public async Task<ApiResult<bool>> Register(RegisterRequest request)
+        public async Task<ApiResult<bool>> Register(ManageRegisterRequest request)
+        {
+            var user = await _userManager.FindByNameAsync(request.UserName);
+            if (user != null)
+            {
+                return new ApiErrorResult<bool>("Tài khoản đã tồn tại");
+            }
+            if (await _userManager.FindByEmailAsync(request.Email) != null)
+            {
+                return new ApiErrorResult<bool>("Emai đã tồn tại");
+            }
+
+             user = new AppUser()
+            {
+                Dob = request.Dob,
+                Email = request.Email,
+                Address = request.Address,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                UserName = request.UserName,
+                PhoneNumber = request.PhoneNumber,
+                Status = Status.Active
+                
+            };
+            var result = await _userManager.CreateAsync(user, request.Password);
+            if (result.Succeeded)
+            {
+                return new ApiSuccessResult<bool>();
+            }
+            return new ApiErrorResult<bool>("Đăng ký không thành công");
+        }
+
+        public async Task<ApiResult<bool>> ManageRegister(ManageRegisterRequest request)
         {
             var user = await _userManager.FindByNameAsync(request.UserName);
             if (user != null)
@@ -150,10 +183,13 @@ namespace NewsManagement.Application.System.Users
             {
                 Dob = request.Dob,
                 Email = request.Email,
+                Address = request.Address,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 UserName = request.UserName,
-                PhoneNumber = request.PhoneNumber
+                PhoneNumber = request.PhoneNumber,
+                Status = Status.Active
+
             };
             var result = await _userManager.CreateAsync(user, request.Password);
             if (result.Succeeded)
@@ -210,6 +246,47 @@ namespace NewsManagement.Application.System.Users
             {
                 return new ApiSuccessResult<bool>();
             }
+            return new ApiErrorResult<bool>("Cập nhật không thành công");
+        }
+
+        public async Task<ApiResult<UserVm>> GetByUserName(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null)
+            {
+                return new ApiErrorResult<UserVm>("Tài khoản không tồn tại");
+            }
+            var userVm = new UserVm()
+            {
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                FirstName = user.FirstName,
+                Dob = user.Dob,
+                Id = user.Id,
+                LastName = user.LastName,
+                UserName = user.UserName
+            };
+            return new ApiSuccessResult<UserVm>(userVm);
+        }
+
+        public async Task<ApiResult<bool>> AddRoleUser(RequestRoleUser request)
+        {
+            var user = await _userManager.FindByIdAsync(request.IdUser.ToString());
+
+            var role = await _roleManager.FindByIdAsync(request.IdRole.ToString());
+
+            if (await _userManager.IsInRoleAsync(user, role.Name) == false)
+            {
+                var result = await _userManager.AddToRoleAsync(user, role.Name);
+
+                if (result.Succeeded)
+                {
+                    return new ApiSuccessResult<bool>();
+                }
+            }
+            
+          
+
             return new ApiErrorResult<bool>("Cập nhật không thành công");
         }
     }

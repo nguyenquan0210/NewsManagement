@@ -1,8 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-#nullable disable
-
 namespace NewsManagement.Data.Migrations
 {
     public partial class initial : Migration
@@ -87,9 +85,10 @@ namespace NewsManagement.Data.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Dob = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Dob = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Img = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -379,7 +378,8 @@ namespace NewsManagement.Data.Migrations
                         name: "FK_Comment_AppUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AppUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Comment_News_NewsId",
                         column: x => x.NewsId,
@@ -406,7 +406,8 @@ namespace NewsManagement.Data.Migrations
                         name: "FK_Rating_AppUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AppUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Rating_News_NewsId",
                         column: x => x.NewsId,
@@ -418,7 +419,7 @@ namespace NewsManagement.Data.Migrations
             migrationBuilder.InsertData(
                 table: "AppRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
-                values: new object[] { new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"), "8fa53076-cb7f-45a3-a85a-6878760ceea8", "Administrator role", "admin", "admin" });
+                values: new object[] { new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"), "c0b6a45f-88ae-4abc-9cd2-fcbe9f1d6b1b", "Administrator role", "admin", "admin" });
 
             migrationBuilder.InsertData(
                 table: "AppUserRoles",
@@ -427,8 +428,8 @@ namespace NewsManagement.Data.Migrations
 
             migrationBuilder.InsertData(
                 table: "AppUsers",
-                columns: new[] { "Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "Dob", "Email", "EmailConfirmed", "FirstName", "Img", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"), 0, "Quảng Nam City", "d5f276b1-301b-4127-8dc2-12bce2e4b27c", new DateTime(2000, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "nguyenquan52000@gmail.com", true, "Quan", "userAdmin.png", "Nguyen", false, null, "nguyenquan52000@gmail.com", "admin", "AQAAAAEAACcQAAAAEKTn4f0yCYp+JGbRRJdNoASh/MUzERmtwYa9acGdgtXWUgRi4gnQ2KZQwVdvcGJ3Ig==", null, false, "", false, "admin" });
+                columns: new[] { "Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "Dob", "Email", "EmailConfirmed", "FirstName", "Img", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "Status", "TwoFactorEnabled", "UserName" },
+                values: new object[] { new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"), 0, "Quảng Nam City", "31c9b525-dc86-49a6-b25f-3ecbf6e6ef5a", new DateTime(2000, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), "nguyenquan52000@gmail.com", true, "Quan", "userAdmin.png", "Nguyen", false, null, "nguyenquan52000@gmail.com", "admin", "AQAAAAEAACcQAAAAEG9KGp4orFxPrD3pa8uE6VBKsc+z487LP82deYQp61hcqrCN1XlsV4AzmkEuJFI6gg==", null, false, "", 0, false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "CategoryNews",
@@ -445,17 +446,17 @@ namespace NewsManagement.Data.Migrations
                 columns: new[] { "Id", "Name", "SortOrder", "Status" },
                 values: new object[,]
                 {
-                    { 1, "Đà nẵng", 1, 1 },
-                    { 2, "Hà Nội", 1, 1 },
-                    { 3, "TP HCM", 1, 1 },
+                    { 5, "Cần Thơ", 1, 1 },
                     { 4, "Hải Phòng", 1, 1 },
-                    { 5, "Cần Thơ", 1, 1 }
+                    { 3, "TP HCM", 1, 1 },
+                    { 2, "Hà Nội", 1, 1 },
+                    { 1, "Đà nẵng", 1, 1 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Servicess",
                 columns: new[] { "Id", "Date", "Description", "Period", "Price", "Status", "Title" },
-                values: new object[] { 1, new DateTime(2021, 12, 23, 11, 13, 58, 312, DateTimeKind.Local).AddTicks(815), "Quảng cáo tất cả các loại sản phẩm, đảm bảo uy tín chất lượng liên tục, dễ dàng nâp cấp lên gói khác,...", 1, 200000m, 1, "Dịch vụ quảng cáo 1 tháng" });
+                values: new object[] { 1, new DateTime(2021, 12, 27, 8, 49, 28, 804, DateTimeKind.Local).AddTicks(9673), "Quảng cáo tất cả các loại sản phẩm, đảm bảo uy tín chất lượng liên tục, dễ dàng nâp cấp lên gói khác,...", 1, 200000m, 1, "Dịch vụ quảng cáo 1 tháng" });
 
             migrationBuilder.InsertData(
                 table: "Topic",
@@ -486,27 +487,27 @@ namespace NewsManagement.Data.Migrations
             migrationBuilder.InsertData(
                 table: "Order",
                 columns: new[] { "Id", "Date", "ServiceId", "Status", "Title", "UserId" },
-                values: new object[] { 1, new DateTime(2021, 12, 23, 11, 13, 58, 312, DateTimeKind.Local).AddTicks(831), 1, 0, "đơn hàng demo", new Guid("69bd714f-9576-45ba-b5b7-f00649be00de") });
+                values: new object[] { 1, new DateTime(2021, 12, 27, 8, 49, 28, 805, DateTimeKind.Local).AddTicks(1525), 1, 0, "đơn hàng demo", new Guid("69bd714f-9576-45ba-b5b7-f00649be00de") });
 
             migrationBuilder.InsertData(
                 table: "Advertise",
                 columns: new[] { "Id", "Description", "Expire_Date", "OrderId", "Published_Date", "Status", "Title", "Url", "UrlImg" },
-                values: new object[] { 1, "<H3>Mã sản phẩm 212364001</H3> <br> <p>Lòng nồi làm từ chất liệu hợp kim nhôm dạng niêu bền bỉ, nấu ngon</p> <br> <p>Dung tích 1.8 lít dùng phù hợp cho gia đình 4 - 6 người</p> <br> <p>Nồi dạng cơ sử dụng đơn giản Công suất 700W nấu cơm nhanh và ngon</p>", new DateTime(2022, 1, 23, 11, 13, 58, 312, DateTimeKind.Local).AddTicks(844), 1, new DateTime(2021, 12, 23, 11, 13, 58, 312, DateTimeKind.Local).AddTicks(844), 1, "Nồi Cơm Niêu Điện 1.8L Mishio MK248 700W", "https://gsshop.vn/noi-com-nieu-dien-1-8l-mishio-mk248-700w-212364001.html?utm_source=google-gdn&device=c&agid=125553696715&cid=13888844554&creative=533462530738&keyword==&gclid=CjwKCAiA7dKMBhBCEiwAO_crFKJ6eS3GoAuXugINVAKwsZ9MCnVk00vTjvdm_twOSriDHsQj6vCEFhoCxSgQAvD_BwE", "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSpq3Kunb8u-YtUU15Sf-V6IfvRAez268ugpA7VT2JKiQWHrvnxSxGAS5Ycvg&usqp=CAI" });
+                values: new object[] { 1, "<H3>Mã sản phẩm 212364001</H3> <br> <p>Lòng nồi làm từ chất liệu hợp kim nhôm dạng niêu bền bỉ, nấu ngon</p> <br> <p>Dung tích 1.8 lít dùng phù hợp cho gia đình 4 - 6 người</p> <br> <p>Nồi dạng cơ sử dụng đơn giản Công suất 700W nấu cơm nhanh và ngon</p>", new DateTime(2022, 1, 27, 8, 49, 28, 805, DateTimeKind.Local).AddTicks(4059), 1, new DateTime(2021, 12, 27, 8, 49, 28, 805, DateTimeKind.Local).AddTicks(3802), 1, "Nồi Cơm Niêu Điện 1.8L Mishio MK248 700W", "https://gsshop.vn/noi-com-nieu-dien-1-8l-mishio-mk248-700w-212364001.html?utm_source=google-gdn&device=c&agid=125553696715&cid=13888844554&creative=533462530738&keyword==&gclid=CjwKCAiA7dKMBhBCEiwAO_crFKJ6eS3GoAuXugINVAKwsZ9MCnVk00vTjvdm_twOSriDHsQj6vCEFhoCxSgQAvD_BwE", "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSpq3Kunb8u-YtUU15Sf-V6IfvRAez268ugpA7VT2JKiQWHrvnxSxGAS5Ycvg&usqp=CAI" });
 
             migrationBuilder.InsertData(
                 table: "News",
                 columns: new[] { "Id", "CityId", "Content", "Date", "Description", "EventId", "Img", "Keyword", "News_Hot", "Status", "Title", "TopicId", "Url", "UserId", "Video", "Viewss" },
-                values: new object[] { 1, 2, "<p>Sở Y tế H&agrave; Nội tối 29/11 cho biết tr&ecirc;n địa b&agrave;n th&agrave;nh phố ghi nhận 390 ca dương t&iacute;nh, trong đ&oacute; c&oacute; 220 ca cộng đồng, 109 ca tại khu c&aacute;ch ly v&agrave; 61 ca tại khu phong toả. Đ&acirc;y l&agrave; ng&agrave;y ghi nhận số ca mắc trong 24 giờ v&agrave; ca cộng đồng cao nhất từ trước tới nay.</p> ", new DateTime(2021, 12, 23, 11, 13, 58, 312, DateTimeKind.Local).AddTicks(761), "Với 220 ca cộng đồng trong tổng 390 ca nhiễm ghi nhận, ngày 29/11 đánh dấu mốc kỷ lục về dịch COVID-19 ở Hà Nội.", 3, "29112021_081723_PM_news1.jpg", "covid-19,Hà nội", 1, 1, "Hà Nội lập kỷ lục 'kép': 390 ca nhiễm mới, 220 ca cộng đồng", 4, null, new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"), null, 0 });
+                values: new object[] { 1, 2, "<p>Sở Y tế H&agrave; Nội tối 29/11 cho biết tr&ecirc;n địa b&agrave;n th&agrave;nh phố ghi nhận 390 ca dương t&iacute;nh, trong đ&oacute; c&oacute; 220 ca cộng đồng, 109 ca tại khu c&aacute;ch ly v&agrave; 61 ca tại khu phong toả. Đ&acirc;y l&agrave; ng&agrave;y ghi nhận số ca mắc trong 24 giờ v&agrave; ca cộng đồng cao nhất từ trước tới nay.</p> ", new DateTime(2021, 12, 27, 8, 49, 28, 803, DateTimeKind.Local).AddTicks(4188), "Với 220 ca cộng đồng trong tổng 390 ca nhiễm ghi nhận, ngày 29/11 đánh dấu mốc kỷ lục về dịch COVID-19 ở Hà Nội.", 3, "29112021_081723_PM_news1.jpg", "covid-19,Hà nội", 1, 1, "Hà Nội lập kỷ lục 'kép': 390 ca nhiễm mới, 220 ca cộng đồng", 4, null, new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"), null, 0 });
 
             migrationBuilder.InsertData(
                 table: "Comment",
                 columns: new[] { "Id", "Answer", "Date", "NewsId", "Title", "Type", "UserId" },
-                values: new object[] { 1, 0, new DateTime(2021, 12, 23, 11, 13, 58, 312, DateTimeKind.Local).AddTicks(786), 1, "Covid-19", true, new Guid("69bd714f-9576-45ba-b5b7-f00649be00de") });
+                values: new object[] { 1, 0, new DateTime(2021, 12, 27, 8, 49, 28, 804, DateTimeKind.Local).AddTicks(5223), 1, "Covid-19", true, new Guid("69bd714f-9576-45ba-b5b7-f00649be00de") });
 
             migrationBuilder.InsertData(
                 table: "Comment",
                 columns: new[] { "Id", "Answer", "Date", "NewsId", "Title", "Type", "UserId" },
-                values: new object[] { 2, 0, new DateTime(2021, 12, 23, 11, 13, 58, 312, DateTimeKind.Local).AddTicks(788), 1, "13", false, new Guid("69bd714f-9576-45ba-b5b7-f00649be00de") });
+                values: new object[] { 2, 0, new DateTime(2021, 12, 27, 8, 49, 28, 804, DateTimeKind.Local).AddTicks(6290), 1, "13", false, new Guid("69bd714f-9576-45ba-b5b7-f00649be00de") });
 
             migrationBuilder.InsertData(
                 table: "Rating",

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using NewsManagement.Data.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,8 @@ namespace NewsManagement.Data.Entities
         public string Address { get; set; }
 
         public string Img { get; set; }
+
+        public Status Status { get; set; }
 
         public List<ActiveUser> ActiveUsers { get; set; }
 

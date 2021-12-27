@@ -24,7 +24,7 @@ namespace NewsManagement.BackendApi.Controllers
 
         [HttpPost("authenticate")]
         [AllowAnonymous]
-        public async Task<IActionResult> Authenticate([FromForm] LoginRequest request)
+        public async Task<IActionResult> Authenticate([FromBody] LoginRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -38,9 +38,39 @@ namespace NewsManagement.BackendApi.Controllers
             return Ok(result);
         }
 
+        [HttpPost("manageregister")]
+        /*[AllowAnonymous]*/
+        public async Task<IActionResult> ManageRegister([FromBody] ManageRegisterRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _userService.ManageRegister(request);
+            if (!result.IsSuccessed)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        [HttpPost("requestroleuser")]
+        [AllowAnonymous]
+        public async Task<IActionResult> UserRole([FromBody] RequestRoleUser request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _userService.AddRoleUser(request);
+            if (!result.IsSuccessed)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Register([FromForm] RegisterRequest request)
+        public async Task<IActionResult> Register([FromBody] ManageRegisterRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -55,7 +85,7 @@ namespace NewsManagement.BackendApi.Controllers
 
         //PUT: http://localhost/api/users/id
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromForm] UserUpdateRequest request)
+        public async Task<IActionResult> Update(Guid id, [FromBody] UserUpdateRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -93,6 +123,14 @@ namespace NewsManagement.BackendApi.Controllers
         public async Task<IActionResult> GetById(Guid id)
         {
             var user = await _userService.GetById(id);
+            return Ok(user);
+        }
+
+        [HttpGet("getrequest{username}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetByUserName(string username)
+        {
+            var user = await _userService.GetByUserName(username);
             return Ok(user);
         }
 

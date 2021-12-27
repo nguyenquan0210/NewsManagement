@@ -7,30 +7,26 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NewsManagement.Data.EF;
 
-#nullable disable
-
 namespace NewsManagement.Data.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20211223041358_initial")]
+    [Migration("20211227014929_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.1")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
-
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128)
+                .HasAnnotation("ProductVersion", "5.0.13")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -43,16 +39,15 @@ namespace NewsManagement.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppRoleClaims", (string)null);
+                    b.ToTable("AppRoleClaims");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -65,7 +60,7 @@ namespace NewsManagement.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppUserClaims", (string)null);
+                    b.ToTable("AppUserClaims");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
@@ -85,7 +80,7 @@ namespace NewsManagement.Data.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("AppUserLogins", (string)null);
+                    b.ToTable("AppUserLogins");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
@@ -98,7 +93,7 @@ namespace NewsManagement.Data.Migrations
 
                     b.HasKey("UserId", "RoleId");
 
-                    b.ToTable("AppUserRoles", (string)null);
+                    b.ToTable("AppUserRoles");
 
                     b.HasData(
                         new
@@ -125,16 +120,17 @@ namespace NewsManagement.Data.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("AppUserTokens", (string)null);
+                    b.ToTable("AppUserTokens");
                 });
 
             modelBuilder.Entity("NewsManagement.Data.Entities.ActiveUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("DateActive")
                         .HasColumnType("datetime2");
@@ -149,16 +145,17 @@ namespace NewsManagement.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ActiveUser", (string)null);
+                    b.ToTable("ActiveUser");
                 });
 
             modelBuilder.Entity("NewsManagement.Data.Entities.Advertise", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -198,16 +195,16 @@ namespace NewsManagement.Data.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("Advertise", (string)null);
+                    b.ToTable("Advertise");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
                             Description = "<H3>Mã sản phẩm 212364001</H3> <br> <p>Lòng nồi làm từ chất liệu hợp kim nhôm dạng niêu bền bỉ, nấu ngon</p> <br> <p>Dung tích 1.8 lít dùng phù hợp cho gia đình 4 - 6 người</p> <br> <p>Nồi dạng cơ sử dụng đơn giản Công suất 700W nấu cơm nhanh và ngon</p>",
-                            Expire_Date = new DateTime(2022, 1, 23, 11, 13, 58, 312, DateTimeKind.Local).AddTicks(844),
+                            Expire_Date = new DateTime(2022, 1, 27, 8, 49, 28, 805, DateTimeKind.Local).AddTicks(4059),
                             OrderId = 1,
-                            Published_Date = new DateTime(2021, 12, 23, 11, 13, 58, 312, DateTimeKind.Local).AddTicks(844),
+                            Published_Date = new DateTime(2021, 12, 27, 8, 49, 28, 805, DateTimeKind.Local).AddTicks(3802),
                             Status = 1,
                             Title = "Nồi Cơm Niêu Điện 1.8L Mishio MK248 700W",
                             Url = "https://gsshop.vn/noi-com-nieu-dien-1-8l-mishio-mk248-700w-212364001.html?utm_source=google-gdn&device=c&agid=125553696715&cid=13888844554&creative=533462530738&keyword==&gclid=CjwKCAiA7dKMBhBCEiwAO_crFKJ6eS3GoAuXugINVAKwsZ9MCnVk00vTjvdm_twOSriDHsQj6vCEFhoCxSgQAvD_BwE",
@@ -237,13 +234,13 @@ namespace NewsManagement.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppRoles", (string)null);
+                    b.ToTable("AppRoles");
 
                     b.HasData(
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "8fa53076-cb7f-45a3-a85a-6878760ceea8",
+                            ConcurrencyStamp = "c0b6a45f-88ae-4abc-9cd2-fcbe9f1d6b1b",
                             Description = "Administrator role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -266,7 +263,7 @@ namespace NewsManagement.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("Dob")
+                    b.Property<DateTime>("Dob")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -313,6 +310,9 @@ namespace NewsManagement.Data.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -321,7 +321,7 @@ namespace NewsManagement.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppUsers", (string)null);
+                    b.ToTable("AppUsers");
 
                     b.HasData(
                         new
@@ -329,7 +329,7 @@ namespace NewsManagement.Data.Migrations
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
                             Address = "Quảng Nam City",
-                            ConcurrencyStamp = "d5f276b1-301b-4127-8dc2-12bce2e4b27c",
+                            ConcurrencyStamp = "31c9b525-dc86-49a6-b25f-3ecbf6e6ef5a",
                             Dob = new DateTime(2000, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "nguyenquan52000@gmail.com",
                             EmailConfirmed = true,
@@ -339,9 +339,10 @@ namespace NewsManagement.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "nguyenquan52000@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKTn4f0yCYp+JGbRRJdNoASh/MUzERmtwYa9acGdgtXWUgRi4gnQ2KZQwVdvcGJ3Ig==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEG9KGp4orFxPrD3pa8uE6VBKsc+z487LP82deYQp61hcqrCN1XlsV4AzmkEuJFI6gg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
+                            Status = 0,
                             TwoFactorEnabled = false,
                             UserName = "admin"
                         });
@@ -351,9 +352,10 @@ namespace NewsManagement.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -371,7 +373,7 @@ namespace NewsManagement.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CategoryNews", (string)null);
+                    b.ToTable("CategoryNews");
 
                     b.HasData(
                         new
@@ -401,9 +403,10 @@ namespace NewsManagement.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -418,7 +421,7 @@ namespace NewsManagement.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("City", (string)null);
+                    b.ToTable("City");
 
                     b.HasData(
                         new
@@ -462,9 +465,10 @@ namespace NewsManagement.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Answer")
                         .HasColumnType("int");
@@ -492,14 +496,14 @@ namespace NewsManagement.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comment", (string)null);
+                    b.ToTable("Comment");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
                             Answer = 0,
-                            Date = new DateTime(2021, 12, 23, 11, 13, 58, 312, DateTimeKind.Local).AddTicks(786),
+                            Date = new DateTime(2021, 12, 27, 8, 49, 28, 804, DateTimeKind.Local).AddTicks(5223),
                             NewsId = 1,
                             Title = "Covid-19",
                             Type = true,
@@ -509,7 +513,7 @@ namespace NewsManagement.Data.Migrations
                         {
                             Id = 2,
                             Answer = 0,
-                            Date = new DateTime(2021, 12, 23, 11, 13, 58, 312, DateTimeKind.Local).AddTicks(788),
+                            Date = new DateTime(2021, 12, 27, 8, 49, 28, 804, DateTimeKind.Local).AddTicks(6290),
                             NewsId = 1,
                             Title = "13",
                             Type = false,
@@ -521,9 +525,8 @@ namespace NewsManagement.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -570,16 +573,17 @@ namespace NewsManagement.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Contact", (string)null);
+                    b.ToTable("Contact");
                 });
 
             modelBuilder.Entity("NewsManagement.Data.Entities.Eventss", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
@@ -606,7 +610,7 @@ namespace NewsManagement.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Eventss", (string)null);
+                    b.ToTable("Eventss");
 
                     b.HasData(
                         new
@@ -642,9 +646,8 @@ namespace NewsManagement.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("CityId")
                         .HasColumnType("int");
@@ -712,7 +715,7 @@ namespace NewsManagement.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("News", (string)null);
+                    b.ToTable("News");
 
                     b.HasData(
                         new
@@ -720,7 +723,7 @@ namespace NewsManagement.Data.Migrations
                             Id = 1,
                             CityId = 2,
                             Content = "<p>Sở Y tế H&agrave; Nội tối 29/11 cho biết tr&ecirc;n địa b&agrave;n th&agrave;nh phố ghi nhận 390 ca dương t&iacute;nh, trong đ&oacute; c&oacute; 220 ca cộng đồng, 109 ca tại khu c&aacute;ch ly v&agrave; 61 ca tại khu phong toả. Đ&acirc;y l&agrave; ng&agrave;y ghi nhận số ca mắc trong 24 giờ v&agrave; ca cộng đồng cao nhất từ trước tới nay.</p> ",
-                            Date = new DateTime(2021, 12, 23, 11, 13, 58, 312, DateTimeKind.Local).AddTicks(761),
+                            Date = new DateTime(2021, 12, 27, 8, 49, 28, 803, DateTimeKind.Local).AddTicks(4188),
                             Description = "Với 220 ca cộng đồng trong tổng 390 ca nhiễm ghi nhận, ngày 29/11 đánh dấu mốc kỷ lục về dịch COVID-19 ở Hà Nội.",
                             EventId = 3,
                             Img = "29112021_081723_PM_news1.jpg",
@@ -738,9 +741,10 @@ namespace NewsManagement.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -765,13 +769,13 @@ namespace NewsManagement.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Order", (string)null);
+                    b.ToTable("Order");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2021, 12, 23, 11, 13, 58, 312, DateTimeKind.Local).AddTicks(831),
+                            Date = new DateTime(2021, 12, 27, 8, 49, 28, 805, DateTimeKind.Local).AddTicks(1525),
                             ServiceId = 1,
                             Status = 0,
                             Title = "đơn hàng demo",
@@ -783,9 +787,10 @@ namespace NewsManagement.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Checkrating")
                         .IsRequired()
@@ -807,7 +812,7 @@ namespace NewsManagement.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Rating", (string)null);
+                    b.ToTable("Rating");
 
                     b.HasData(
                         new
@@ -824,9 +829,10 @@ namespace NewsManagement.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -854,13 +860,13 @@ namespace NewsManagement.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Servicess", (string)null);
+                    b.ToTable("Servicess");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            Date = new DateTime(2021, 12, 23, 11, 13, 58, 312, DateTimeKind.Local).AddTicks(815),
+                            Date = new DateTime(2021, 12, 27, 8, 49, 28, 804, DateTimeKind.Local).AddTicks(9673),
                             Description = "Quảng cáo tất cả các loại sản phẩm, đảm bảo uy tín chất lượng liên tục, dễ dàng nâp cấp lên gói khác,...",
                             Period = 1,
                             Price = 200000m,
@@ -873,9 +879,10 @@ namespace NewsManagement.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("Hot")
                         .ValueGeneratedOnAdd()
@@ -897,7 +904,7 @@ namespace NewsManagement.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Topic", (string)null);
+                    b.ToTable("Topic");
 
                     b.HasData(
                         new
