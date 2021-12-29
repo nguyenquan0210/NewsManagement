@@ -97,6 +97,20 @@ namespace NewsManagement.BackendApi.Controllers
             }
             return Ok(result);
         }
+        //PUT: http://localhost/api/users/id
+        [HttpPut("updatestatus{id}")]
+        public async Task<IActionResult> UpdateStatus(Guid id, [FromBody] UserUpdateStatusRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _userService.UpdateStatus(id, request);
+            if (!result.IsSuccessed)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
         [HttpPut("{id}/roles")]
         public async Task<IActionResult> RoleAssign(Guid id, [FromBody] RoleAssignRequest request)
         {

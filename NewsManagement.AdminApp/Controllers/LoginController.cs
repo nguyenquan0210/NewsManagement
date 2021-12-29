@@ -49,13 +49,6 @@ namespace NewsManagement.AdminApp.Controllers
             }
             var userPrincipal = this.ValidateToken(result.ResultObj);
 
-            var demo = userPrincipal.Claims.ToList();
-
-            if(demo[2].Value != "admin")
-            {
-                ModelState.AddModelError("", "Chỉ đăng nhập tài khoản admin!");
-                return View();
-            }
             
             var authProperties = new AuthenticationProperties
             {

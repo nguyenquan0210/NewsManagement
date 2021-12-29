@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NewsManagement.Data.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -17,6 +18,9 @@ namespace NewsManagement.ViewModels.System.Users
         [Display(Name = "Họ")]
         public string LastName { get; set; }
 
+        [Display(Name = "Địa chỉ")]
+        public string Address { get; set; }
+
         [Display(Name = "Số điện thoại")]
         public string PhoneNumber { get; set; }
 
@@ -28,6 +32,9 @@ namespace NewsManagement.ViewModels.System.Users
 
         [Display(Name = "Ngày sinh")]
         public DateTime Dob { get; set; }
+
+        [Display(Name = "Trạng thái")]
+        public Status Status { get; set; }
 
         public IList<string> Roles { get; set; }
     }

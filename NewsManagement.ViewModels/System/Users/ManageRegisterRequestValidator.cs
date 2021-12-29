@@ -17,7 +17,7 @@ namespace NewsManagement.ViewModels.System.Users
             RuleFor(x => x.LastName).NotEmpty().WithMessage("Tên là bắt buộc")
                 .MaximumLength(100).WithMessage("Tên không được quá 100 ký tự");
 
-            RuleFor(x => x.Dob).GreaterThan(DateTime.Now.AddYears(-100)).WithMessage("Ngày sinh không được nhỏ hơn 100 năm");
+            RuleFor(x => x.Dob).NotEmpty().WithMessage("Ngày sinh là bắt buộc là bắt buộc");
 
             RuleFor(x => x.Email).NotEmpty().WithMessage("E-mail là bắt buộc")
                 .Matches(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$")

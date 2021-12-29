@@ -39,12 +39,27 @@ namespace NewsManagement.Application.System.Users
             var user = await _userManager.FindByNameAsync(request.UserName);
             if (user == null) return new ApiErrorResult<string>("Tài khoản không tồn tại");
 
+            if (user.Status == Status.InActive) return new ApiErrorResult<string>("Tài khoản bị khóa");
+
             var result = await _signInManager.PasswordSignInAsync(user, request.Password, request.RememberMe, true);
             if (!result.Succeeded)
             {
-                return new ApiErrorResult<string>("Đăng nhập không đúng");
+                return new ApiErrorResult<string>("Đăng nhập không đúng.");
             }
+            
+            
             var roles = await _userManager.GetRolesAsync(user);
+
+            foreach(var item in roles)
+            {
+                if (item != "admin")
+                {
+                    return new ApiErrorResult<string>("Chỉ nhận tài khoản admin.");
+                }
+            }
+
+            
+
             var claims = new[]
             {
                 new Claim(ClaimTypes.Email,user.Email),
@@ -71,6 +86,13 @@ namespace NewsManagement.Application.System.Users
             {
                 return new ApiErrorResult<bool>("User không tồn tại");
             }
+            if(user.Status == Status.Active)
+            {
+                user.Status = Status.InActive;
+                var reultupdate = await _userManager.UpdateAsync(user);
+                if (reultupdate.Succeeded)
+                    return new ApiSuccessResult<bool>();
+            }
             var reult = await _userManager.DeleteAsync(user);
             if (reult.Succeeded)
                 return new ApiSuccessResult<bool>();
@@ -95,6 +117,8 @@ namespace NewsManagement.Application.System.Users
                 Id = user.Id,
                 LastName = user.LastName,
                 UserName = user.UserName,
+                Address = user.Address,
+                Status = user.Status,
                 Roles = roles
             };
             return new ApiSuccessResult<UserVm>(userVm);
@@ -121,7 +145,8 @@ namespace NewsManagement.Application.System.Users
                     UserName = x.UserName,
                     FirstName = x.FirstName,
                     Id = x.Id,
-                    LastName = x.LastName
+                    LastName = x.LastName,
+                    Status = x.Status
                 }).ToListAsync();
 
             //4. Select and projection
@@ -240,6 +265,8 @@ namespace NewsManagement.Application.System.Users
             user.FirstName = request.FirstName;
             user.LastName = request.LastName;
             user.PhoneNumber = request.PhoneNumber;
+            user.Status = request.Status ? Status.Active : Status.InActive;
+            user.Address = request.Address;
 
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
@@ -287,6 +314,20 @@ namespace NewsManagement.Application.System.Users
             
           
 
+            return new ApiErrorResult<bool>("Cập nhật không thành công");
+        }
+
+        public async Task<ApiResult<bool>> UpdateStatus(Guid id, UserUpdateStatusRequest request)
+        {
+            
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            user.Status = request.Status;
+
+            var result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                return new ApiSuccessResult<bool>();
+            }
             return new ApiErrorResult<bool>("Cập nhật không thành công");
         }
     }

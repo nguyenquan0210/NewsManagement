@@ -1,4 +1,6 @@
-﻿@using NewsManagement.ViewModels.Common;
+﻿
+@using NewsManagement.Data.Enums
+@using NewsManagement.ViewModels.Common;
 @model PagedResult<NewsManagement.ViewModels.System.Users.UserVm>
 
 @{
@@ -82,8 +84,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @{ 
-                                   var Status = true;
+                                @{
                                     var i = 1;
                                 }
                                 @foreach (var item in Model.Items)
@@ -96,16 +97,16 @@
                                         <td class="text-sm"><h6 class="ms-3 my-auto">@item.Email</h6></td>
                                         
                                         <td>
-                                            <span class="badge @(Status ? "badge-success" : "badge-danger") badge-sm" id="status_@item.Id">@(Status ? "Hoạt động" : "đã khóa")</span>
+                                            <span class="badge @(item.Status == Status.Active ? "badge-success" : "badge-danger") badge-sm" id="status_@item.Id">@(item.Status == Status.Active ? "Hoạt động" : "đã khóa")</span>
                                         </td>
                                         <td class="text-sm">
                                             <a href="" data-bs-toggle="tooltip" data-bs-original-title="Preview product">
                                                 <i class="fas fa-eye text-secondary"></i>
                                             </a>
-                                            <a href="@Url.Action("UpdateStaff", "Account", new { id = item.Id })" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Edit product">
+                                            <a asp-controller = "User" asp-action = "Update" asp-route-id = "@item.Id" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Edit user">
                                                 <i class="fas fa-user-edit text-secondary"></i>
                                             </a>
-                                            <a onclick="@(Status? "ConfirmStatus("+@i+")": "ConfirmDelete("+@item.Id+")" )" data-id="@item.Id" data-bs-toggle="tooltip" data-bs-original-title="Xóa nhân viên">
+                                            <a id = "User_@i" onclick="@(item.Status == Status.Active? "ConfirmStatus("+@i+")": "ConfirmDelete("+@i+")")" data-id="@item.Id" data-status = "@item.Status" data-bs-toggle="tooltip" data-bs-original-title="Xóa nhân viên">
                                                 <i class="fas fa-trash text-secondary"></i>
                                             </a>
                                         </td>
@@ -159,12 +160,12 @@
 
             <h2 class="swal2-title" id="swal2-title" style="display: block;">
                 <font style="vertical-align: inherit;">
-                    <font style="vertical-align: inherit;">Đã xóa!</font>
+                    <font id = "title" style="vertical-align: inherit;">Đã xóa!</font>
                 </font>
             </h2>
             <div class="swal2-html-container" style="display: block;">
                 <font style="vertical-align: inherit;">
-                    <font style="vertical-align: inherit;">Tệp của bạn đã bị xóa.</font>
+                    <font id = "descript" style="vertical-align: inherit;">Tệp của bạn đã bị xóa.</font>
                 </font>
             </div>
 
@@ -181,6 +182,7 @@
         </div>
     </div>
     <input type="hidden" id="hiddenEmployeeId" />
+     <input type="hidden" id="hiddenEmployeeStatus" />
 
 </div>
 
@@ -229,14 +231,20 @@
         }
 
         var ConfirmDelete = function (Id) {
-            $("#hiddenEmployeeId").val(Id);
+            var idUser = $("#User_"+Id).attr("data-id");
+            var statusUser = $("#User_"+Id).attr("data-status");
+            $("#hiddenEmployeeId").val(idUser);
+            $("#hiddenEmployeeStatus").val(statusUser);
             document.getElementById("myModel").classList.toggle('delete_none');
             document.getElementById("myModel").classList.toggle('delete_block');
             $("#quesion").html("Bạn sẽ không thể hoàn nguyên điều này!");
             $("#okok").html("Có, xóa nó!");
         }
         var ConfirmStatus = function (Id) {
-            $("#hiddenEmployeeId").val(Id);
+           var idUser = $("#User_"+Id).attr("data-id");
+            var statusUser = $("#User_"+Id).attr("data-status");
+            $("#hiddenEmployeeId").val(idUser);
+            $("#hiddenEmployeeStatus").val(statusUser);
             document.getElementById("myModel").classList.toggle('delete_none');
             document.getElementById("myModel").classList.toggle('delete_block');
             $("#quesion").html("Bạn có muốn tạm dừng hoạt động tài khoản này?");
@@ -247,34 +255,41 @@
 
 
             EnableQuesion();
-            document.getElementById("loaderDir").classList.toggle('delete_none');
-            document.getElementById("loaderDir").classList.toggle('delete_block');
+            
 
             var empId = $("#hiddenEmployeeId").val();
+            var empStatus = $("#hiddenEmployeeStatus").val();
 
             $.ajax({
-                url: "/Admin/Account/DeleteStaff",
-                data: { id: empId },
+                url: "/User/Delete",
+                data: { idUser: empId, status: empStatus },
                 dataType: "json",
                 type: "POST",
                 success: function (result) {
-                    if (result == true) {
+                   console.log(result.response);
+                    if (result.response == 2) {
                         $("#row_" + empId).remove();
-                    } else {
+                    } else if(result.response == 1) {
                         document.getElementById("status_" + empId).classList.toggle('badge-success');
                         document.getElementById("status_" + empId).classList.toggle('badge-danger');
                         $("#status_" + empId).html("đã khóa");
+                    }else{
+                        $("#title").html("Lỗi sever!");
+                        $("#descript").html("Không thể thực hiện chức năng này.");
                     }
 
                 }
             })
+
+            document.getElementById("loaderDir").classList.toggle('delete_none');
+            document.getElementById("loaderDir").classList.toggle('delete_block');
         }
     </script>
     <!-- Kanban scripts -->
     <script src="~/js/plugins/dragula/dragula.min.js"></script>
     <script src="~/js/plugins/jkanban/jkanban.js"></script>
 
-    <script>
+    @*<script>
 
         var menu_bd = document.getElementById("menu_acc");
         menu_bd.classList.add("active");
@@ -290,5 +305,5 @@
 
 
 
-    </script>
+    </script>*@
 }

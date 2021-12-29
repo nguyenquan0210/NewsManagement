@@ -3,10 +3,9 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using NewsManagement.ApiIntegration;
+using NewsManagement.Data.Enums;
 using NewsManagement.ViewModels.System.Users;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace NewsManagement.AdminApp.Controllers
@@ -88,7 +87,7 @@ namespace NewsManagement.AdminApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(Guid id)
+        public async Task<IActionResult> Update(Guid id)
         {
             var result = await _userApiClient.GetById(id);
             if (result.IsSuccessed)
@@ -101,7 +100,9 @@ namespace NewsManagement.AdminApp.Controllers
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     PhoneNumber = user.PhoneNumber,
-                    Id = id
+                    Id = id,
+                    Address = user.Address,
+                    Status = user.Status == Status.Active ? true : false
                 };
                 return View(updateRequest);
             }
@@ -109,7 +110,7 @@ namespace NewsManagement.AdminApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(UserUpdateRequest request)
+        public async Task<IActionResult> Update(UserUpdateRequest request)
         {
             if (!ModelState.IsValid)
                 return View();
@@ -123,6 +124,34 @@ namespace NewsManagement.AdminApp.Controllers
 
             ModelState.AddModelError("", result.Message);
             return View(request);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(Guid idUser , Status status)
+        {
+           if(status == Status.Active)
+            {
+                var updatestatus = new UserUpdateStatusRequest()
+                {
+                    Id = idUser,
+                    Status = Status.InActive
+                };
+                var resultupdate = await _userApiClient.UpdateStatus(idUser, updatestatus);
+                if (resultupdate.IsSuccessed)
+                {
+                    return Json(new { response = 1 });
+                }
+            }
+            else
+            {
+                var result = await _userApiClient.Delete(idUser);
+                if (result.IsSuccessed)
+                {
+                    return Json(new { response = 2 });
+                }
+            }
+
+            return Json(new { response = 3 });
         }
 
         [HttpPost]
