@@ -50,8 +50,8 @@ namespace NewsManagement.Data.Extensions
             });
             modelBuilder.Entity<Category>().HasData(
                new Category() { Id = 1, Name = "Xã Hội" , Status = Status.Active, SortOrder = 1},
-               new Category() { Id = 2, Name = "Xã Hội" , Status = Status.Active, SortOrder = 2},
-               new Category() { Id = 3, Name = "Xã Hội" , Status = Status.Active, SortOrder = 3}
+               new Category() { Id = 2, Name = "Pháp Luật" , Status = Status.Active, SortOrder = 2},
+               new Category() { Id = 3, Name = "Giao thông", Status = Status.Active, SortOrder = 3}
                );
             modelBuilder.Entity<Eventss>().HasData(
                new Eventss() { Id = 1, Name = "Vòng loại World Cup 2022", Status = Status.Active, SortOrder = 1 , CategoryId = 1, Hot = true},

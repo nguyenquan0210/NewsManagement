@@ -36,6 +36,9 @@ namespace NewsManagement.ViewModels.System.Users
         [Display(Name = "Trạng thái")]
         public Status Status { get; set; }
 
+        [Display(Name = "Hình ảnh")]
+        public string Img { get; set; }
+
         public IList<string> Roles { get; set; }
     }
 }

@@ -21,8 +21,6 @@ namespace NewsManagement.Application.System.Users
 
         Task<ApiResult<bool>> Update(Guid id, UserUpdateRequest request);
 
-        Task<ApiResult<bool>> UpdateStatus(Guid id, UserUpdateStatusRequest request);
-
         Task<ApiResult<PagedResult<UserVm>>> GetUsersPaging(GetUserPagingRequest request);
 
         Task<ApiResult<UserVm>> GetById(Guid id);

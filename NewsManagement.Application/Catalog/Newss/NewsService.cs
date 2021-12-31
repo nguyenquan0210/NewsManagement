@@ -5,6 +5,7 @@ using NewsManagement.Data.EF;
 using NewsManagement.Data.Entities;
 using NewsManagement.Data.Enums;
 using NewsManagement.Utilities.Exceptions;
+using NewsManagement.ViewModels.Catalog;
 using NewsManagement.ViewModels.Catalog.Newss;
 using NewsManagement.ViewModels.Common;
 using System;
@@ -17,12 +18,12 @@ using System.Threading.Tasks;
 
 namespace NewsManagement.Application.Catalog.Newss
 {
-    public class ManageNewsService : IManageNewsService
+    public class NewsService : INewsService
     {
         private readonly DBContext _context;
         private readonly IStorageService _storageService;
         private const string USER_CONTENT_FOLDER_NAME = "user-content";
-        public ManageNewsService(DBContext context, IStorageService storageService)
+        public NewsService(DBContext context, IStorageService storageService)
         {
             _context = context;
             _storageService = storageService;
@@ -55,14 +56,21 @@ namespace NewsManagement.Application.Catalog.Newss
         {
             var news = await _context.Newss.FindAsync(NewsId);
             if (news == null) throw new NewsManageException($"Cannot find a news with id: { NewsId}");
-
-            _context.Newss.Remove(news);
+            if (news.Status == Status.Active)
+            {
+                news.Status = Status.InActive;
+            }
+            else
+            {
+                _context.Newss.Remove(news);
+            }
+            
             return await _context.SaveChangesAsync();
         }
 
       
         
-        public async Task<PagedResult<NewsViewModel>> GetAllPaging(GetManageNewsPagingRequest request)
+        public async Task<PagedResult<NewsVm>> GetAllPaging(GetManageNewsPagingRequest request)
         {
             var query = from n in _context.Newss
                         join e in _context.Eventsses on n.EventId equals e.Id
@@ -77,12 +85,12 @@ namespace NewsManagement.Application.Catalog.Newss
             int totalRow = await query.CountAsync();
             var data = await query.Skip((request.PageIndex - 1) * request.PageSize)
                 .Take(request.PageSize)
-                .Select(x => new NewsViewModel()
+                .Select(x => new NewsVm()
                 {
 
                 }).ToListAsync();
 
-            var pageResult = new PagedResult<NewsViewModel>()
+            var pageResult = new PagedResult<NewsVm>()
             {
                 TotalRecords = totalRow,
                 Items = data
@@ -134,12 +142,12 @@ namespace NewsManagement.Application.Catalog.Newss
             return "/" + USER_CONTENT_FOLDER_NAME + "/" + fileName;
         }
 
-        public async Task<NewsViewModel> GetById(int newsId)
+        public async Task<NewsVm> GetById(int newsId)
         {
             var news = await _context.Newss.FindAsync(newsId);
             
 
-            var rs = new NewsViewModel()
+            var rs = new NewsVm()
             {
                 Id = news.Id,
                 Title = news.Title,
@@ -150,5 +158,59 @@ namespace NewsManagement.Application.Catalog.Newss
 
             return rs;
         }
+
+        public async Task<PagedResult<NewsVm>> GetAllByCategoryId(GetPublicNewsPagingRequest request)
+        {
+            var query = from n in _context.Newss
+                        join e in _context.Eventsses on n.EventId equals e.Id
+                        join c in _context.Categories on e.CategoryId equals c.Id
+                        select new { n, c };
+
+            if (request.CategoryId.Value > 0 && request.CategoryId.HasValue)
+                query = query.Where(x => x.c.Id == request.CategoryId);
+
+            int totalRow = await query.CountAsync();
+            var data = await query.Skip((request.PageIndex - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .Select(x => new NewsVm()
+                {
+                    Id = x.n.Id,
+                    Title = x.n.Title,
+                    Description = x.n.Description,
+                    Img = x.n.Img,
+                    Keyword =x.n.Keyword,
+                    CateName = x.c.Name
+                }).ToListAsync();
+
+            var pageResult = new PagedResult<NewsVm>()
+            {
+                TotalRecords = totalRow,
+                Items = data
+            };
+
+            return pageResult;
+        }
+
+        public async Task<List<NewsVm>> GetAll()
+        {
+            var query = from n in _context.Newss
+                        join e in _context.Eventsses on n.EventId equals e.Id
+                        join c in _context.Categories on e.CategoryId equals c.Id
+                        select new { n, c };
+
+            var data = await query.Select(x => new NewsVm()
+            {
+                Id = x.n.Id,
+                Title = x.n.Title,
+                Description = x.n.Description,
+                Img = x.n.Img,
+                Keyword = x.n.Keyword,
+                CateName = x.c.Name
+
+            }).ToListAsync();
+
+            return data;
+        }
+
     }
 }

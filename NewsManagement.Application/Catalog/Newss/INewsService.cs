@@ -1,4 +1,5 @@
-﻿using NewsManagement.ViewModels.Catalog.Newss;
+﻿using NewsManagement.ViewModels.Catalog;
+using NewsManagement.ViewModels.Catalog.Newss;
 using NewsManagement.ViewModels.Common;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NewsManagement.Application.Catalog.Newss
 {
-    public interface IManageNewsService
+    public interface INewsService
     {
         Task<int> Create(NewsCreateRequest request);
 
@@ -16,12 +17,14 @@ namespace NewsManagement.Application.Catalog.Newss
 
         Task UpdateView(int NewsId);
 
-
         Task<int> Delete(int newsId);
 
-       
+        Task<PagedResult<NewsVm>> GetAllPaging(GetManageNewsPagingRequest request);
 
-        Task<PagedResult<NewsViewModel>> GetAllPaging(GetManageNewsPagingRequest request);
-        Task<NewsViewModel> GetById(int newsId);
+        Task<NewsVm> GetById(int newsId);
+
+        Task<PagedResult<NewsVm>> GetAllByCategoryId(GetPublicNewsPagingRequest request);
+
+        Task<List<NewsVm>> GetAll();
     }
 }

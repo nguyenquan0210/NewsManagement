@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NewsManagement.ViewModels.Catalog.Newss
 {
-    public class NewsViewModel
+    public class NewsVm
     {
         public int Id { get; set; }
 

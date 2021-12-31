@@ -14,7 +14,7 @@ namespace NewsManagement.AdminApp.Controllers
     {
         private readonly IUserApiClient _userApiClient;
         private readonly IConfiguration _configuration;
-       /* private readonly IRoleApiClient _roleApiClient;*/
+        /* private readonly IRoleApiClient _roleApiClient;*/
 
         public UserController(IUserApiClient userApiClient,
             /*IRoleApiClient roleApiClient,*/
@@ -56,7 +56,8 @@ namespace NewsManagement.AdminApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ManageRegisterRequest request)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> Create([FromForm] ManageRegisterRequest request)
         {
             if (!ModelState.IsValid)
                 return View();
@@ -80,7 +81,7 @@ namespace NewsManagement.AdminApp.Controllers
                 return RedirectToAction("Index");
             }
 
-            
+
 
             ModelState.AddModelError("", result.Message);
             return View(request);
@@ -102,7 +103,8 @@ namespace NewsManagement.AdminApp.Controllers
                     PhoneNumber = user.PhoneNumber,
                     Id = id,
                     Address = user.Address,
-                    Status = user.Status == Status.Active ? true : false
+                    Status = user.Status == Status.Active ? true : false,
+                    img = user.Img
                 };
                 return View(updateRequest);
             }
@@ -110,7 +112,8 @@ namespace NewsManagement.AdminApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(UserUpdateRequest request)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> Update([FromForm] UserUpdateRequest request)
         {
             if (!ModelState.IsValid)
                 return View();
@@ -124,6 +127,31 @@ namespace NewsManagement.AdminApp.Controllers
 
             ModelState.AddModelError("", result.Message);
             return View(request);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Detailt(Guid id)
+        {
+            var result = await _userApiClient.GetById(id);
+            if (result.IsSuccessed)
+            {
+                var user = result.ResultObj;
+                var updateRequest = new UserVm()
+                {
+                    Dob = user.Dob,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    PhoneNumber = user.PhoneNumber,
+                    Id = id,
+                    Address = user.Address,
+                    Img = user.Img,
+                    UserName = user.UserName,
+                    Status = user.Status //== Status.Active ? true : false
+                };
+                return View(updateRequest);
+            }
+            return RedirectToAction("Error", "Home");
         }
 
         [HttpPost]

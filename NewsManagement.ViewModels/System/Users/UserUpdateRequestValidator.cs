@@ -26,6 +26,7 @@ namespace NewsManagement.ViewModels.System.Users
             RuleFor(x => x.Address).NotEmpty().WithMessage("Địa chỉ là bắt buộc");
 
             RuleFor(x => x.Dob).NotEmpty().WithMessage("Ngày sinh là bắt buộc là bắt buộc");
+
         }
     }
 }

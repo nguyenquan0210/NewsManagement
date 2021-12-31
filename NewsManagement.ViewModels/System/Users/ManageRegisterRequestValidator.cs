@@ -29,6 +29,8 @@ namespace NewsManagement.ViewModels.System.Users
 
             RuleFor(x => x.UserName).NotEmpty().WithMessage("Tên tài khoản là bắt buộc");
 
+            RuleFor(x => x.ThumbnailImage).NotEmpty().WithMessage("Hình ảnh là bắt buộc");
+
             RuleFor(x => x.Password).NotEmpty().WithMessage("Mật khẩu là bắt buộc")
                 .Matches(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$")
                 .WithMessage("Viết hoa và viết thường, ký tự số từ 10-99, kí tự đặt biệt")

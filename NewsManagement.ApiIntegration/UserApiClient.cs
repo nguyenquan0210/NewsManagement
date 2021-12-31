@@ -5,6 +5,7 @@ using NewsManagement.ViewModels.System.Users;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -139,10 +140,33 @@ namespace NewsManagement.ApiIntegration
             var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
-            var json = JsonConvert.SerializeObject(registerRequest);
-            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await client.PostAsync($"/api/users/manageregister", httpContent);
+            var requestContent = new MultipartFormDataContent();
+
+
+            if (registerRequest.ThumbnailImage != null)
+            {
+                byte[] data;
+                using (var br = new BinaryReader(registerRequest.ThumbnailImage.OpenReadStream()))
+                {
+                    data = br.ReadBytes((int)registerRequest.ThumbnailImage.OpenReadStream().Length);
+                }
+                ByteArrayContent bytes = new ByteArrayContent(data);
+                requestContent.Add(bytes, "thumbnailImage", registerRequest.ThumbnailImage.FileName);
+            }
+
+            requestContent.Add(new StringContent(registerRequest.UserName.ToString()), "userName");
+            requestContent.Add(new StringContent(registerRequest.Password.ToString()), "password");
+
+            requestContent.Add(new StringContent(registerRequest.LastName.ToString()), "lastName");
+            requestContent.Add(new StringContent(registerRequest.FirstName.ToString()), "firstName");
+            requestContent.Add(new StringContent(registerRequest.Dob.ToString()), "dob");
+            requestContent.Add(new StringContent(registerRequest.Address.ToString()), "address");
+            requestContent.Add(new StringContent(registerRequest.Email.ToString()), "email");
+            requestContent.Add(new StringContent(registerRequest.PhoneNumber.ToString()), "phoneNumber");
+
+
+            var response = await client.PostAsync($"/api/users/manageregister", requestContent);
             var result = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
                 return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(result);
@@ -163,10 +187,29 @@ namespace NewsManagement.ApiIntegration
 
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
 
-            var json = JsonConvert.SerializeObject(request);
-            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+            var requestContent = new MultipartFormDataContent();
 
-            var response = await client.PutAsync($"/api/users/{id}", httpContent);
+            if (request.ThumbnailImage != null)
+            {
+                byte[] data;
+                using (var br = new BinaryReader(request.ThumbnailImage.OpenReadStream()))
+                {
+                    data = br.ReadBytes((int)request.ThumbnailImage.OpenReadStream().Length);
+                }
+                ByteArrayContent bytes = new ByteArrayContent(data);
+                requestContent.Add(bytes, "thumbnailImage", request.ThumbnailImage.FileName);
+            }
+
+            requestContent.Add(new StringContent(request.Status.ToString()), "status");
+
+            requestContent.Add(new StringContent(request.LastName.ToString()), "lastName");
+            requestContent.Add(new StringContent(request.FirstName.ToString()), "firstName");
+            requestContent.Add(new StringContent(request.Dob.ToString()), "dob");
+            requestContent.Add(new StringContent(request.Address.ToString()), "address");
+            requestContent.Add(new StringContent(request.Email.ToString()), "email");
+            requestContent.Add(new StringContent(request.PhoneNumber.ToString()), "phoneNumber");
+
+            var response = await client.PutAsync($"/api/users/{id}", requestContent);
             var result = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
                 return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(result);

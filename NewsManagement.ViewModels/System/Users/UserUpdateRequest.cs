@@ -1,4 +1,5 @@
-﻿using NewsManagement.Data.Enums;
+﻿using Microsoft.AspNetCore.Http;
+using NewsManagement.Data.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -33,5 +34,9 @@ namespace NewsManagement.ViewModels.System.Users
 
         [Display(Name = "Trạng thái")]
         public bool Status { get; set; }
+
+        [Display(Name = "Hình ảnh")]
+        public IFormFile ThumbnailImage { get; set; }
+        public string img { get; set; }
     }
 }

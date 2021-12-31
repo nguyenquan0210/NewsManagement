@@ -51,6 +51,14 @@ namespace NewsManagement.AdminApp
 
             services.AddTransient<IUserApiClient, UserApiClient>();
 
+            services.AddTransient<ICategoryApiClient, CategoryApiClient>();
+
+            services.AddTransient<ITopicApiClient, TopicApiClient>();
+
+            services.AddTransient<ICityApiClient, CityApiClient>();
+
+            //services.AddTransient<IEventApiClient, TopicApiClient>();
+
             IMvcBuilder builder = services.AddRazorPages();
 
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");

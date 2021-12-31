@@ -1,15 +1,19 @@
 ﻿
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using NewsManagement.Application.Common;
 using NewsManagement.Data.Entities;
 using NewsManagement.Data.Enums;
 using NewsManagement.ViewModels.Common;
 using NewsManagement.ViewModels.System.Users;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,16 +26,19 @@ namespace NewsManagement.Application.System.Users
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IConfiguration _config;
-
+        private readonly IStorageService _storageService;
+        
         public UserService(UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             RoleManager<AppRole> roleManager,
-            IConfiguration config)
+            IConfiguration config, 
+            IStorageService storageService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _config = config;
+            _storageService = storageService;
         }
 
         public async Task<ApiResult<string>> Authencate(LoginRequest request)
@@ -50,15 +57,10 @@ namespace NewsManagement.Application.System.Users
             
             var roles = await _userManager.GetRolesAsync(user);
 
-            foreach(var item in roles)
-            {
-                if (item != "admin")
-                {
-                    return new ApiErrorResult<string>("Chỉ nhận tài khoản admin.");
-                }
-            }
+            var checkrole = roles.Where(x => x.ToUpper() == "ADMIN");
 
-            
+            if (checkrole.Count() == 0) return new ApiErrorResult<string>("Chỉ nhận tài khoản admin.");
+
 
             var claims = new[]
             {
@@ -119,6 +121,7 @@ namespace NewsManagement.Application.System.Users
                 UserName = user.UserName,
                 Address = user.Address,
                 Status = user.Status,
+                Img = user.Img,
                 Roles = roles
             };
             return new ApiSuccessResult<UserVm>(userVm);
@@ -146,7 +149,8 @@ namespace NewsManagement.Application.System.Users
                     FirstName = x.FirstName,
                     Id = x.Id,
                     LastName = x.LastName,
-                    Status = x.Status
+                    Status = x.Status,
+                    Img=x.Img
                 }).ToListAsync();
 
             //4. Select and projection
@@ -181,9 +185,10 @@ namespace NewsManagement.Application.System.Users
                 LastName = request.LastName,
                 UserName = request.UserName,
                 PhoneNumber = request.PhoneNumber,
-                Status = Status.Active
-                
-            };
+                Status = Status.Active,
+                Img =  await this.SaveFile(request.ThumbnailImage)
+
+             };
             var result = await _userManager.CreateAsync(user, request.Password);
             if (result.Succeeded)
             {
@@ -191,7 +196,13 @@ namespace NewsManagement.Application.System.Users
             }
             return new ApiErrorResult<bool>("Đăng ký không thành công");
         }
-
+        private async Task<string> SaveFile(IFormFile file)
+        {
+            var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
+            await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
+            return  fileName;
+        }
         public async Task<ApiResult<bool>> ManageRegister(ManageRegisterRequest request)
         {
             var user = await _userManager.FindByNameAsync(request.UserName);
@@ -213,7 +224,8 @@ namespace NewsManagement.Application.System.Users
                 LastName = request.LastName,
                 UserName = request.UserName,
                 PhoneNumber = request.PhoneNumber,
-                Status = Status.Active
+                Status = Status.Active,
+                Img =   await this.SaveFile(request.ThumbnailImage)
 
             };
             var result = await _userManager.CreateAsync(user, request.Password);
@@ -255,9 +267,20 @@ namespace NewsManagement.Application.System.Users
 
         public async Task<ApiResult<bool>> Update(Guid id, UserUpdateRequest request)
         {
+            var news = await _userManager.FindByIdAsync(id.ToString());
             if (await _userManager.Users.AnyAsync(x => x.Email == request.Email && x.Id != id))
             {
                 return new ApiErrorResult<bool>("Emai đã tồn tại");
+            }
+            if (request.ThumbnailImage != null)
+            {
+                if(news.Img != null)
+                {
+                    await _storageService.DeleteFileAsync(news.Img);
+                }
+                
+                news.Img = await this.SaveFile(request.ThumbnailImage);
+
             }
             var user = await _userManager.FindByIdAsync(id.ToString());
             user.Dob = request.Dob;
@@ -317,18 +340,6 @@ namespace NewsManagement.Application.System.Users
             return new ApiErrorResult<bool>("Cập nhật không thành công");
         }
 
-        public async Task<ApiResult<bool>> UpdateStatus(Guid id, UserUpdateStatusRequest request)
-        {
-            
-            var user = await _userManager.FindByIdAsync(id.ToString());
-            user.Status = request.Status;
-
-            var result = await _userManager.UpdateAsync(user);
-            if (result.Succeeded)
-            {
-                return new ApiSuccessResult<bool>();
-            }
-            return new ApiErrorResult<bool>("Cập nhật không thành công");
-        }
+        
     }
 }
