@@ -31,19 +31,17 @@ namespace NewsManagement.ViewModels.Catalog.Newss
         public string Video { get; set; }
 
         [Required]
-        public Status News_Hot { get; set; }
+        public bool News_Hot { get; set; }
 
         [Required]
         public string Keyword { get; set; }
 
         [Required]
-        public Status Status { get; set; }
+        public bool Status { get; set; }
 
         [Required]
         public int EventId { get; set; }
 
-        [Required]
-        public Guid UserId { get; set; }
 
         [Required]
         public int CityId { get; set; }
@@ -51,8 +49,9 @@ namespace NewsManagement.ViewModels.Catalog.Newss
         [Required]
         public int TopicId { get; set; }
 
-        [Required]
         public IFormFile ThumbnailImage { get; set; }
+
+        public string Img { get; set;}
 
     }
 }

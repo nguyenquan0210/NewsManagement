@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NewsManagement.AdminApp.Controllers
 {
-    public class CategoryController : Controller
+    public class CategoryController : BaseController
     {
         private readonly ICategoryApiClient _categoryApiClient;
         private readonly IConfiguration _configuration;

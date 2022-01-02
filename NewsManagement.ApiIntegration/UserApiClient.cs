@@ -62,18 +62,16 @@ namespace NewsManagement.ApiIntegration
             return JsonConvert.DeserializeObject<ApiErrorResult<string>>(await response.Content.ReadAsStringAsync());
         }
 
-        public async Task<ApiResult<bool>> Delete(Guid id)
+        public async Task<int> Delete(Guid Id)
         {
             var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
-            var response = await client.DeleteAsync($"/api/users/{id}");
-            var body = await response.Content.ReadAsStringAsync();
-            if (response.IsSuccessStatusCode)
-                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
+            var response = await client.DeleteAsync($"/api/users/{Id}");
+            var result = await response.Content.ReadAsStringAsync();
 
-            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
+            return int.Parse(result);
         }
         public async Task<ApiResult<bool>> UpdateStatus(Guid id, UserUpdateStatusRequest request)
         {
@@ -164,7 +162,7 @@ namespace NewsManagement.ApiIntegration
             requestContent.Add(new StringContent(registerRequest.Address.ToString()), "address");
             requestContent.Add(new StringContent(registerRequest.Email.ToString()), "email");
             requestContent.Add(new StringContent(registerRequest.PhoneNumber.ToString()), "phoneNumber");
-
+            requestContent.Add(new StringContent(registerRequest.NameRole.ToString()), "namerole");
 
             var response = await client.PostAsync($"/api/users/manageregister", requestContent);
             var result = await response.Content.ReadAsStringAsync();

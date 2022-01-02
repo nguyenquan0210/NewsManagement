@@ -11,10 +11,17 @@ namespace NewsManagement.ViewModels.Catalog.Events
     {
         public int Id { get; set; }
 
+        public int CategoryId { get; set; }
+
         public string Name { get; set; }
 
-        public Status Status { get; set; }
+        public bool Status { get; set; }
 
         public string NameCate { get; set; }
+
+        public bool Hot { get; set; }
+
+        public int SortOrder { get; set; }
+
     }
 }

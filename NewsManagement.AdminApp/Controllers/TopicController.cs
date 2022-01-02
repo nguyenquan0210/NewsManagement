@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NewsManagement.AdminApp.Controllers
 {
-    public class TopicController : Controller
+    public class TopicController : BaseController
     {
         private readonly ITopicApiClient _topicApiClient;
         private readonly IConfiguration _configuration;

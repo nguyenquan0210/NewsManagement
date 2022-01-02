@@ -28,7 +28,7 @@ namespace NewsManagement.ViewModels.Catalog.Newss
         public string Video { get; set; }
 
         [Required]
-        public Status News_Hot { get; set; }
+        public bool News_Hot { get; set; }
 
         [Required]
         public string Keyword { get; set; }
@@ -38,7 +38,7 @@ namespace NewsManagement.ViewModels.Catalog.Newss
         public int EventId { get; set; }
 
         [Required]
-        public Guid UserId { get; set; }
+        public string UserName { get; set; }
 
         [Required]
         public int CityId { get; set; }

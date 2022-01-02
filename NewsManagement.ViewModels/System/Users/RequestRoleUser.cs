@@ -10,5 +10,7 @@ namespace NewsManagement.ViewModels.System.Users
     {
         public Guid IdUser { get; set; }
         public Guid IdRole { get; set; }
+
+        public string NameRole { get; set; }
     }
 }

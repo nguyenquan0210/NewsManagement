@@ -113,7 +113,7 @@
                                             <a asp-controller = "User" asp-action = "Update" asp-route-id = "@item.Id" class="mx-3" data-bs-toggle="tooltip" data-bs-original-title="Edit user">
                                                 <i class="fas fa-user-edit text-secondary"></i>
                                             </a>
-                                            <a id = "User_@i" onclick="@(item.Status == Status.Active? "ConfirmStatus("+@i+")": "ConfirmDelete("+@i+")")" data-id="@item.Id" data-status = "@item.Status" data-bs-toggle="tooltip" data-bs-original-title="Xóa nhân viên">
+                                            <a id = "User_@i" onclick="@(item.Status == Status.Active? "ConfirmStatus("+@i+")": "ConfirmDelete("+@i+")")" data-id="@item.Id" data-bs-toggle="tooltip" data-bs-original-title="Xóa nhân viên">
                                                 <i class="fas fa-trash text-secondary"></i>
                                             </a>
                                         </td>
@@ -189,7 +189,7 @@
         </div>
     </div>
     <input type="hidden" id="hiddenEmployeeId" />
-     <input type="hidden" id="hiddenEmployeeStatus" />
+     
 
 </div>
 
@@ -239,9 +239,7 @@
 
         var ConfirmDelete = function (Id) {
             var idUser = $("#User_"+Id).attr("data-id");
-            var statusUser = $("#User_"+Id).attr("data-status");
             $("#hiddenEmployeeId").val(idUser);
-            $("#hiddenEmployeeStatus").val(statusUser);
             document.getElementById("myModel").classList.toggle('delete_none');
             document.getElementById("myModel").classList.toggle('delete_block');
             $("#quesion").html("Bạn sẽ không thể hoàn nguyên điều này!");
@@ -249,9 +247,7 @@
         }
         var ConfirmStatus = function (Id) {
            var idUser = $("#User_"+Id).attr("data-id");
-            var statusUser = $("#User_"+Id).attr("data-status");
             $("#hiddenEmployeeId").val(idUser);
-            $("#hiddenEmployeeStatus").val(statusUser);
             document.getElementById("myModel").classList.toggle('delete_none');
             document.getElementById("myModel").classList.toggle('delete_block');
             $("#quesion").html("Bạn có muốn tạm dừng hoạt động tài khoản này?");
@@ -265,20 +261,23 @@
             
 
             var empId = $("#hiddenEmployeeId").val();
-            var empStatus = $("#hiddenEmployeeStatus").val();
 
             $.ajax({
                 url: "/User/Delete",
-                data: { idUser: empId, status: empStatus },
+                data: { idUser: empId},
                 dataType: "json",
                 type: "POST",
                 success: function (result) {
                     if (result.response == 2) {
                         $("#row_" + empId).remove();
+                          $("#title").html("Xóa Thành Công");
+                        $("#descript").html("Xóa người dùng thành công.");
                     } else if(result.response == 1) {
                         document.getElementById("status_" + empId).classList.toggle('badge-success');
                         document.getElementById("status_" + empId).classList.toggle('badge-danger');
                         $("#status_" + empId).html("đã khóa");
+                        $("#title").html("Chăn Thành Công");
+                        $("#descript").html("Chặn người dùng thành công.");
                     }else{
                         $("#title").html("Lỗi sever!");
                         $("#descript").html("Không thể thực hiện chức năng này.");

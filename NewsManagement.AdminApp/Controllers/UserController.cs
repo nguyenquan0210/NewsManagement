@@ -61,22 +61,12 @@ namespace NewsManagement.AdminApp.Controllers
         {
             if (!ModelState.IsValid)
                 return View();
-
+            request.NameRole = "staff";
             var result = await _userApiClient.RegisterUser(request);
 
             if (result.IsSuccessed)
             {
                 TempData["result"] = "Thêm mới người dùng thành công";
-
-                var requestgetuser = await _userApiClient.GetByUserName(request.UserName);
-
-                var roleId = new Guid("2DD4EC71-5669-42D7-9CF9-BB17220C64C7");
-                var requestRoleUser = new RequestRoleUser()
-                {
-                    IdUser = requestgetuser.ResultObj.Id,
-                    IdRole = roleId
-                };
-                var rs = _userApiClient.AddUserRole(requestRoleUser);
 
                 return RedirectToAction("Index");
             }
@@ -155,31 +145,10 @@ namespace NewsManagement.AdminApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(Guid idUser , Status status)
+        public async Task<IActionResult> Delete(Guid idUser )
         {
-           if(status == Status.Active)
-            {
-                var updatestatus = new UserUpdateStatusRequest()
-                {
-                    Id = idUser,
-                    Status = Status.InActive
-                };
-                var resultupdate = await _userApiClient.UpdateStatus(idUser, updatestatus);
-                if (resultupdate.IsSuccessed)
-                {
-                    return Json(new { response = 1 });
-                }
-            }
-            else
-            {
-                var result = await _userApiClient.Delete(idUser);
-                if (result.IsSuccessed)
-                {
-                    return Json(new { response = 2 });
-                }
-            }
-
-            return Json(new { response = 3 });
+            var result = await _userApiClient.Delete(idUser);
+            return Json(new { response = result });
         }
 
         [HttpPost]

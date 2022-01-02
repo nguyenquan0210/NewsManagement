@@ -64,8 +64,9 @@ namespace NewsManagement.Application.Catalog.Events
             {
                 Id = x.e.Id,
                 Name = x.e.Name,
-                Status = x.e.Status,
-                NameCate = x.c.Name
+                Status = x.e.Status == Status.Active ? true: false,
+                NameCate = x.c.Name,
+                CategoryId = x.e.Id
             }).ToListAsync();
         }
 
@@ -73,7 +74,6 @@ namespace NewsManagement.Application.Catalog.Events
         {
             var query = from e in _context.Eventsses
                         join c in _context.Categories on e.CategoryId equals c.Id
-                        where e.Status == Status.Active && c.Status == Status.Active
                         select new { e, c };
 
             if (!string.IsNullOrEmpty(request.Keyword))
@@ -87,9 +87,10 @@ namespace NewsManagement.Application.Catalog.Events
                 {
                     Id = x.e.Id,
                     Name = x.e.Name,
-                    Status = x.e.Status,
-                    NameCate = x.c.Name
-
+                    Status = x.e.Status == Status.Active ? true : false,
+                    NameCate = x.c.Name,
+                    Hot = x.e.Hot,
+                    SortOrder = x.e.SortOrder
                 }).ToListAsync();
 
             var pagedResult = new PagedResult<EventVm>()
@@ -105,16 +106,18 @@ namespace NewsManagement.Application.Catalog.Events
         public async Task<EventVm> GetById(int Id)
         {
             var eventss = await _context.Eventsses.FindAsync(Id);
+            if (eventss == null) throw new NewsManageException($"Cannot find a Event with id: { Id}");
             var cate = await _context.Categories.FindAsync(eventss.CategoryId);
-
             var rs = new EventVm()
             {
                 Id = eventss.Id,
                 Name = eventss.Name,
-                Status = eventss.Status,
-                NameCate = cate.Name
+                Status = eventss.Status == Status.Active ? true : false,
+                NameCate = cate.Name,
+                Hot = eventss.Hot,
+                CategoryId = cate.Id,
+                SortOrder = eventss.SortOrder
             };
-
             return rs;
         }
 
@@ -126,7 +129,7 @@ namespace NewsManagement.Application.Catalog.Events
             eventss.SortOrder = request.SortOrder;
             eventss.Hot = request.Hot;
             eventss.CategoryId = request.CategoryId;
-            eventss.Status = request.Status;
+            eventss.Status = request.Status ? Status.Active : Status.InActive;
 
             return await _context.SaveChangesAsync();
         }

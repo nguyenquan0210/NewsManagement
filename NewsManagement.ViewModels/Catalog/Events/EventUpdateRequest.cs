@@ -13,7 +13,7 @@ namespace NewsManagement.ViewModels.Catalog.Events
 
         public string Name { get; set; }
 
-        public Status Status { get; set; }
+        public bool Status { get; set; }
 
         public int CategoryId { get; set; }
 

@@ -57,7 +57,9 @@ namespace NewsManagement.AdminApp
 
             services.AddTransient<ICityApiClient, CityApiClient>();
 
-            //services.AddTransient<IEventApiClient, TopicApiClient>();
+            services.AddTransient<IEventApiClient, EventApiClient>(); 
+
+            services.AddTransient<INewsApiClient, NewsApiClient>();
 
             IMvcBuilder builder = services.AddRazorPages();
 

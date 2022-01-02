@@ -40,5 +40,7 @@ namespace NewsManagement.ViewModels.System.Users
 
         public IFormFile ThumbnailImage { get; set; }
 
+        public string NameRole { get; set; }
+
     }
 }

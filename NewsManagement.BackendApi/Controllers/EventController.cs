@@ -37,9 +37,8 @@ namespace NewsManagement.BackendApi.Controllers
                 return BadRequest(ModelState);
             }
             var affectedResult = await _eventService.Delete(Id);
-            if (affectedResult == 0)
-                return BadRequest();
-            return Ok();
+            
+            return Ok(affectedResult);
         }
         [HttpPut]
         public async Task<IActionResult> Update([FromBody] EventUpdateRequest request)
@@ -70,7 +69,7 @@ namespace NewsManagement.BackendApi.Controllers
             return Ok(events);
         }
 
-        [HttpGet("All")]
+        [HttpGet("all")]
         public async Task<IActionResult> GetAll()
         {
             var events = await _eventService.GetAll();

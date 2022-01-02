@@ -81,25 +81,37 @@ namespace NewsManagement.Application.System.Users
             return new ApiSuccessResult<string>(new JwtSecurityTokenHandler().WriteToken(token));
         }
 
-        public async Task<ApiResult<bool>> Delete(Guid id)
+        public async Task<int> Delete(Guid Id)
         {
-            var user = await _userManager.FindByIdAsync(id.ToString());
-            if (user == null)
-            {
-                return new ApiErrorResult<bool>("User không tồn tại");
-            }
-            if(user.Status == Status.Active)
+            var user = await _userManager.FindByIdAsync(Id.ToString());
+            int check = 0;
+            var role = await _roleManager.FindByNameAsync("staff");
+            if (user == null) check = 0;
+            if (user.Status == Status.Active)
             {
                 user.Status = Status.InActive;
                 var reultupdate = await _userManager.UpdateAsync(user);
-                if (reultupdate.Succeeded)
-                    return new ApiSuccessResult<bool>();
+                check = 1;
             }
-            var reult = await _userManager.DeleteAsync(user);
-            if (reult.Succeeded)
-                return new ApiSuccessResult<bool>();
+            else
+            {
+                var reult = await _userManager.DeleteAsync(user);
+                if (reult.Succeeded)
+                {
+                    if (user.Img != null)
+                    {
+                        await _storageService.DeleteFileAsync(user.Img);
+                    }
+                    if (await _userManager.IsInRoleAsync(user, role.Id.ToString()) == true)
+                    {
+                       await _userManager.RemoveFromRoleAsync(user, role.Id.ToString());
+                    }
+                    check = 2;
+                }
+            }
+           
+            return check;
 
-            return new ApiErrorResult<bool>("Xóa không thành công");
         }
 
         public async Task<ApiResult<UserVm>> GetById(Guid id)
@@ -206,6 +218,7 @@ namespace NewsManagement.Application.System.Users
         public async Task<ApiResult<bool>> ManageRegister(ManageRegisterRequest request)
         {
             var user = await _userManager.FindByNameAsync(request.UserName);
+            var role = await _roleManager.FindByNameAsync(request.NameRole);
             if (user != null)
             {
                 return new ApiErrorResult<bool>("Tài khoản đã tồn tại");
@@ -229,9 +242,18 @@ namespace NewsManagement.Application.System.Users
 
             };
             var result = await _userManager.CreateAsync(user, request.Password);
+
             if (result.Succeeded)
             {
-                return new ApiSuccessResult<bool>();
+                if (await _userManager.IsInRoleAsync(user, role.Name) == false)
+                {
+                    var rs = await _userManager.AddToRoleAsync(user, role.Name);
+
+                    if (rs.Succeeded)
+                    {
+                        return new ApiSuccessResult<bool>();
+                    }
+                }
             }
             return new ApiErrorResult<bool>("Đăng ký không thành công");
         }
@@ -267,19 +289,19 @@ namespace NewsManagement.Application.System.Users
 
         public async Task<ApiResult<bool>> Update(Guid id, UserUpdateRequest request)
         {
-            var news = await _userManager.FindByIdAsync(id.ToString());
+            var userfind = await _userManager.FindByIdAsync(id.ToString());
             if (await _userManager.Users.AnyAsync(x => x.Email == request.Email && x.Id != id))
             {
                 return new ApiErrorResult<bool>("Emai đã tồn tại");
             }
             if (request.ThumbnailImage != null)
             {
-                if(news.Img != null)
+                if(userfind.Img != null)
                 {
-                    await _storageService.DeleteFileAsync(news.Img);
+                    await _storageService.DeleteFileAsync(userfind.Img);
                 }
-                
-                news.Img = await this.SaveFile(request.ThumbnailImage);
+
+                userfind.Img = await this.SaveFile(request.ThumbnailImage);
 
             }
             var user = await _userManager.FindByIdAsync(id.ToString());

@@ -136,10 +136,10 @@ namespace NewsManagement.BackendApi.Controllers
             return Ok(user);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        [HttpDelete("{Id}")]
+        public async Task<IActionResult> Delete(Guid Id)
         {
-            var result = await _userService.Delete(id);
+            var result = await _userService.Delete(Id);
             return Ok(result);
         }
     }

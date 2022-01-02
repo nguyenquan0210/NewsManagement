@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NewsManagement.AdminApp.Controllers
 {
-    public class CityController : Controller
+    public class CityController : BaseController
     {
         private readonly ICityApiClient _cityApiClient;
         private readonly IConfiguration _configuration;

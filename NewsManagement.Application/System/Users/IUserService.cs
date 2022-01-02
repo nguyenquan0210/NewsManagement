@@ -27,7 +27,7 @@ namespace NewsManagement.Application.System.Users
 
         Task<ApiResult<UserVm>> GetByUserName(string username);
 
-        Task<ApiResult<bool>> Delete(Guid id);
+        Task<int> Delete(Guid id);
 
         Task<ApiResult<bool>> RoleAssign(Guid id, RoleAssignRequest request);
     }

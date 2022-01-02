@@ -24,7 +24,7 @@ namespace NewsManagement.ApiIntegration
 
         Task<ApiResult<UserVm>> GetByUserName(string username);
 
-        Task<ApiResult<bool>> Delete(Guid id);
+        Task<int> Delete(Guid Id);
 
         Task<ApiResult<bool>> UpdateStatus(Guid id, UserUpdateStatusRequest request);
 

@@ -73,7 +73,7 @@ namespace NewsManagement.BackendApi.Controllers
             return Ok(category);
         }
 
-        [HttpGet("All")]
+        [HttpGet("all")]
         public async Task<IActionResult> GetAll()
         {
             var category = await _cityService.GetAll();

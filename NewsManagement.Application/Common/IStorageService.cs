@@ -14,5 +14,11 @@ namespace NewsManagement.Application.Common
         Task SaveFileAsync(Stream mediaBinaryStream, string fileName);
 
         Task DeleteFileAsync(string fileName);
+
+        string GetFileNewsUrl(string fileName);
+
+        Task SaveFileNewsAsync(Stream mediaBinaryStream, string fileName);
+
+        Task DeleteFileNewsAsync(string fileName);
     }
 }

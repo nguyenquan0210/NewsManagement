@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using NewsManagement.Utilities.Constants;
 using NewsManagement.ViewModels.Catalog;
@@ -49,11 +50,16 @@ namespace NewsManagement.ApiIntegration
             return await Delete($"/api/category/" + Id);
         }
 
-        public async Task<List<CatalogVm>> GetAll()
+        public async Task<List<SelectListItem>> GetAll(int? Id)
         {
-            var data = await GetListAsync<CatalogVm>($"/api/category/");
-
-            return data;
+            var data = await GetListAsync<CatalogVm>($"/api/category/all");
+            var select = data.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Id.ToString(),
+                Selected = Id.HasValue && Id.Value == x.Id
+            });
+            return select.ToList();
         }
 
         public async Task<PagedResult<CatalogVm>> GetAllPaging(GetCatalogPagingRequest request)

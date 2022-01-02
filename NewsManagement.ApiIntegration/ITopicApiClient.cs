@@ -1,4 +1,5 @@
-﻿using NewsManagement.ViewModels.Catalog;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using NewsManagement.ViewModels.Catalog;
 using NewsManagement.ViewModels.Common;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace NewsManagement.ApiIntegration
 
         Task<PagedResult<CatalogVm>> GetAllPaging(GetCatalogPagingRequest request);
 
-        Task<List<CatalogVm>> GetAll();
+        Task<List<SelectListItem>> GetAll(int? Id);
 
         Task<CatalogVm> GetById(int Id);
     }

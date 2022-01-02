@@ -30,9 +30,9 @@ namespace NewsManagement.BackendApi.Controllers
         }
 
         [HttpGet("paging")]
-        public async Task<IActionResult> Get([FromQuery] GetPublicNewsPagingRequest request)
+        public async Task<IActionResult> GetAllPaging([FromQuery] GetManageNewsPagingRequest request)
         {
-            var news = await _newsSevice.GetAllByCategoryId(request);
+            var news = await _newsSevice.GetAllPaging(request);
             return Ok(news);
         }
        
@@ -51,6 +51,7 @@ namespace NewsManagement.BackendApi.Controllers
             return Ok();
         }
         [HttpPost]
+        [Consumes("multipart/form-data")]
         public async Task<IActionResult> Create([FromForm] NewsCreateRequest request)
         {
             if (!ModelState.IsValid)
@@ -66,6 +67,7 @@ namespace NewsManagement.BackendApi.Controllers
             return CreatedAtAction(nameof(GetById), new { id = newsId }, news);
         }
         [HttpPut]
+        [Consumes("multipart/form-data")]
         public async Task<IActionResult> Update([FromForm] NewsUpdateRequest request)
         {
             if (!ModelState.IsValid)
@@ -80,17 +82,16 @@ namespace NewsManagement.BackendApi.Controllers
         
 
 
-        [HttpDelete("{newsId}")]
-        public async Task<IActionResult> Delete([FromRoute] int newsId)
+        [HttpDelete("{Id}")]
+        public async Task<IActionResult> Delete([FromRoute] int Id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var affectedResult = await _newsSevice.Delete(newsId);
-            if (affectedResult == 0)
-                return BadRequest();
-            return Ok();
+            var affectedResult = await _newsSevice.Delete(Id);
+            
+            return Ok(affectedResult);
         }
     }
 }
