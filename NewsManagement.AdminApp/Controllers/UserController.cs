@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using NewsManagement.ApiIntegration;
 using NewsManagement.Data.Enums;
 using NewsManagement.ViewModels.System.Users;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace NewsManagement.AdminApp.Controllers
@@ -25,13 +28,29 @@ namespace NewsManagement.AdminApp.Controllers
             /*_roleApiClient = roleApiClient;*/
         }
 
-        public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 10)
+        public async Task<IActionResult> Index(string keyword, string rolename, int pageIndex = 1, int pageSize = 10)
         {
+             
+            List<SelectListItem> selectListItems = new List<SelectListItem>()
+            {
+                new SelectListItem(text: "Tất cả", value: "all"),
+                new SelectListItem(text: "Nhân viên", value: "staff"),
+                new SelectListItem(text: "Khách Hàng", value: "client"),
+                new SelectListItem(text: "Người dùng", value: "user")
+            };
+            ViewBag.rolename = selectListItems.Select(x => new SelectListItem()
+            {
+                Text = x.Text,
+                Value = x.Value,
+                Selected = rolename == x.Value
+            }); 
+
             var request = new GetUserPagingRequest()
             {
                 Keyword = keyword,
                 PageIndex = pageIndex,
-                PageSize = pageSize
+                PageSize = pageSize,
+                RoleName = rolename
             };
             var data = await _userApiClient.GetUsersPagings(request);
             ViewBag.Keyword = keyword;
@@ -41,6 +60,7 @@ namespace NewsManagement.AdminApp.Controllers
             }
             return View(data.ResultObj);
         }
+
 
         [HttpGet]
         public async Task<IActionResult> Details(Guid id)

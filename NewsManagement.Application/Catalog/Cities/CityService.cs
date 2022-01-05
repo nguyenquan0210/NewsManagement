@@ -105,6 +105,7 @@ namespace NewsManagement.Application.Catalog.Cities
             return rs;
         }
 
+
         public async Task<int> Update(CatalogUpdateRequest request)
         {
             var city = await _context.Cities.FindAsync(request.Id);

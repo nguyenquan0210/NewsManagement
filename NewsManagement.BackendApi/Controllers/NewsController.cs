@@ -29,6 +29,14 @@ namespace NewsManagement.BackendApi.Controllers
             return Ok(news);
         }
 
+        [HttpGet("newstop")]
+        public async Task<IActionResult> GetNewsTop()
+        {
+            var news = await _newsSevice.GetNewsTop();
+            return Ok(news);
+        }
+
+
         [HttpGet("paging")]
         public async Task<IActionResult> GetAllPaging([FromQuery] GetManageNewsPagingRequest request)
         {

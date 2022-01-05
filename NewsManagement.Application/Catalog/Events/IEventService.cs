@@ -20,6 +20,8 @@ namespace NewsManagement.Application.Catalog.Events
 
         Task<List<EventVm>> GetAll();
 
+        Task<List<EventVm>> GetEventHot();
+
         Task<EventVm> GetById(int Id);
     }
 }

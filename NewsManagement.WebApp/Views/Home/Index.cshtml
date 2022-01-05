@@ -1,8 +1,309 @@
-﻿@{
+﻿@using NewsManagement.ViewModels.Catalog
+@using NewsManagement.ViewModels.Catalog.Events
+@using NewsManagement.ViewModels.Catalog.Newss
+@{
     ViewData["Title"] = "Home Page";
-}
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    var NewsEvent = (List<EventVm>)ViewBag.Event;
+    var NewsHot = (List<NewsVm>)ViewBag.NewsHot;
+    var NewsForcus = (List<NewsVm>)ViewBag.NewsFocus;
+    var NewsTopView = (List<NewsVm>)ViewBag.NewsTopVew;
+    var Category = (List<CatalogVm>)ViewBag.Category;
+    var NewsCategory = (List<NewsVm>)ViewBag.NewsCategory;
+    var NewsVideo = (List<NewsVm>)ViewBag.NewsVideo;
+    var i = 0;
+}
+<div class="lpos lpos-1">
+    <div class="row" data-sticky_parent>
+
+
+        <div class="w-item w-3 col-xs-12 wf-toptopics style-1 css">
+            <div class="w-inner">
+                <div class="wbox">
+                    <ul class="nav sub-nav">
+                        <li>
+                            <a href="javascript:void(0)" class="uppercase button dark">Dòng sự kiện</a>
+                        </li>
+                        @foreach (var item in NewsEvent)
+                        {
+                            if (i < 4)
+                            {
+                                <li>
+                                    <a href="@Url.Action("NewsSearch", "NewsCity", new { idEvent = item.Id, idTopic = 0, search = "" })">
+                                        @item.Name
+                                    </a>
+                                </li>
+                            }
+
+                            i++;
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        @{ await Html.RenderPartialAsync("NewsTop" ,NewsHot);}
+        @**@
+
+
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+       
+@if (NewsForcus != null)
+    {
+        <div class="w-item w-9 col-xs-12 wf-homepopulars style-1 ">
+            <div class="w-inner">
+                <div class="w-head line-through">
+                    <h2 class="w-title">
+                        <a href="javascript:void(0)" title="Tiêu điểm">Tiêu điểm</a>
+                    </h2>
+                    <hr class="line no-mg pos-abs left right" />
+                </div>
+                 @{ await Html.RenderPartialAsync("NewsFocus", NewsForcus);}
+            </div>
+        </div>
+    }
+               
+@if (NewsTopView != null)
+    {
+        
+        <div class="w-item w-9 col-xs-12 wf-homepopulars style-1 ">
+            <div class="w-inner">
+                <div class="w-head line-through">
+                    <h2 class="w-title">
+                        <a href="javascript:void(0)" title="Tiêu điểm">Đọc nhiều</a>
+                    </h2>
+                    <hr class="line no-mg pos-abs left right" />
+                </div>
+                 @{ await Html.RenderPartialAsync("NewsFocus", NewsTopView );}
+            </div>
+        </div>
+    }
+      
+        
+        <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-1b93190375e9ccc259df3a57c1abc0e64599724ae30d7ea4c6877eb615f89387.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.5/js/swiper.min.js"></script>
+
+        <script id="rendered-js">
+            $(document).ready(function () {
+                $('.customer-logos').slick({
+                    slidesToShow: 6,
+                    slidesToScroll: 3,
+                    autoplay: true,
+                    autoplaySpeed: 1500,
+                    arrows: false,
+                    dots: false,
+                    pauseOnHover: false,
+                    responsive: [{
+                        breakpoint: 768,
+                        settings: {
+                            slidesToShow: 4
+                        }
+                    }, {
+                        breakpoint: 520,
+                        settings: {
+                            slidesToShow: 3
+                        }
+                    }]
+                });
+            });
+                    //# sourceURL=pen.js
+        </script>
+    <div class="w-item w-11 col-xs-8 wf-groupwidget  w672 no-pad-r bdr-t-inner height-wrap">
+    <div class="w-inner">
+        <div class="row gwwrap">
+            <div class="gw-item w-15 col-xs-12 wf-groupwidget pad-r-15 height-target">
+                <div class="w-inner">
+                    <div class="row gwwrap">
+                        @foreach (var itemcatehome in Category.Take(11))
+                        {
+                            var ModelNewsCategory = NewsCategory.Where(x => x.CategoryId == itemcatehome.Id).ToList();
+                                    if (itemcatehome.Name.ToUpper() == "GIẢI TRÍ")
+                                    {
+                                        <div class="gw-item w-24 col-xs-12 wf-boxcats style-7 ">
+                                        <div class="w-inner">
+                                            <div class="w-head">
+                                                <h3 class="w-title">
+                                                    <a href="@Url.Action("Index", "News", new { idcat = itemcatehome.Id })"
+                                                       title="@itemcatehome.Name">
+                                                        @itemcatehome.Name <i class="fa fa-angle-double-right"
+                                                                              style="color:#29a2fb"></i>
+                                                    </a>
+                                                </h3>
+                                               
+                                            </div>
+                                        @{ await Html.RenderPartialAsync("NewsCategoryHomeBranch", ModelNewsCategory);}
+                                                         
+                                        </div>
+                                    </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="gw-item w-18 col-xs-12 wf-boxcats style-2 ">
+	                                        <div class="w-inner">
+		                                        <div class="w-head">
+			                                        <h3 class="w-title">
+				                                        <a href="@Url.Action("Index", "News", new { idcat = itemcatehome.Id })"
+				                                           title="@itemcatehome.Name">
+					                                        @itemcatehome.Name <i class="fa fa-angle-double-right"
+									                                         style="color:#29a2fb"></i>
+				                                        </a>
+			                                        </h3>
+
+		                                        </div>
+                                                @{ await Html.RenderPartialAsync("NewsCategoryHome", ModelNewsCategory);}
+                                        	</div>
+                                        </div>
+                                    }
+                        }
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+<div class="w-item w-12 col-xs-4 wf-groupwidget  w324 ">
+        <div class="w-inner">
+            <div class="row gwwrap">
+
+                <div class="gw-item w-14 col-xs-12 wf-boxcats style-5 pad-l-24">
+                     @foreach (var itemevent in NewsEvent.Take(4))
+                    {
+                        var ModelNewsEvent = NewsCategory.Where(x => x.EventId == itemevent.Id).ToList();
+                            <div class="w-item w-12 col-xs-4 wf-groupwidget w308 no-pad-l">
+                                <div class="w-inner">
+                                    <div class="row gwwrap">
+                                        <div class="gw-item w-14 col-xs-12 wf-boxcats style-17 pad-l-13 event-list">
+                                            <div class="w-inner">
+                                                <div class="w-head event-head">
+                                                    <h3 class="w-title">
+                                                        <a href="@Url.Action("NewsSearch","NewsCity", new { idEvent = itemevent.Id , idTopic = 0 , search = ""})"
+                                                           title="@itemevent.Name">
+                                                            @itemevent.Name
+                                                        </a>
+                                                    </h3>
+                                                </div>
+                                                @{ await Html.RenderPartialAsync("NewsEvent", ModelNewsEvent);}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            }
+        </div>
+            </div>
+        </div>
+    </div>
+        <div class="w-item w-32 col-xs-4 wf-groupwidget  w316">
+            <div class="w-inner">
+                <div class="sidebar row gwwrap">
+                    <!-- Su kien -->
+                    @{ await Html.RenderPartialAsync("NewsVideo", NewsVideo);}
+                    <div class="gw-item w-381 col-xs-12 wf-html  "> </div>
+                    <div class="gw-item w-706 col-xs-12 wf-html  "> </div>
+                </div>
+            </div>
+        </div>
+        @if(Category.Count() > 11){
+            <div class="w-item w-22 col-xs-8 wf-groupwidget  w680">
+    <div class="w-inner">
+        <div class="row gwwrap">
+            <div class="gw-item w-27 col-xs-12 wf-packcats style-1 ">
+                <div class="w-inner">
+                    <div class="row packcats-tabs-wrap height-wrap" id="PackTabs">
+                           <div class="col-xs-3 w170 height-apply" style="min-height:330px">
+                            <div class="swiper-container scroll-content">
+                                <div class="swiper-wrapper">
+                                    <div class="swiper-slide">
+                                        <ul class="tabs vertical">
+                                            @{ var  j = 0;
+                                                foreach (var itemcatehome in Category)
+                                                {
+                                                    if (j > 9)
+                                                    {
+                                                        <li id="tabli_@j" class="tabs-title @(j==10 ? "active":"")">
+                                                            <a id="tab_@j">
+                                                                @itemcatehome.Name
+                                                            </a>
+                                                        </li>
+
+                                                    }
+                                                    j++;
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="swiper-scrollbar"></div>
+                            </div>
+                        </div>
+                        <div class="col-xs-9 w510 height-target">
+                            <div class="tabs-content">
+                                @{ j = 0;
+                                    foreach (var itemcatehome in Category)
+                                    {
+
+                                        if (j > 9)
+                                        {
+                                            var ModelNewsBottom = NewsCategory.Where(x => x.CategoryId == itemcatehome.Id).ToList();
+                                            <div class="tabactive tabs-panel @(j==10 ? "active":"")" id="row_@j">
+                                                <div class="wbox">
+                                                    <div class="w-head">
+                                                        <h3 class="w-title">
+                                                            <a href="@Url.Action("Index", "News", new { idcat = itemcatehome.Id })"
+                                                               title="Công nghệ">
+                                                                @itemcatehome.Name <i class="fa fa-angle-double-right"
+                                                                             style="color:#29a2fb"></i>
+                                                            </a>
+                                                        </h3>
+                                                       
+                                                    </div>
+
+                                                     @{ await Html.RenderPartialAsync("NewsCategoryBottom", ModelNewsBottom);}
+
+                                                </div>
+                                            </div>
+                                            <script>
+                                              
+                                                $("#tabli_" + @j).click(function () {
+                                                    var tabli_ = $("#tabli_"+ @j);
+                                                    var tab_ = $("#tab_"+ @j);
+                                                    var row_ = $("#row_"+ @j);
+                                                    var tablidel = $(".tabs-title");
+                                                    var tabdel = $(".tabs-title a");
+                                                    var rowdel = $(".tabactive");
+                                                    tablidel.removeClass('active');
+                                                    tabdel.removeClass('active');
+                                                    rowdel.removeClass('active');
+                                                    tabli_.toggleClass('active');
+                                                    tab_.toggleClass('active');
+                                                    row_.toggleClass('active');
+
+                                                  
+                                                });
+
+
+                                            </script>
+                                        }
+                                        j++;
+                                    }
+                                }
+
+                            </div>
+                        </div>
+           
+             </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        }
+        
+    </div>
 </div>

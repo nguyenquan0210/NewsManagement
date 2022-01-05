@@ -117,7 +117,15 @@ namespace NewsManagement.BackendApi.Controllers
         [HttpGet("paging")]
         public async Task<IActionResult> GetAllPaging([FromQuery] GetUserPagingRequest request)
         {
-            var user = await _userService.GetUsersPaging(request);
+            if(request.RoleName != null )
+            {
+                if(request.RoleName.ToUpper() != "ALL")
+                {
+                    var userinrole = await _userService.GetUsersPaging(request);
+                    return Ok(userinrole);
+                }
+            }
+            var user = await _userService.GetUsersAllPaging(request);
             return Ok(user);
         }
 

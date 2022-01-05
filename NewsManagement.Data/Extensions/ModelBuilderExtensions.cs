@@ -16,6 +16,9 @@ namespace NewsManagement.Data.Extensions
         {
             // any guid
             var roleId = new Guid("8D04DCE2-969A-435D-BBA4-DF3F325983DC");
+            var roleId1 = new Guid("2DD4EC71-5669-42D7-9CF9-BB17220C64C7");
+            var roleId2 = new Guid("50FE257E-6475-41F0-93F7-F530D622362B");
+            var roleId3 = new Guid("BD6B262E-D24B-477B-9094-B67F447CDC42");
             var adminId = new Guid("69BD714F-9576-45BA-B5B7-F00649BE00DE");
             modelBuilder.Entity<AppRole>().HasData(new AppRole
             {
@@ -23,6 +26,24 @@ namespace NewsManagement.Data.Extensions
                 Name = "admin",
                 NormalizedName = "admin",
                 Description = "Administrator role"
+            }, new AppRole
+            {
+                Id = roleId1,
+                Name = "staff",
+                NormalizedName = "staff",
+                Description = "staff role"
+            }, new AppRole
+            {
+                Id = roleId2,
+                Name = "client",
+                NormalizedName = "client",
+                Description = "client role"
+            }, new AppRole
+            {
+                Id = roleId3,
+                Name = "user",
+                NormalizedName = "user",
+                Description = "user role"
             });
 
             var hasher = new PasswordHasher<AppUser>();

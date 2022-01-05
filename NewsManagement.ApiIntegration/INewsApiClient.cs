@@ -24,6 +24,11 @@ namespace NewsManagement.ApiIntegration
 
         Task<List<SelectListItem>> GetAll(int? Id);
 
+        Task<List<NewsVm>> GetNewsTop();
+
+        Task<List<NewsVm>> NewsFocus(int day);
+        Task<List<NewsVm>> NewsVideo();
+
         Task<NewsVm> GetById(int Id);
     }
 }

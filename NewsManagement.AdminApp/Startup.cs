@@ -29,9 +29,6 @@ namespace NewsManagement.AdminApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient();
-
-
-
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {

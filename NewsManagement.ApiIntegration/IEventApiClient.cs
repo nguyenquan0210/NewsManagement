@@ -22,6 +22,8 @@ namespace NewsManagement.ApiIntegration
 
         Task<List<SelectListItem>> GetAll(int? Id);
 
+        Task<List<EventVm>> GetEvent();
+
         Task<EventVm> GetById(int Id);
     }
 }

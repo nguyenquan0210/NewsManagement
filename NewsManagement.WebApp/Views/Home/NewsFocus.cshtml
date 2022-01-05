@@ -1,0 +1,31 @@
+﻿@model IEnumerable<NewsManagement.ViewModels.Catalog.Newss.NewsVm>
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+
+<div class="container">
+
+                    <section class="customer-logos slider">
+                        @foreach (var item in Model.Take(10))
+                        {
+                                var lengtit = item.Title.Length;
+                                var lengdes = item.Description.Length;
+                                <div class="slide" data-swiper-slide-index="8" style="width: 150px; margin-right: 16px; ">
+                                    <div class="media">
+                                        <a class="block" href="@Url.Action("Detailt", "News", new { area = "", id = item.Id })"
+                                           title="@item.Title">
+                                            <div class="pos-rel">
+                                                <img class="media-object" src="@(Configuration["BaseAddress"] + "/news-content/" + @item.Img)" style="border-radius: 10px;"
+                                                     alt="@item.Title">
+                                            </div>
+                                            <p class="heading normal">
+                                                @(lengtit > 55 ? item.Title.Substring(0,55) + "..." : item.Title)
+                                                <time class="time friendly rel-time" datetime="@item.Date.ToString("yyyy-MM-dd HH:mm:ss")"></time>
+                                            </p>
+                                        </a>
+                                    </div>
+                                </div>
+                            
+                        }
+
+
+                    </section>
+                </div>

@@ -100,6 +100,48 @@ namespace NewsManagement.ApiIntegration
             return data;
         }
 
+        public async Task<List<NewsVm>> GetNewsTop()
+        {
+            var data = await GetListAsync<NewsVm>($"/api/news/newstop");
+            return data;
+        }
+
+        public async Task<List<NewsVm>> NewsFocus(int day)
+        {
+            var data = await GetListAsync<NewsVm>($"/api/news/newstop");
+            data = data.Where(x=>x.Date > DateTime.Now.AddMonths(-day)).ToList();
+
+            int tg = data.Sum(x => x.View);
+            int i = data.Count();
+            double Viewssfocus = 0;
+            if (i > 0)
+            {
+                Viewssfocus = tg / i;
+            }
+            if (day > 50)
+            {
+                Viewssfocus = Viewssfocus - (Viewssfocus * 20 / 100);
+            }
+            data = data.Where(x => x.View >= Viewssfocus).ToList();
+            return data;
+        }
+
+        public async Task<List<NewsVm>> NewsVideo()
+        {
+            var data = await GetListAsync<NewsVm>($"/api/news/newstop");
+            data = data.Where(x => x.CateName.ToUpper() == "VIDEO" ).ToList();
+
+            int tg = data.Sum(x => x.View);
+            int i = data.Count();
+            double Viewssfocus = 0;
+            if (i > 0)
+            {
+                Viewssfocus = tg / i;
+            }
+            data = data.Where(x => x.View >= Viewssfocus).ToList();
+            return data;
+        }
+
         public async Task<PagedResult<NewsVm>> PublicGetAllPaging(GetPublicNewsPagingRequest request)
         {
             var data = await GetAsync<PagedResult<NewsVm>>(

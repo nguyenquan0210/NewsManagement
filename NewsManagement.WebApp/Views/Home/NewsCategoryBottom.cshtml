@@ -1,0 +1,97 @@
+﻿@model IEnumerable<NewsManagement.ViewModels.Catalog.Newss.NewsVm>
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@{
+	var i = 0;
+}
+
+<style>
+	.wf-packcats .tabs > .tabs-title.active, .wf-packcats .tabs > .tabs-title.hoveractive {
+		border-right: 2px solId #1d6ad9;
+	}
+
+
+	.tabs-title.active > a, .tabs-title.hoveractive > a {
+		color: #1e79e0;
+	}
+
+	.tabs-panel.active, .tabs-panel.hoveractive {
+		display: block;
+	}
+</style>
+
+
+
+<div class="w-body">
+	<div class="row">
+		@{
+			i = 0;
+			foreach (var item in Model)
+			{
+				
+					if (i == 0)
+					{
+						var lengtit = item.Title.Length;
+						var lengdes = item.Description.Length;
+						<div class="col-xs-8">
+							<div class="media">
+								<a class="block"
+								   	href="@Url.Action("Detailt", "News", new { area = "", Id = item.Id })"
+								   	title="@item.Title">
+									<div class="pos-rel">
+										<img class="thumbnail"
+							 src="@(Configuration["BaseAddress"] + "/news-content/" + @item.Img)"
+							 alt="@item.Title" />
+									</div>
+								</a>
+								<h2 class="heading">
+									<a class="big ovl"
+										   	href="@Url.Action("Detailt", "News", new { area = "", Id = item.Id })"
+										   	title="@item.Title">
+										@(lengtit > 75 ? item.Title.Substring(0,75) + "..." : item.Title)
+									</a> <time class="time friendly rel-time" datetime="@item.Date.ToString("yyyy-MM-dd HH:mm:ss")"></time>
+								</h2>
+								<p class="sapo">
+									@(lengdes > 125 ? item.Description.Substring(0,125) + "..." : item.Description)
+								</p>
+							</div>
+						</div>
+					}
+					i++;
+				
+
+			}
+		}
+
+		<div class="col-xs-4">
+			@{
+				i = 0;
+				foreach (var item in Model)
+				{
+					
+						if (i > 0 && i < 3)
+						{
+							var lengtit = item.Title.Length;
+							var lengdes = item.Description.Length;
+							<a class="block"
+						   	href="@Url.Action("Detailt", "News", new { area = "", Id = item.Id })"
+						   	title="@item.Title">
+								<div class="pos-rel">
+									<img class="thumbnail"
+						 src="@(Configuration["BaseAddress"] + "/news-content/" + @item.Img)"
+						 alt="@item.Title" />
+								</div>
+								<p class="heading item">
+									@(lengtit > 75 ? item.Title.Substring(0,75) + "..." : item.Title) <time class="time friendly rel-time" datetime="@item.Date.ToString("yyyy-MM-dd HH:mm:ss")"></time>
+								</p>
+							</a>
+						}
+						i++;
+					
+				}
+			}
+
+
+		</div>
+
+	</div>
+</div>

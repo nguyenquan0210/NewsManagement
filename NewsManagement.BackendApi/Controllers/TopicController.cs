@@ -78,5 +78,11 @@ namespace NewsManagement.BackendApi.Controllers
             var category = await _topicService.GetAll();
             return Ok(category);
         }
+        [HttpGet("hot")]
+        public async Task<IActionResult> GetHot()
+        {
+            var category = await _topicService.GetHot();
+            return Ok(category);
+        }
     }
 }

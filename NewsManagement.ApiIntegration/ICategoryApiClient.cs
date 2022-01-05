@@ -21,6 +21,8 @@ namespace NewsManagement.ApiIntegration
 
         Task<List<SelectListItem>> GetAll(int? Id);
 
+        Task<List<CatalogVm>> GetMenu();
+
         Task<CatalogVm> GetById(int Id);
     }
 }

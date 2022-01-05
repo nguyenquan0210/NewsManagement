@@ -6,6 +6,8 @@
 @{
     ViewData["Title"] = "Danh sách người dùng";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var role = ViewBag.rolename;
 }
 @inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 
@@ -48,10 +50,16 @@
                                 Bài đăng của bạn có thể hiện thị cho bệnh nhân xem.
                             </p>
                         </div>
-                        <div class="ms-auto my-auto mt-lg-0 mt-4">
+                        <div class="ms-auto my-auto mt-lg-0 mt-4 col-5">
+                           
                             <div class="ms-auto my-auto">
+                                 <form  action="/User/Index" method="get"
+                                      class="m-4 col-6 d-none d-md-inline-block form-inline ml-0 mr-0 mr-md-3 my-2 my-md-0">
+                                    <select id ="role" name="rolename" class="form-control" onchange="this.form.submit()" asp-items="ViewBag.rolename" >
+                                    </select>
+                                </form>
                                 <a asp-action="Create" asp-controller="User"  class="btn bg-gradient-info btn-sm mb-0">+&nbsp; Thêm Nhân viên</a>
-
+                                
                             </div>
                         </div>
                     </div>
@@ -194,7 +202,17 @@
 </div>
 
 @section jsFooter{
+    <script>
+        if (document.getElementById('role')) {
+            var category = document.getElementById('role');
+            const example = new Choices(category,{
+                searchEnabled: false
+            });
+        }
+      
+    </script>
     <script src="~/js/plugins/datatables.js"></script>
+     
     <script>
         if (document.getElementById('products-list')) {
             const dataTableSearch = new simpleDatatables.DataTable("#products-list", {

@@ -1,0 +1,3 @@
+function ajaxCallPostApi(url,data,reload=true){$.ajaxSetup({headers:{'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')}});$.ajax({url:url,type:'POST',dataType:'json',data:data,beforeSend:function(){$.blockUI();},success:function(res){if(res.err==0){toastr.success(res.msg,'Success!')}else{toastr.error(res.msg,'Error!')}
+if(reload==true){setTimeout(function(){window.location.reload()},2000)}},error:function(jqXHR,textStatus,errorThrown){console.log(errorThrown);},});}
+$(document).ajaxStop($.unblockUI);

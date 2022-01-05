@@ -1,0 +1,37 @@
+﻿@model IEnumerable<NewsManagement.ViewModels.Catalog.Newss.NewsVm>
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@{
+	var i = 0;
+}
+<div class="w-body">
+	@{
+		foreach (var item in Model.Take(5))
+		{
+			var lengtit = item.Title.Length;
+			var lengdes = item.Description.Length;
+			<div class="media">
+				<div class="media-left">
+					<a class="block"
+			   	href="@Url.Action("Detailt", "News", new { area = "", id = item.Id })"
+			   	title="@item.Title">
+						<div class="pos-rel">
+							<img class="thumbnail w100 lazy" src="@(Configuration["BaseAddress"] + "/news-content/" + @item.Img)"
+						 alt="@item.Title" />
+						</div>
+					</a>
+				</div>
+				<div class="media-body">
+					<h3 class="heading normal">
+						<a href="@Url.Action("Detailt", "News", new { area = "", id = item.Id })"
+				   	title="@item.Title">
+							@(lengtit > 55 ? item.Title.Substring(0,55) + "..." : item.Title)
+						</a> <time class="time friendly rel-time" datetime="@item.Date.ToString("yyyy-MM-dd HH:mm:ss")"></time>
+					</h3>
+				</div>
+			</div>
+		}
+	}
+</div>
+
+
+

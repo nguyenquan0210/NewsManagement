@@ -126,7 +126,7 @@ namespace NewsManagement.ApiIntegration
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
             var response = await client.GetAsync($"/api/users/paging?pageIndex=" +
-                $"{request.PageIndex}&pageSize={request.PageSize}&keyword={request.Keyword}");
+                $"{request.PageIndex}&pageSize={request.PageSize}&keyword={request.Keyword}&rolename={request.RoleName}");
             var body = await response.Content.ReadAsStringAsync();
             var users = JsonConvert.DeserializeObject<ApiSuccessResult<PagedResult<UserVm>>>(body);
             return users;

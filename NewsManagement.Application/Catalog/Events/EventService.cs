@@ -121,6 +121,17 @@ namespace NewsManagement.Application.Catalog.Events
             return rs;
         }
 
+        public async Task<List<EventVm>> GetEventHot()
+        {
+            var query =  _context.Eventsses.Where(x => x.Status == Status.Active && x.Hot);
+
+            return await query.Select(x => new EventVm()
+            {
+                Id = x.Id,
+                Name = x.Name
+            }).ToListAsync();
+        }
+
         public async Task<int> Update(EventUpdateRequest request)
         {
             var eventss = await _context.Eventsses.FindAsync(request.Id);

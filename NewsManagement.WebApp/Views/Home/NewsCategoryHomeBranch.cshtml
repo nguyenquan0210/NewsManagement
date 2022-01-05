@@ -1,0 +1,59 @@
+﻿@model IEnumerable<NewsManagement.ViewModels.Catalog.Newss.NewsVm>
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@{
+	var i = 0;
+}
+<div class="w-body">
+	<div class="row col-up-2">
+		@{
+			i = 0;
+			foreach (var item in Model)
+			{
+					if (i < 2)
+					{
+						var lengtit = item.Title.Length;
+						var lengdes = item.Description.Length;
+						<div class="col">
+							<a class="block pos-rel"
+			   	href="@Url.Action("Detailt", "News", new { area = "", id = item.Id })"
+			   	title="@item.Title">
+								<img class="thumbnail"
+					 src="@(Configuration["BaseAddress"] + "/news-content/" + @item.Img)"
+					 alt="@item.Title" />
+								<h2 class="heading big gradient">
+									@(lengtit > 75 ? item.Title.Substring(0,75) + "..." : item.Title)
+								</h2>
+							</a>
+						</div>
+					}
+					i++;
+			}
+		}
+	</div>
+
+	<div class="row col-up-3">
+		@{
+			i = 0;
+			foreach (var item in Model)
+			{
+				if (i > 1 )
+				{
+					var lengtit = item.Title.Length;
+					var lengdes = item.Description.Length;
+					<div class="col">
+						<a class="block pos-rel"
+			   	href="@Url.Action("Detailt", "News", new { area = "", id = item.Id })"
+			   	title="@item.Title">
+							<img class="thumbnail"
+					 src="@(Configuration["BaseAddress"] + "/news-content/" + @item.Img)" />
+							<h2 class="heading gradient">@(lengtit > 75 ? item.Title.Substring(0,75) + "..." : item.Title)</h2>
+						</a>
+					</div>
+					i++;
+				}
+			}
+		}
+	</div>
+</div>
+
+

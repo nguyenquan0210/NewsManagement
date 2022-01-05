@@ -61,6 +61,12 @@ namespace NewsManagement.ApiIntegration
             });
             return select.ToList();
         }
+        public async Task<List<CatalogVm>> GetMenu()
+        {
+            var data = await GetListAsync<CatalogVm>($"/api/category/all");
+           
+            return data;
+        }
 
         public async Task<PagedResult<CatalogVm>> GetAllPaging(GetCatalogPagingRequest request)
         {

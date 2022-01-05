@@ -110,6 +110,20 @@ namespace NewsManagement.Application.Catalog.Topics
             return rs;
         }
 
+        public async Task<List<CatalogVm>> GetHot()
+        {
+            var query = _context.Topics.Where(x => x.Status == Status.Active && x.Hot);
+
+            return await query.Select(x => new CatalogVm()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                SortOrder = x.SortOrder,
+                Status = x.Status,
+                Hot = x.Hot
+            }).ToListAsync();
+        }
+
         public async Task<int> Update(CatalogUpdateRequest request)
         {
             var topic = await _context.Topics.FindAsync(request.Id);

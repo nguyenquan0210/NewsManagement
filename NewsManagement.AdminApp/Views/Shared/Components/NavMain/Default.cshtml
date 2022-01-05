@@ -36,14 +36,14 @@
                         <li class="nav-item ">
                             <a id="a_accc" class="nav-link " data-bs-toggle="collapse" aria-expanded="false" href="#quanlynhanvien">
                                 <span class="sidenav-mini-icon"> NV </span>
-                                <span class="sidenav-normal"> Quản lý nhân viên <b class="caret"></b></span>
+                                <span class="sidenav-normal"> Quản lý tài khoản <b class="caret"></b></span>
                             </a>
                             <div class="collapse " id="quanlynhanvien">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
                                         <a id="a_acc" class="nav-link" asp-controller="User" asp-action="Index">
-                                            <span class="sidenav-mini-icon text-xs"> NV </span>
-                                            <span class="sidenav-normal"> Danh sách nhân viên </span>
+                                            <span class="sidenav-mini-icon text-xs"> TK </span>
+                                            <span class="sidenav-normal"> Danh sách tài khoản </span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
@@ -57,43 +57,13 @@
                             </div>
                         </li>
                         <li class="nav-item ">
-                            <a id="a_typeaccc" class="nav-link " data-bs-toggle="collapse" aria-expanded="false" href="#quanlyloaitaikhoan">
+                            <a id="a_typeaccc" class="nav-link "  asp-controller="Roule" asp-action="Index" >
                                 <span class="sidenav-mini-icon"> T </span>
-                                <span class="sidenav-normal"> Quản lý loại tài khoản <b class="caret"></b></span>
+                                <span class="sidenav-normal"> Danh sách vai trò <b class="caret"></b></span>
                             </a>
-                            <div class="collapse " id="quanlyloaitaikhoan">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item ">
-                                        <a id="a_typeacc" class="nav-link " asp-controller="Roule" asp-action="Index">
-                                            <span class="sidenav-mini-icon text-xs"> LTK </span>
-                                            <span class="sidenav-normal"> Danh sách loại tài khoản </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item ">
-                                        <a id="a_ctetypeacc" class="nav-link " asp-controller="Roule" asp-action="Create">
-                                            <span class="sidenav-mini-icon text-xs"> LTK </span>
-                                            <span class="sidenav-normal"> Thêm loại tài khoản </span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
+                           
                         </li>
-                        <li class="nav-item ">
-                            <a id="a_us" class="nav-link" asp-controller="Roule" asp-action="Index">
-                                <span class="sidenav-mini-icon"> ND </span>
-                                <span class="sidenav-normal"> Danh sách người dùng </span>
-                            </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a id="a_cli" class="nav-link" asp-controller="Roule" asp-action="Index">
-                                <span class="sidenav-mini-icon"> KH </span>
-                                <span class="sidenav-normal"> Danh sách khách hàng </span>
-                            </a>
-                        </li>
-
-
-
-
+                      
                     </ul>
                 </div>
             </li>

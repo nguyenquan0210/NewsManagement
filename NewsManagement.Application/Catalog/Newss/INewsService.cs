@@ -26,5 +26,7 @@ namespace NewsManagement.Application.Catalog.Newss
         Task<PagedResult<NewsVm>> GetAllByCategoryId(GetPublicNewsPagingRequest request);
 
         Task<List<NewsVm>> GetAll();
+
+        Task<List<NewsVm>> GetNewsTop();
     }
 }

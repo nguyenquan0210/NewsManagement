@@ -74,7 +74,12 @@ namespace NewsManagement.ApiIntegration
         public async Task<CatalogVm> GetById(int Id)
         {
             var data = await GetAsync<CatalogVm>($"/api/topic/{Id}");
+            return data;
+        }
 
+        public async Task<List<CatalogVm>> GetHot()
+        {
+            var data = await GetListAsync<CatalogVm>($"/api/topic/hot");
             return data;
         }
 

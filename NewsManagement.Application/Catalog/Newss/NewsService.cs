@@ -235,5 +235,28 @@ namespace NewsManagement.Application.Catalog.Newss
             return data;
         }
 
+        public async Task<List<NewsVm>> GetNewsTop()
+        {
+            var query = from n in _context.Newss
+                        join e in _context.Eventsses on n.EventId equals e.Id
+                        join c in _context.Categories on e.CategoryId equals c.Id
+                        where n.Status == Status.Active
+                        select new { n, c };
+            var data = await query.Select(x => new NewsVm()
+            {
+                Id = x.n.Id,
+                Title = x.n.Title,
+                Description = x.n.Description,
+                Img = x.n.Img,
+                Date = x.n.Date,
+                View = x.n.Viewss,
+                CateName = x.c.Name,
+                CategoryId = x.c.Id,
+                EventId = x.n.EventId
+
+            }).ToListAsync();
+
+            return data;
+        }
     }
 }

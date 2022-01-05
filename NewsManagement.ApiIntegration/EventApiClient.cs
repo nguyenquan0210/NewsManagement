@@ -79,6 +79,12 @@ namespace NewsManagement.ApiIntegration
             return data;
         }
 
+        public async Task<List<EventVm>> GetEvent()
+        {
+            var data = await GetListAsync<EventVm>($"/api/event/hot");
+            return data;
+        }
+
         public async Task<bool> Update(EventUpdateRequest request)
         {
             var client = _httpClientFactory.CreateClient();

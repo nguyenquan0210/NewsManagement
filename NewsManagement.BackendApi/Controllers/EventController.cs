@@ -75,5 +75,11 @@ namespace NewsManagement.BackendApi.Controllers
             var events = await _eventService.GetAll();
             return Ok(events);
         }
+        [HttpGet("hot")]
+        public async Task<IActionResult> GetEventHot()
+        {
+            var events = await _eventService.GetEventHot();
+            return Ok(events);
+        }
     }
 }

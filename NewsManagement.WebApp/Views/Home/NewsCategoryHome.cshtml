@@ -1,0 +1,93 @@
+﻿
+@model IEnumerable<NewsManagement.ViewModels.Catalog.Newss.NewsVm>
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@{
+	var i = 0;
+}
+
+<div class="w-body">
+	<div class="row">
+		@{
+			i = 0;
+
+			foreach (var item in Model)
+			{
+				
+					if (i == 0)
+					{
+						var lengtit = item.Title.Length;
+						var lengdes = item.Description.Length;
+						<div class="col-xs-7">
+
+							<div class="media">
+								<a class="block"
+				   	href="@Url.Action("Detailt", "News", new { area = "", Id = item.Id })"
+				   	title="@item.Title">
+									<div class="pos-rel">
+										<img class="thumbnail"
+							 src="@(Configuration["BaseAddress"] + "/news-content/" + @item.Img)"
+							 alt="@item.Title" />
+									</div>
+								</a>
+								<h2 class="heading">
+									<a class="big ovl"
+					   	href="@item.Img"
+					   	title="@item.Title">
+										@(lengtit > 75 ? item.Title.Substring(0,75) + "..." : item.Title)
+									</a> <time class="time friendly rel-time" datetime="@item.Date.ToString("yyyy-MM-dd HH:mm:ss")"></time>
+								</h2>
+								<p class="sapo">
+									@(lengdes > 125 ? item.Description.Substring(0,125) + "..." : item.Description)
+								</p>
+							</div>
+						</div>
+
+					}
+					i++;
+				
+			}
+		}
+
+		<div class="col-xs-5">
+
+			@{
+				i = 0;
+				foreach (var item in Model)
+				{
+					
+						if (i > 0 && i < 5)
+						{
+							var lengtit = item.Title.Length;
+							var lengdes = item.Description.Length;
+							<div class="media" Id="">
+
+								<div class="media-left">
+									<a class="block"
+					   	href="@Url.Action("Detailt", "News", new { area = "", Id = item.Id })"
+					   	title="@item.Title">
+										<div class="pos-rel">
+											<img class="thumbnail w100"
+								 src="@(Configuration["BaseAddress"] + "/news-content/" + @item.Img)"
+								 alt="@item.Title">
+										</div>
+									</a>
+								</div>
+								<div class="media-body">
+									<h3 class="heading normal">
+										<a href="@Url.Action("Detailt", "News", new { area = "", Id = item.Id })"
+						   	title="@item.Title">
+											@(lengtit > 60 ? item.Title.Substring(0,60) + "..." : item.Title)
+										</a>
+										<time class="time friendly rel-time" datetime="@item.Date.ToString("yyyy-MM-dd HH:mm:ss")"></time>
+									</h3>
+								</div>
+							</div>
+						}
+						i++;
+					
+				}
+			}
+		</div>
+
+	</div>
+</div>

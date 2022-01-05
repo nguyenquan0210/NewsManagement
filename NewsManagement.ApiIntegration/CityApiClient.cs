@@ -77,6 +77,13 @@ namespace NewsManagement.ApiIntegration
             return data;
         }
 
+        public async Task<List<CatalogVm>> GetCity()
+        {
+            var data = await GetListAsync<CatalogVm>($"/api/city/all");
+           
+            return data;
+        }
+
         public async Task<bool> Update(CatalogUpdateRequest request)
         {
             var client = _httpClientFactory.CreateClient();

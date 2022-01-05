@@ -17,6 +17,9 @@ namespace NewsManagement.Application.Catalog.Topics
 
         Task<List<CatalogVm>> GetAll();
 
+        Task<List<CatalogVm>> GetHot();
+
+
         Task<CatalogVm> GetById(int Id);
     }
 }
