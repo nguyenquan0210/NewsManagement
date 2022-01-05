@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using NewsManagement.Data.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -17,6 +19,9 @@ namespace NewsManagement.ViewModels.System.Users
         [Display(Name = "Họ")]
         public string LastName { get; set; }
 
+        [Display(Name = "Địa chỉ")]
+        public string Address { get; set; }
+
         [Display(Name = "Ngày sinh")]
         [DataType(DataType.Date)]
         public DateTime Dob { get; set; }
@@ -26,5 +31,12 @@ namespace NewsManagement.ViewModels.System.Users
 
         [Display(Name = "Số điện thoại")]
         public string PhoneNumber { get; set; }
+
+        [Display(Name = "Trạng thái")]
+        public bool Status { get; set; }
+
+        [Display(Name = "Hình ảnh")]
+        public IFormFile ThumbnailImage { get; set; }
+        public string img { get; set; }
     }
 }

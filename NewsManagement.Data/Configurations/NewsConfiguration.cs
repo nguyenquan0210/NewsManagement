@@ -23,8 +23,6 @@ namespace NewsManagement.Data.Configurations
 
             builder.Property(x => x.Content).IsRequired().HasMaxLength(int.MaxValue);
 
-            builder.Property(x => x.Content).IsRequired().IsUnicode(false).HasMaxLength(int.MaxValue);
-
             builder.Property(x => x.Img).IsRequired().HasMaxLength(100);
 
             builder.Property(x => x.Keyword).IsRequired().HasMaxLength(255);

@@ -24,7 +24,7 @@ namespace NewsManagement.BackendApi.Controllers
 
         [HttpPost("authenticate")]
         [AllowAnonymous]
-        public async Task<IActionResult> Authenticate([FromForm] LoginRequest request)
+        public async Task<IActionResult> Authenticate([FromBody] LoginRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -38,9 +38,39 @@ namespace NewsManagement.BackendApi.Controllers
             return Ok(result);
         }
 
+        [HttpPost("manageregister")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> ManageRegister([FromForm] ManageRegisterRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _userService.ManageRegister(request);
+            if (!result.IsSuccessed)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        [HttpPost("requestroleuser")]
+        [AllowAnonymous]
+        public async Task<IActionResult> UserRole([FromBody] RequestRoleUser request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _userService.AddRoleUser(request);
+            if (!result.IsSuccessed)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Register([FromForm] RegisterRequest request)
+        public async Task<IActionResult> Register([FromBody] ManageRegisterRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -55,6 +85,7 @@ namespace NewsManagement.BackendApi.Controllers
 
         //PUT: http://localhost/api/users/id
         [HttpPut("{id}")]
+        [Consumes("multipart/form-data")]
         public async Task<IActionResult> Update(Guid id, [FromForm] UserUpdateRequest request)
         {
             if (!ModelState.IsValid)
@@ -67,6 +98,7 @@ namespace NewsManagement.BackendApi.Controllers
             }
             return Ok(result);
         }
+        
         [HttpPut("{id}/roles")]
         public async Task<IActionResult> RoleAssign(Guid id, [FromBody] RoleAssignRequest request)
         {
@@ -85,8 +117,16 @@ namespace NewsManagement.BackendApi.Controllers
         [HttpGet("paging")]
         public async Task<IActionResult> GetAllPaging([FromQuery] GetUserPagingRequest request)
         {
-            var products = await _userService.GetUsersPaging(request);
-            return Ok(products);
+            if(request.RoleName != null )
+            {
+                if(request.RoleName.ToUpper() != "ALL")
+                {
+                    var userinrole = await _userService.GetUsersPaging(request);
+                    return Ok(userinrole);
+                }
+            }
+            var user = await _userService.GetUsersAllPaging(request);
+            return Ok(user);
         }
 
         [HttpGet("{id}")]
@@ -96,10 +136,18 @@ namespace NewsManagement.BackendApi.Controllers
             return Ok(user);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        [HttpGet("getrequest{username}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetByUserName(string username)
         {
-            var result = await _userService.Delete(id);
+            var user = await _userService.GetByUserName(username);
+            return Ok(user);
+        }
+
+        [HttpDelete("{Id}")]
+        public async Task<IActionResult> Delete(Guid Id)
+        {
+            var result = await _userService.Delete(Id);
             return Ok(result);
         }
     }

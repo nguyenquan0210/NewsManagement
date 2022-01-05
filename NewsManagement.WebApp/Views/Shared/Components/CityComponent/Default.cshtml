@@ -1,0 +1,18 @@
+﻿@model IEnumerable<NewsManagement.ViewModels.Catalog.CatalogVm>
+<div class="full-menu">
+    <div class="inner">
+        <div class="row col-up-6">
+            <ul class="nav vertical nested">
+                @foreach (var item in Model)
+                {
+                    <li class="footer_topic texxtalign">
+                        <a rel="nofollow"
+                           href="@Url.Action("Index" , "NewsCity", new { id = item.Id })" title="@item.Name">
+                            @item.Name
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>

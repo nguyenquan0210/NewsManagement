@@ -1,0 +1,42 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model IEnumerable<NewsManagement.ViewModels.Catalog.CatalogVm>
+
+@{var i = 0;
+    var name = "";
+    }
+@foreach (var item in Model)
+{
+    name = name + item.Name;
+    if (name.Length < 80 )
+    {
+        <li class="">
+            <a href="@Url.Action("Index", "News", new { idcat = item.Id, area = "" })" target="_self"
+               title="@item.Name">@item.Name<span class="indicator"></span></a>
+        </li>
+    }
+    i++;
+}
+@{i = 0; name = "";}
+
+<li class=" pull-right">
+    <a href="javascript:void();" target="_self">
+        <i class="ico ico_25x25 menu no-mg"></i>
+    </a>
+    <ul class="menuboxcap2">
+        @foreach (var item in Model)
+        {
+            name = name + item.Name;
+            if (name.Length >= 80 )
+            {
+                <li>
+                    <a href="@Url.Action("Index", "News", new { idcat = item.Id, area = "" })" title="@item.Name">@item.Name</a>
+                </li>
+            }
+            i++;
+        }
+    </ul>
+</li>

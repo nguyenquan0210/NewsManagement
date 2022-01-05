@@ -10,7 +10,6 @@ namespace NewsManagement.ViewModels.Catalog.Newss
     public class GetManageNewsPagingRequest : PagingResultBase
     {
         public string Keyword { get; set; }
-
-        public List<int> CategoryIds { get; set; }
+        public string UserName { get; set; }
     }
 }

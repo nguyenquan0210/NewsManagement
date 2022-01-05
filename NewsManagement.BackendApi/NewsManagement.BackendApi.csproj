@@ -16,8 +16,4 @@
     <ProjectReference Include="..\NewsManagement.ViewModels\NewsManagement.ViewModels.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\user-content\" />
-  </ItemGroup>
-
 </Project>
