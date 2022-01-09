@@ -10,27 +10,9 @@
             {
                     var lengtit = item.Title.Length;
                     var lengdes = item.Description.Length;
-                    var titl = ""; var dis = "";
-                    if (lengtit > 100)
-                    {
-                        titl = item.Title.Substring(0, 100) + "...";
-                    }
-                    else
-                    {
-                        titl = item.Title;
-                    }
-                    if (lengdes > 185)
-                    {
-                        dis = item.Description.Substring(0, 185) + "...";
-                    }
-                    else
-                    {
-                        dis = item.Description;
-                    }
-                    
                     <div class="media">
                         <a class="block"
-                           href="@Url.Action("Detailt", "News", new { area = "", id = item.Id })"
+                           asp-controller = "News" asp-action = "Index" asp-route-id = "@item.Id" 
                            title="@item.Title">
                             <img class="thumbnail"
                                  src="@(Configuration["BaseAddress"] + "/news-content/" + @item.Img)"
@@ -41,12 +23,12 @@
                             <a class="huge ovl"
                                href="@Url.Action("Detailt", "News", new { area = "", id = item.Id })"
                                title="@item.Title">
-                                @titl
+                                 @(lengtit > 100 ? item.Title.Substring(0,100) + "..." : item.Title)
                             </a>
                             <time class="time friendly rel-time" datetime="@item.Date.ToString("yyyy-MM-dd HH:mm:ss")"></time>
                         </h2>
                         <p class="sapo">
-                            @dis
+                            @(lengdes > 185 ? item.Description.Substring(0,185) + "..." : item.Description)
                         </p>
                     </div>
                
@@ -76,28 +58,10 @@
 
                                                     var lengtit = item.Title.Length;
                                                     var lengdes = item.Description.Length;
-                                                    var titl = ""; var dis = "";
-                                                    if (lengtit > 110)
-                                                    {
-                                                        titl = item.Title.Substring(0, 110) + "...";
-                                                    }
-                                                    else
-                                                    {
-                                                        titl = item.Title;
-                                                    }
-                                                    if (lengdes > 130)
-                                                    {
-                                                        dis = item.Description.Substring(0, 130) + "...";
-                                                    }
-                                                    else
-                                                    {
-                                                        dis = item.Description;
-                                                    }
-                                                    
                                                     <div class="media" id="">
                                                         <div class="media-left">
                                                             <a class="block"
-                                                               href="@Url.Action("Detailt", "News", new { area = "", id = item.Id })"
+                                                               asp-controller = "News" asp-action = "Index" asp-route-id = "@item.Id" 
                                                                title="@item.Title">
                                                                 <div class="pos-rel">
                                                                     <img class="thumbnail w100"
@@ -108,9 +72,9 @@
                                                         </div>
                                                         <div class="media-body">
                                                             <h3 class="heading normal">
-                                                                <a href=""
+                                                                <a asp-controller = "News" asp-action = "Index" asp-route-id = "@item.Id" 
                                                                    title="@item.Title">
-                                                                    @titl
+                                                                    @(lengtit > 110 ? item.Title.Substring(0,110) + "..." : item.Title)
                                                                 </a> <time class="time friendly rel-time" datetime="@item.Date.ToString("yyyy-MM-dd HH:mm:ss")"></time>
                                                             </h3>
                                                         </div>
@@ -119,8 +83,6 @@
 
                                                 i++;
                                             }
-
-
                                         </div>
                                     </div>
                                 </div>

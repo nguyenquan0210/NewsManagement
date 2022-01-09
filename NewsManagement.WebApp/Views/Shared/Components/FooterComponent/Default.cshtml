@@ -1,0 +1,45 @@
+﻿
+
+@{
+}
+<div class="footer pos-rel">
+    <div class="logo-wrap">
+        <a href="@Url.Action("Index", "Home", new { area = ""})" class="block logo"
+           style="padding: 0px;">
+            
+            <p style="        background: transparent url(../../img/logo/News.vn_free-file.png) 0 0 no-repeat;
+        background-size: 80%">
+                Đọc Báo Tin Tức Việt Nam
+            </p>
+        </a>
+    </div>
+    <div class="pad-l-230">
+        <div class="row">
+            <div class="col-xs-6">
+                <ul class="nav vertical">
+                    <li>
+                        @*@Html.Raw(Model.License)*@
+                    
+                    </li>
+                    <li>
+                        <strong>Email</strong>:@* @Model.Email*@ -
+                        <strong>Hotline</strong>: @*@Model.Hotline*@
+                    </li>
+                    <li>
+                        <strong>Liên hệ quảng cáo</strong>: @*@Model.Contact_Advertise*@
+                    </li>
+                </ul>
+            </div>
+            <div class="col-xs-6">
+                <ul class="nav vertical">
+                    <li><strong>@*@Model.Company*@</strong></li>
+                    <li>
+                        <strong>Địa chỉ</strong>: @*@Model.Address*@
+                    </li>
+                    <li><strong>Chịu trách nhiệm </strong>: @*@Model.Leader*@.<strong> Chức vụ</strong>: @*@Model.Position*@</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+</div>

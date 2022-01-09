@@ -1,0 +1,69 @@
+﻿@model IEnumerable<NewsManagement.ViewModels.Catalog.Newss.NewsVm>
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+<div class="w-item w-719 col-xs-12 wf-boxcats style-19 pad-l-24" data-lid="24">
+    <div class="w-inner">
+        <div class="row gwwrap">
+            <div class="gw-item w-362 col-xs-12 wf-boxcats style-19">
+                <ul class="tabs nav has-indicator">
+                    <li class="tabs-title active">
+                        <a class="big" href="#MPTabs4_DocNhieu">
+                            Tin
+                            mới <span class="indicator"></span>
+                        </a>
+                    </li>
+                    <li class="tabs-title"><a href="#MPTabs4_NoiBat"></a></li>
+                </ul>
+                <div class="w-inner one-item">
+
+                    @{
+                        int i = 0;
+                        var kt = "";
+
+                        foreach (var item in Model)
+                        {
+                            if (i < 6)
+                            {
+                                if (kt.Contains(item.CateName) == false)
+                                {
+                                    var lengtit = item.Title.Length;
+                                    <div class="media pos-rel">
+                                        <div class="media-left">
+                                            <a asp-controller = "News" asp-action = "Index" asp-route-id = "@item.Id"
+                                               title="@item.Title">
+                                                <div class="pos-rel">
+                                                    <img class="media-object round"
+                                                         src="@(Configuration["BaseAddress"] + "/news-content/" + @item.Img)"
+                                                         alt="@item.Title" />
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="media-body">
+                                            <h4 class="heading">
+                                                <a class="pretty-big"
+                                                   asp-controller = "News" asp-action = "Category" asp-route-categoryId = "@item.CategoryId"
+                                                   title="@item.CateName">@item.CateName</a>
+                                            </h4>
+                                            <div class="pretty-big sapo">
+                                                <a class="dim"
+                                                   asp-controller = "News" asp-action = "Index" asp-route-id = "@item.Id"
+                                                   title="@item.Title">
+                                                    @(lengtit > 55 ? item.Title.Substring(0,55) + "..." : item.Title) <time class="time friendly rel-time" datetime="@item.Date.ToString("yyyy-MM-dd HH:mm:ss")"></time>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="quote pos-abs top right">
+                                            <i class="ico ico_25x25 double_qoute"></i>
+                                        </div>
+                                    </div>
+                                    kt = kt + " " + item.CateName;
+                                    i++;
+                                }
+                            }
+
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

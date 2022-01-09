@@ -3,9 +3,8 @@
 @using NewsManagement.ViewModels.Catalog.Newss
 @{
     ViewData["Title"] = "Home Page";
-
     var NewsEvent = (List<EventVm>)ViewBag.Event;
-    var NewsHot = (List<NewsVm>)ViewBag.NewsHot;
+    var NewsTop = (List<NewsVm>)ViewBag.NewsTop;
     var NewsForcus = (List<NewsVm>)ViewBag.NewsFocus;
     var NewsTopView = (List<NewsVm>)ViewBag.NewsTopVew;
     var Category = (List<CatalogVm>)ViewBag.Category;
@@ -15,8 +14,6 @@
 }
 <div class="lpos lpos-1">
     <div class="row" data-sticky_parent>
-
-
         <div class="w-item w-3 col-xs-12 wf-toptopics style-1 css">
             <div class="w-inner">
                 <div class="wbox">
@@ -29,7 +26,7 @@
                             if (i < 4)
                             {
                                 <li>
-                                    <a href="@Url.Action("NewsSearch", "NewsCity", new { idEvent = item.Id, idTopic = 0, search = "" })">
+                                    <a href="@Url.Action("NewsEvent", "News", new { eventId = item.Id})">
                                         @item.Name
                                     </a>
                                 </li>
@@ -41,13 +38,8 @@
                 </div>
             </div>
         </div>
-
-
-        @{ await Html.RenderPartialAsync("NewsTop" ,NewsHot);}
+        @{ await Html.RenderPartialAsync("NewsTop" ,NewsTop);}
         @**@
-
-
-        
         <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
        
@@ -65,10 +57,8 @@
             </div>
         </div>
     }
-               
 @if (NewsTopView != null)
     {
-        
         <div class="w-item w-9 col-xs-12 wf-homepopulars style-1 ">
             <div class="w-inner">
                 <div class="w-head line-through">
@@ -81,8 +71,6 @@
             </div>
         </div>
     }
-      
-        
         <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-1b93190375e9ccc259df3a57c1abc0e64599724ae30d7ea4c6877eb615f89387.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.5/js/swiper.min.js"></script>
 
@@ -119,14 +107,14 @@
                     <div class="row gwwrap">
                         @foreach (var itemcatehome in Category.Take(11))
                         {
-                            var ModelNewsCategory = NewsCategory.Where(x => x.CategoryId == itemcatehome.Id).ToList();
+                            var ModelNewsCategory = NewsCategory.Where(x => x.CategoryId == itemcatehome.Id).Take(5).ToList();
                                     if (itemcatehome.Name.ToUpper() == "GIẢI TRÍ")
                                     {
                                         <div class="gw-item w-24 col-xs-12 wf-boxcats style-7 ">
                                         <div class="w-inner">
                                             <div class="w-head">
                                                 <h3 class="w-title">
-                                                    <a href="@Url.Action("Index", "News", new { idcat = itemcatehome.Id })"
+                                                    <a href="@Url.Action("NewsCategory", "News", new { categoryId = itemcatehome.Id })"
                                                        title="@itemcatehome.Name">
                                                         @itemcatehome.Name <i class="fa fa-angle-double-right"
                                                                               style="color:#29a2fb"></i>
@@ -145,7 +133,7 @@
 	                                        <div class="w-inner">
 		                                        <div class="w-head">
 			                                        <h3 class="w-title">
-				                                        <a href="@Url.Action("Index", "News", new { idcat = itemcatehome.Id })"
+				                                        <a href="@Url.Action("NewsCategory", "News", new { categoryId = itemcatehome.Id })"
 				                                           title="@itemcatehome.Name">
 					                                        @itemcatehome.Name <i class="fa fa-angle-double-right"
 									                                         style="color:#29a2fb"></i>
@@ -170,7 +158,6 @@
 <div class="w-item w-12 col-xs-4 wf-groupwidget  w324 ">
         <div class="w-inner">
             <div class="row gwwrap">
-
                 <div class="gw-item w-14 col-xs-12 wf-boxcats style-5 pad-l-24">
                      @foreach (var itemevent in NewsEvent.Take(4))
                     {
@@ -199,6 +186,7 @@
             </div>
         </div>
     </div>
+
         <div class="w-item w-32 col-xs-4 wf-groupwidget  w316">
             <div class="w-inner">
                 <div class="sidebar row gwwrap">
@@ -247,7 +235,6 @@
                                 @{ j = 0;
                                     foreach (var itemcatehome in Category)
                                     {
-
                                         if (j > 9)
                                         {
                                             var ModelNewsBottom = NewsCategory.Where(x => x.CategoryId == itemcatehome.Id).ToList();
@@ -255,17 +242,14 @@
                                                 <div class="wbox">
                                                     <div class="w-head">
                                                         <h3 class="w-title">
-                                                            <a href="@Url.Action("Index", "News", new { idcat = itemcatehome.Id })"
+                                                            <a href="@Url.Action("NewsCategory", "News", new { categoryId = itemcatehome.Id })"
                                                                title="Công nghệ">
                                                                 @itemcatehome.Name <i class="fa fa-angle-double-right"
                                                                              style="color:#29a2fb"></i>
                                                             </a>
                                                         </h3>
-                                                       
                                                     </div>
-
                                                      @{ await Html.RenderPartialAsync("NewsCategoryBottom", ModelNewsBottom);}
-
                                                 </div>
                                             </div>
                                             <script>
@@ -283,20 +267,14 @@
                                                     tabli_.toggleClass('active');
                                                     tab_.toggleClass('active');
                                                     row_.toggleClass('active');
-
-                                                  
                                                 });
-
-
                                             </script>
                                         }
                                         j++;
                                     }
                                 }
-
                             </div>
                         </div>
-           
              </div>
                 </div>
             </div>

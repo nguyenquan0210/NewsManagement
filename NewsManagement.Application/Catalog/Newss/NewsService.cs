@@ -84,7 +84,7 @@ namespace NewsManagement.Application.Catalog.Newss
                         join e in _context.Eventsses on n.EventId equals e.Id
                         join c in _context.Categories on e.CategoryId equals c.Id
                         select new { n, c };
-
+            query = query.OrderByDescending(x => x.n.Date);
             var user = await _userManager.FindByNameAsync(request.UserName);
 
             var roles = await _userManager.GetRolesAsync(user);
@@ -113,6 +113,8 @@ namespace NewsManagement.Application.Catalog.Newss
             var pageResult = new PagedResult<NewsVm>()
             {
                 TotalRecords = totalRow,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
                 Items = data
             };
             return pageResult;
@@ -142,7 +144,6 @@ namespace NewsManagement.Application.Catalog.Newss
 
             return await _context.SaveChangesAsync();
         }
-
         public async Task UpdateView(int NewsId)
         {
             var news = await _context.Newss.FindAsync(NewsId);
@@ -161,6 +162,8 @@ namespace NewsManagement.Application.Catalog.Newss
         public async Task<NewsVm> GetById(int newsId)
         {
             var news = await _context.Newss.FindAsync(newsId);
+            var events = await _context.Eventsses.FindAsync(news.EventId);
+            var category = await _context.Categories.FindAsync(events.CategoryId);
 
             var rs = new NewsVm()
             {
@@ -175,7 +178,11 @@ namespace NewsManagement.Application.Catalog.Newss
                 EventId = news.EventId,
                 TopicId = news.TopicId,
                 News_Hot = news.News_Hot == Status.Active?true:false,
-                Status = news.Status == Status.Active ? true : false
+                Status = news.Status == Status.Active ? true : false,
+                Date = news.Date,
+                CategoryId = category.Id,
+                CateName = category.Name,
+                View = news.Viewss
             };
 
             return rs;
@@ -187,9 +194,21 @@ namespace NewsManagement.Application.Catalog.Newss
                         join e in _context.Eventsses on n.EventId equals e.Id
                         join c in _context.Categories on e.CategoryId equals c.Id
                         select new { n, c };
-
-            if (request.CategoryId.Value > 0 && request.CategoryId.HasValue)
+            query = query.OrderByDescending(x => x.n.Date);
+            if (request.CategoryId != null)
                 query = query.Where(x => x.c.Id == request.CategoryId);
+
+            if (request.EventId != null)
+                query = query.Where(x => x.n.EventId == request.EventId);
+
+            if (request.CityId != null)
+                query = query.Where(x => x.n.CityId == request.CityId);
+
+            if (request.TopicId != null)
+                query = query.Where(x => x.n.TopicId == request.TopicId);
+
+            if (!string.IsNullOrEmpty(request.Keyword))
+                query = query.Where(x => x.n.Title.Contains(request.Keyword));
 
             int totalRow = await query.CountAsync();
             var data = await query.Skip((request.PageIndex - 1) * request.PageSize)
@@ -202,12 +221,19 @@ namespace NewsManagement.Application.Catalog.Newss
                     Img = x.n.Img,
                     Keyword =x.n.Keyword,
                     CateName = x.c.Name,
-                    Status = x.c.Status == Status.Active ? true : false
+                    CategoryId = x.c.Id,
+                    EventId = x.n.EventId,
+                    CityId = x.n.CityId,
+                    TopicId = x.n.TopicId,
+                    Status = x.c.Status == Status.Active ? true : false,
+                    Date = x.n.Date
                 }).ToListAsync();
 
             var pageResult = new PagedResult<NewsVm>()
             {
                 TotalRecords = totalRow,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
                 Items = data
             };
 
@@ -228,9 +254,10 @@ namespace NewsManagement.Application.Catalog.Newss
                 Description = x.n.Description,
                 Img = x.n.Img,
                 Keyword = x.n.Keyword,
-                CateName = x.c.Name
-
-            }).ToListAsync();
+                CateName = x.c.Name,
+                CategoryId = x.c.Id,
+                Date = x.n.Date
+            }).OrderByDescending(x => x.Date).ToListAsync();
 
             return data;
         }
@@ -252,11 +279,75 @@ namespace NewsManagement.Application.Catalog.Newss
                 View = x.n.Viewss,
                 CateName = x.c.Name,
                 CategoryId = x.c.Id,
-                EventId = x.n.EventId
-
-            }).ToListAsync();
-
+                EventId = x.n.EventId,
+                Keyword = x.n.Keyword,
+                CityId = x.n.CityId,
+                TopicId = x.n.TopicId
+            }).OrderByDescending(x => x.Date).ToListAsync();
             return data;
+        }
+
+        public async Task<int> AddComment(AddCommentRequest request)
+        {
+            var check = await _context.Comments.Where(x => x.Type == false).FirstOrDefaultAsync(x => x.Title == request.Title);
+            if (check != null) return 0;
+            var news = new Comment()
+            {
+                Title = request.Title,
+                NewsId = request.NewsId,
+                UserId = request.UserId,
+                Answer = 0,
+                Type = false,
+                Date = DateTime.Now
+            };
+            _context.Comments.Add(news);
+            await _context.SaveChangesAsync();
+            return news.Id;
+        }
+
+        public async Task<List<NewsVm>> GetSaveList(Guid userId)
+        {
+            var query = from n in _context.Newss
+                        join e in _context.Eventsses on n.EventId equals e.Id
+                        join c in _context.Categories on e.CategoryId equals c.Id
+                        join cm in _context.Comments on n.Id equals cm.NewsId
+                        where cm.UserId == userId && cm.Type == false
+                        select new { n, c };
+            var data = await query.Select(x => new NewsVm()
+            {
+                Id = x.n.Id,
+                Title = x.n.Title,
+                Description = x.n.Description,
+                Img = x.n.Img,
+                Date = x.n.Date,
+                View = x.n.Viewss,
+                CateName = x.c.Name,
+                CategoryId = x.c.Id,
+                EventId = x.n.EventId,
+                Keyword = x.n.Keyword,
+                CityId = x.n.CityId,
+                TopicId = x.n.TopicId
+            }).OrderByDescending(x => x.Date).ToListAsync();
+            return data;
+        }
+
+        public Task<int> DeleteComment(int commentId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<AddCommentRequest> GetBySave(string checkstring)
+        {
+            var news = await _context.Comments.Where(x=>x.Type==false).FirstOrDefaultAsync(x=>x.Title==checkstring);
+            if(news==null) return new AddCommentRequest();
+            var rs = new AddCommentRequest()
+            {
+                NewsId = news.Id,
+                Title = news.Title,
+                UserId= news.UserId
+            };
+
+            return rs;
         }
     }
 }

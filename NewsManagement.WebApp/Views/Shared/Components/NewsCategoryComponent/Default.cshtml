@@ -1,0 +1,86 @@
+﻿@using NewsManagement.Data.Enums
+@using NewsManagement.ViewModels.Catalog
+@using NewsManagement.ViewModels.Common;
+@model PagedResult<NewsManagement.ViewModels.Catalog.Newss.NewsVm>
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@{
+    var idcate = (CatalogVm)ViewBag.cate;
+    var d = 0;
+}
+<style>
+    .list > .media:first-child {
+        margin-top: 0px;
+    }
+</style>
+@if (Model.Items.Count != 0)
+{
+<div class="w-item w-40 col-xs-12 wf-listpost style-1">
+    <div class="w-inner">
+        <div class="wbox">
+            <div class="w-head">
+                <h1 class="w-title">
+                    <a href="" title="@idcate.Name">
+                        @idcate.Name
+                    </a> 
+                </h1>
+            </div>
+            <div class="w-body list page24h">
+                @{
+                   
+
+                    foreach (var item in Model.Items)
+                    {
+                            var lengtit = item.Title.Length;
+						    var lengdes = item.Description.Length;
+                           
+                            <div class="media col-xs-6 @(d == 1 ? "clearfix" : "")">
+                                <div class="">
+                                    <a class="block pos-rel"
+                                       href="@Url.Action("Detailt", "News", new { area = "", Id = item.Id })"
+                                       title="@item.Title">
+                                        <img class="thumbnail"
+                                             src="@(Configuration["BaseAddress"] + "/news-content/" + @item.Img)"
+                                             width="100%"
+                                             alt="@item.Title" />
+                                    </a>
+                                </div>
+                                <div class="media-body">
+                                    <p class="smaller">
+                                        <a class="dim"
+                                           href="@Url.Action("Detailt", "News", new { area = "", Id = item.Id })"><b>Xã hội</b></a>
+                                        <time class="time friendly rel-time" datetime="@item.Date.ToString("yyyy-MM-dd HH:mm:ss")"></time>
+                                    </p>
+                                    <h3 class="heading">
+                                        <a class="pretty-big"
+                                           href="@Url.Action("Detailt", "News", new { area = "", Id = item.Id })"
+                                           title="@item.Title">
+                                            @(lengtit > 75 ? item.Title.Substring(0,75) + "..." : item.Title)
+                                        </a>
+                                    </h3>
+                                    <p class="sapo">
+                                        @(lengdes > 100 ? item.Description.Substring(0,100) + "..." : item.Description)
+                                    </p>
+                                </div>
+                            </div>
+                            if (d == 2)
+                            {
+                                d = 0;
+                            }
+                            d++;
+                       
+
+                    }
+                }
+
+
+
+                <div class="center-block clearfix">
+                   
+                        @*@Html.PagedListPager((IPagedList)Model, page => Url.Action("PageNews", new { page, idcat = idcate.ID, @searchString = @ViewBag.SearchString }))
+                  *@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}

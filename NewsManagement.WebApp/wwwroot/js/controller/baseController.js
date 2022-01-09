@@ -7,7 +7,7 @@
             minLength: 0,
             source: function (request, response) {
                 $.ajax({
-                    url: "/NewsCity/ListSearch",
+                    url: "/News/ListSearch",
                     dataType: "json",
                     data: {
                         search: request.term
@@ -28,11 +28,11 @@
         })
             .autocomplete("instance")._renderItem = function (ul, item) {
                 return $("<li>")
-                    .append("<div>" + item.label  + "...</div>")
+                    .append("<div>" + item.label + "...</div>")
                     .appendTo(ul);
             };
     }
-    
+
 }
 common.init();
 

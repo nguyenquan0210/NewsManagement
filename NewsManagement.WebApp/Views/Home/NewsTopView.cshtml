@@ -1,0 +1,36 @@
+﻿@model IEnumerable<NewsManagement.ViewModels.Catalog.Newss.NewsVm>
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@if (Model.Count() > 0)
+{
+   <div class="w-item w-54 col-xs-12 wf-boxcats style-12 ">
+        <div class="w-inner">
+            <div class="w-head">
+                <h3 class="w-title">
+                    <a href="javascript:void(0)" title="Đọc nhiều">Đọc nhiều</a>
+                </h3>
+            </div>
+            <div class="w-body">
+                <div class="col-up-4">
+                    @foreach (var item in Model)
+                    {
+                            var lengtit = item.Title.Length;
+                            var lengdes = item.Description.Length;
+                           <div class="col">
+                                    <a class="block" asp-controller = "News" asp-action = "Index" asp-route-id = "@item.Id"
+                                       title="@item.Title">
+                                        <div class="pos-rel">
+                                            <img class="thumbnail" src="@(Configuration["BaseAddress"] + "/news-content/" + @item.Img)"
+                                                 alt="@item.Title">
+                                        </div>
+                                        <p class="heading normal">
+                                            @(lengtit > 55 ? item.Title.Substring(0,55) + "..." : item.Title)
+                                            <time class="time friendly rel-time" datetime="@item.Date.ToString("yyyy-MM-dd HH:mm:ss")"></time>
+                                        </p>
+                                    </a>
+                                </div>
+                    }
+               </div>
+            </div>
+        </div>
+    </div>
+    }

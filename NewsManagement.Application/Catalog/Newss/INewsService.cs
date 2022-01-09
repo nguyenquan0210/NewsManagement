@@ -28,5 +28,13 @@ namespace NewsManagement.Application.Catalog.Newss
         Task<List<NewsVm>> GetAll();
 
         Task<List<NewsVm>> GetNewsTop();
+
+        Task<int> AddComment(AddCommentRequest request);
+
+        Task<List<NewsVm>> GetSaveList(Guid userId);
+
+        Task<int> DeleteComment(int commentId);
+
+        Task<AddCommentRequest> GetBySave(string checkstring);
     }
 }

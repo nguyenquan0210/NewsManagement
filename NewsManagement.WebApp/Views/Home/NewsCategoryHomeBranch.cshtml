@@ -15,7 +15,7 @@
 						var lengdes = item.Description.Length;
 						<div class="col">
 							<a class="block pos-rel"
-			   	href="@Url.Action("Detailt", "News", new { area = "", id = item.Id })"
+			   	asp-controller = "News" asp-action = "Index" asp-route-id = "@item.Id" 
 			   	title="@item.Title">
 								<img class="thumbnail"
 					 src="@(Configuration["BaseAddress"] + "/news-content/" + @item.Img)"
@@ -42,7 +42,7 @@
 					var lengdes = item.Description.Length;
 					<div class="col">
 						<a class="block pos-rel"
-			   	href="@Url.Action("Detailt", "News", new { area = "", id = item.Id })"
+			   asp-controller = "News" asp-action = "Index" asp-route-id = "@item.Id" 
 			   	title="@item.Title">
 							<img class="thumbnail"
 					 src="@(Configuration["BaseAddress"] + "/news-content/" + @item.Img)" />

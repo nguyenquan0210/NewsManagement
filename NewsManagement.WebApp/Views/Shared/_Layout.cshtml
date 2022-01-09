@@ -57,25 +57,32 @@
                                 <ul class="nav pull-left" id="header_address"></ul>
                                 <ul class="nav pull-right navbar-nav d-lg-block d-none">
                                     <li style="padding: 0.5rem 0rem !important;">
-                                        <form id="SearchForm" action="@Url.Action("NewsSearch","NewsCity")" method="get">
-                                            <div class="input-group">
-                                                <input class="input-group-field input-quiet txtSearch" style=" border-radius: 5px  0 0 5px;" id=""
+                                       <form id="SearchForm" action="@Url.Action("NewsSearch","News")" method="get">
+                                            <div class="input-group search_sidebar">
+                                                <input class="input-group-field input-quiet txtSearch" id=""
                                                        type="text" placeholder="Tìm kiếm" name="search">
-                                                <input hidden name="idTopic" value="0" />
-                                                <input hidden name="idEvent" value="0" />
                                                 <div class="input-group-button">
-                                                    <button type="submit" style="border-radius: 0 4px 4px 0;"
-                                                            class="button-quiet">
+                                                    <button type="submit" class="button-quiet">
                                                         <i class="search ico ico_common"></i>
                                                     </button>
                                                 </div>
                                             </div>
                                         </form>
                                     </li>
+                                    @if(!User.Identity.IsAuthenticated)
+                                    {
                                         <li class="p "><a href="@Url.Action("Index","Login", new { area = "" })" class="btn bg-gradient-info mb-0 h-100 position-relative z-index-2 " style="font-size:11px !important;">Đăng nhập</a></li>
                                         <li style="padding: 0.5rem 0rem !important;"><a href="@Url.Action("Signin","Login", new { area = "" })" class="btn bg-gradient-info mb-0 h-100 position-relative z-index-2 " style="font-size:11px !important;">Đăng ký</a></li>
 
-                                </ul>
+                                    }
+                                    else
+                                    {
+                                        <li class="p "><a href="" class="btn bg-gradient-info mb-0 h-100 position-relative z-index-2 " style="font-size:11px !important;"> @User.Identity.Name  </a></li>
+                                          
+                                        <li style="padding: 0.5rem 0rem !important;"> <a asp-controller="Login" asp-action="Logout" class="btn bg-gradient-info mb-0 h-100 position-relative z-index-2 " style="font-size:11px !important;">Đăng xuất</a></li>
+                                   
+                                    }
+                                    </ul>
 
                             </div>
                         </div>
@@ -131,7 +138,7 @@
                                         <li><a href="javascript:void()">Tin tức tỉnh thành</a></li>
                                     </ul>
                                 </div>
-                                @await Component.InvokeAsync("CityComponent")
+                                @await Component.InvokeAsync("CityComponent", new{ })
                                 <div class="horzmenu pos-rel pos-reldemo">
                                     <ul class="nav" style="background: #e8e8e8;">
                                         <li><a href="javascript:void()">Chủ đề nổi bật</a></li>
@@ -144,20 +151,15 @@
                                     </ul>
                                 </div>
                                @await Component.InvokeAsync("EventComponent")
-                               @* @{ Html.RenderAction("Index", "Footer");}*@
+                                @await Component.InvokeAsync("FooterComponent")
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-
     </div>
-
-
     <link href="~/css/unicons.css" rel="stylesheet" />
-
     <link href="~/css/buttonscroll.css" rel="stylesheet" />
     <div class="progress-wrap">
         <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
@@ -167,14 +169,9 @@
 
     <script id="rendered-js">
         /* Please ❤ this if you like it! */
-
-
-
         (function ($) {
             "use strict";
-
             //Switch dark/light
-
             $(".switch").on('click', function () {
                 if ($("body").hasClass("light")) {
                     $("body").removeClass("light");
@@ -184,12 +181,9 @@
                     $(".switch").addClass("switched");
                 }
             });
-
             $(document).ready(function () {
                 "use strict";
-
                 //Scroll back to top
-
                 var progressPath = document.querySelector('.progress-wrap path');
                 var pathLength = progressPath.getTotalLength();
                 progressPath.style.transition = progressPath.style.WebkitTransition = 'none';
@@ -219,8 +213,6 @@
                     jQuery('html, body').animate({ scrollTop: 0 }, duration);
                     return false;
                 });
-
-
             });
 
         })(jQuery);

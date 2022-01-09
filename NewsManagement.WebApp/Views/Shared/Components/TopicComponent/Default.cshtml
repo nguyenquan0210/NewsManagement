@@ -12,7 +12,7 @@
                 {
                     <li class="footer_topic texxtalign">
                         <a rel="nofollow"
-                           href="@Url.Action("NewsSearch","NewsCity", new { idTopic = item.Id , idEvent = 0 , search = ""})"
+                           href="@Url.Action("NewsTopic","News", new { topicId = item.Id})"
                            title="@item.Name">@item.Name</a>
                     </li>
                 }

@@ -18,7 +18,7 @@
                         <ul class="nav vertical">
                             <li class="texxtalign">
                                 <a rel="nofollow" class="uppercase" title="@item.Name"
-                                   href="@Url.Action("Index", "News", new { idcat = item.Id, area = "" })">
+                                   href="@Url.Action("NewsCategory", "News", new { categoryId = item.Id})">
                                     <h2>@item.Name</h2>
                                 </a>
                                

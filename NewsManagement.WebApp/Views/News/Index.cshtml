@@ -1,0 +1,326 @@
+﻿@using NewsManagement.ViewModels.Catalog.Events
+@using NewsManagement.ViewModels.Catalog.Newss
+@using NewsManagement.ViewModels.Catalog.Ratings
+@model NewsManagement.ViewModels.Catalog.Newss.NewsVm
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var NewsEvent = (List<EventVm>)ViewBag.Event;
+    var NewsCategory = (List<NewsVm>)ViewBag.NewsCategory;
+    var NewsTopView = (List<NewsVm>)ViewBag.NewsTopView;
+    var ratingvalue = (List<RatingVm>)ViewBag.Rating;
+    var checksave = (AddCommentRequest)ViewBag.checksave;
+}
+
+@{
+    var countrating = ratingvalue.Count;
+    var sumrating = ratingvalue.Sum(x => x.Value);
+    double ratingfocus = 0;
+    if(countrating !=0)
+    {
+        ratingfocus = double.Parse((sumrating / countrating).ToString("0.00"));
+    }
+    int tg = 0;
+    int d = 0;
+    
+}
+<style>
+    .star:hover {
+        transform: rotate( -15deg) scale(1.3);
+    }
+    .check {
+        color: #fff800;
+    }
+    .anable {
+        color: #7e7e7e;
+    }
+    .lpos-1 {
+        width: 664px;
+        padding-right: 0;
+        float: left;
+    }
+    .lpos-2 {
+        width: 316px;
+        padding-left: 0;
+        float: right;
+    }
+    .publish-date {
+       
+        margin-right: 0;
+    }
+</style>
+
+<div class="clearfix wrap-contanter" data-sticky_parent>
+    <div class="lpos lpos-1">
+        <div class="row">
+            <div class="w-item w-53 col-xs-12 wf-post_normal style-1">
+                <div class="w-inner">
+                    <div class="wbox article" id="article-228241">
+                        <div class="w-body">
+                            <!-- breadcrum --><div class="article-breadcrum">
+
+                                <ul class="breadcrumb">
+                                    <li>
+                                        <a href="@Url.Action("Index", "Home", new { area = "" })" itemprop="url">
+                                            <span itemprop="title">Trang chủ</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("NewsCategory", "News", new { categoryId = Model.CategoryId})" itemprop="url"><span itemprop="title">@Model.CateName</span></a>
+                                    </li>
+                                    <li class="active">@(Model.Title.Length <= 30 ? Model.Title : Model.Title.Substring(0, 30) + "...")</li>
+                                </ul>
+
+                            </div>
+                            <h1 class="article-title" id="articleTitle">@Model.Title</h1>
+                            <nav class="navbar article-ultils" style=" font-size: 12px;">
+                                <ul class="nav">
+                                    <li class="publish-date dim w125"><a>@Model.Date.ToString("dd/MM/yyyy HH:mm")</a></li>
+                                    @{
+                                        string k = "" + Model.View;
+                                        if (Model.View >= 1000)
+                                        {
+                                            k = Model.View / 1000 + "N";
+                                        }
+                                        string n = "" + countrating;
+                                        if (countrating >= 1000)
+                                        {
+                                            n = countrating / 1000 + "N";
+                                        }
+                                    }
+
+                                    <li class="publish-date dim w125"><a><i class='bx bx-show-alt' style='color:#646464'> @k lượt xem</i></a></li>
+                                    @if (User.Identity.Name != null)
+                                    {
+                                        <li>
+                                            <div class="shared_social clearfix">
+                                                <ul class="nav social">
+                                                    <li id="star_view">
+                                                        <div class="stars">
+                                                            <div id="content">
+                                                                <span>
+                                                                    <strong id="rating">@ratingfocus</strong>
+                                                                </span>/<span itemprop="bestRating">5</span> (<span id="d">@n</span>) Bình chọn
+                                                            </div>
+                                                            @for (int i = 1; i <= 5; i++)
+                                                            {
+                                                                
+                                                                if (i <= ratingfocus)
+                                                                {
+                                                                    <i id="rating_@i" onclick="AddRating(@i)" class='bx bxs-star star check'></i>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <i id="rating_@i" onclick="AddRating(@i)" class='bx bxs-star star anable '></i>
+
+                                                                }
+                                                            }
+                                                            <input type="hidden" id="username" value="@User.Identity.Name"/>
+                                                            <input type="hidden" id="newsid" value="@Model.Id"/>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                                <ul class="nav social ">
+                                                    @if (checksave.Title != null)
+                                                    {
+                                                        <li class="follow"><i class='bx bxs-heart' style='color:#d52025'></i> Đã lưu</li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li class="follow" onclick="Saves(@Model.Id)"><i id="isave" class='bx bx-heart' style='color:#d52025'> </i> <d id="lisave"> Lưu bài</d> </li>
+
+                                                    }
+
+                                                    <li class="follow_list"><a href="@Url.Action("NewsSave","News")"><i class='bx bx-food-menu' style='color: #d52025'></i> Danh sách bài đã lưu</a></li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li onclick="window.location.href='@Url.Action("Index","Login", new { area = "" })' ">
+                                            <div class="shared_social clearfix">
+                                                <ul class="nav social">
+                                                    <li id="star_view">
+                                                        <div class="stars">
+                                                            <div id="content">
+                                                                <span>
+                                                                    <strong id="rating">@ratingfocus</strong>
+                                                                </span>/<span itemprop="bestRating">5</span> (<span id="d">@n</span>) Bình chọn
+                                                            </div>
+                                                            @for (int i = 1; i <= 5; i++)
+                                                            {
+                                                                if (i <= ratingfocus)
+                                                                {
+                                                                    <i id="rating_@i" onclick="" class='bx bxs-star star check'></i>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <i id="rating_@i" onclick="" class='bx bxs-star star '></i>
+
+                                                                }
+                                                            }
+
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                                <ul class="nav social ">
+                                                    <li class="follow"><i id="isave" class='bx bx-heart' style='color:#d52025'> </i> <d id="lisave"> Lưu bài</d> </li>
+                                                </ul>
+
+                                            </div>
+                                        </li>
+                                    }
+                                </ul>
+                            </nav>
+                            <div class="article-cnt row">
+                                <div class="article-body col pull-right">
+                                    <p class="" id="articleSapo">@Model.Description</p>
+
+                                    <div class="article-content content-post" id="articleContent">
+                                        <div class="content_article">
+                                            @Html.Raw(Model.Content)
+                                        </div>
+                                    </div>
+
+                                    <div class="clearfix"></div>
+                                   
+                                    <div class="clearfix"></div>                                                                                          <!-- article tags -->
+                                    <div class="article-tags mg-b-10">
+
+                                        <ul class="nav">
+                                            <li class="active">
+                                                <a href="javascript:void(0)" title="Từ khóa">
+                                                    <strong>Từ khóa:</strong>
+                                                </a>
+                                            </li>
+                                            @{
+                                                string[] arrListStr = Model.Keyword.Split(',');
+                                                foreach (var item in arrListStr)
+                                                {
+                                                    <li><a href="@Url.Action("NewsSearch","News", new { search = item })" title="@item">@item</a></li>
+                                                }
+                                            }
+
+                                        </ul>
+
+                                    </div>
+
+                                </div>
+                            </div><!-- Topic -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @await Component.InvokeAsync("NewsRelatedComponent", new{ keyword = Model.Keyword})
+
+
+             @{await Html.RenderPartialAsync("~/Views/Home/NewsTopView.cshtml", NewsTopView);}
+        </div>
+    </div>
+    <div class="lpos lpos-2">
+        <div class="row">
+            @{ await Html.RenderPartialAsync("~/Views/Home/NewsLatest.cshtml", NewsCategory);}
+     <div class="w-item w-12 col-xs-4 wf-groupwidget  w324 ">
+        <div class="w-inner">
+            <div class="row gwwrap">
+                <div class="gw-item w-14 col-xs-12 wf-boxcats style-5 pad-l-24">
+                     @foreach (var itemevent in NewsEvent.Take(4))
+                    {
+                        var ModelNewsEvent = NewsCategory.Where(x => x.EventId == itemevent.Id).ToList();
+                            <div class="w-item w-12 col-xs-4 wf-groupwidget w308 no-pad-l">
+                                <div class="w-inner">
+                                    <div class="row gwwrap">
+                                        <div class="gw-item w-14 col-xs-12 wf-boxcats style-17 pad-l-13 event-list">
+                                            <div class="w-inner">
+                                                <div class="w-head event-head">
+                                                    <h3 class="w-title">
+                                                        <a href="@Url.Action("NewsEvent","News", new { eventId = itemevent.Id})"
+                                                           title="@itemevent.Name">
+                                                            @itemevent.Name
+                                                        </a>
+                                                    </h3>
+                                                </div>
+                                                @{ await Html.RenderPartialAsync("~/Views/Home/NewsEvent.cshtml", ModelNewsEvent);}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            }
+        </div>
+            </div>
+        </div>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+@*<script src="~/js/jquery.js"></script>
+<script src="~/js/jquery.min.js"></script>*@
+
+<script>
+    var AddRating = function (ratings) {
+        var username = $("#username").val();
+        var newsid = $("#newsid").val();
+        $.ajax({
+            url: "/News/AddRating",
+            data: {
+                users: username,
+                idnewss: newsid,
+                ratings: ratings
+            },
+            dataType: "json",
+            type: "POST",
+            success: function (result) {
+                if (result.response == 1) {
+                   @{n = n + 1;}
+                    if (@n < 1000) {
+                        $("#d").html(@n);
+                    } else {
+                        var n = (@n/1000) + "N";
+                        $("#d").html(n);
+                    }
+                    $("#rating").html(ratings);
+
+                    
+
+                }
+                for(j = 1; j <= 5;j++) {
+                        if (j <= ratings) {
+                            document.getElementById("rating_" + j).classList.add('check');
+                            document.getElementById("rating_" + j).classList.remove('anable');
+                        } else {
+                            document.getElementById("rating_" + j).classList.add('anable');
+                            document.getElementById("rating_" + j).classList.remove('check');
+                        }
+
+                    }
+            }
+        })
+    }
+    var Saves = function (idnews) {
+
+        $.ajax({
+            url: "/News/AddComment",
+            data: {
+                newsId: idnews
+            },
+            dataType: "json",
+            type: "POST",
+            success: function (result) {
+                if (result.response != 0) {
+                    $("#lisave").html("Đã lưu");
+                    document.getElementById("isave").classList.add('bxs-heart');
+                    document.getElementById("isave").classList.remove('bx-heart');
+                }
+            }
+        })
+
+
+    }
+</script>

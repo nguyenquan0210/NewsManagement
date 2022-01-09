@@ -1,0 +1,184 @@
+﻿@using NewsManagement.ViewModels.Catalog
+@using NewsManagement.ViewModels.Catalog.Events
+@using NewsManagement.ViewModels.Catalog.Newss
+@using NewsManagement.ViewModels.Common;
+@model PagedResult<NewsManagement.ViewModels.Catalog.Newss.NewsVm>
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@{
+    ViewData["Title"] = "NewsEvent";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var topics = (CatalogVm)ViewBag.topic;
+    var ListEvent = (List<EventVm>)ViewBag.Event;
+    var ListNews = (List<NewsVm>)ViewBag.News;
+}
+
+<style>
+
+    .lpos-1 {
+        width: 664px;
+        padding-right: 0;
+        float: left;
+    }
+
+    .lpos-2 {
+        width: 316px;
+        padding-left: 0;
+        float: right;
+    }
+</style>
+<div class="clearfix wrap-contanter" data-sticky_parent>
+    <div class="w-item w-725 wf-submenu style-1 ">
+        <div class="w-inner">
+            <div class="sub-menu pos-rel">
+                <ul class="nav sub-nav">
+                    <li>
+                        <ul class="breadcrumb">
+                            <li itemscope="" itemtype="">
+                                <a href="/" itemprop="url"><span itemprop="title">Trang chủ</span></a>
+                            </li>
+                            <li class="active">@topics.Name</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="lpos lpos-1">
+        <div class="row">
+            <div class="w-item w-58 col-xs-12 wf-tagpost style-2 " data-lid="22">
+                <div class="w-inner">
+                    <div class="wbox">
+                        <div class="w-head">
+                            <h3 class="w-title">
+                                <a href="javascript:void(0)" title="Danh sách bài viết">
+                                    Danh sách bài
+                                    viết
+                                </a>
+
+                            </h3>
+                        </div>
+                        <div class="w-body topiclist">
+                            <div class="live-wrap" id="live-wrap">
+                                @foreach (var item in Model.Items)
+                                {
+                                    
+                                    <div class="media live-item time-center pos-rel no-bdr">
+                                        <div class="media-left">
+                                            <div class="inner">
+                                                <div class="topic-time">
+                                                    <div class="time-wrap">
+                                                        <p class="day">@item.Date.ToString("dd")</p>
+                                                        <p class="month">@item.Date.ToString("MM/yyyy")</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="media-body live-item-body">
+                                            <div class="media no-mg">
+                                                <div class="media-left">
+                                                    <a class="block w150 pos-rel"
+                                                      asp-controller = "News" asp-action = "Index" asp-route-id = "@item.Id" 
+                                                       title="@item.Title">
+                                                        <img class="thumbnail"
+                                                             src="@(Configuration["BaseAddress"] + "/news-content/" + @item.Img)"
+                                                             width="100%"
+                                                             alt="@item.Title" />
+                                                    </a>
+                                                </div>
+                                                <div class="media-body">
+                                                    <p class="smaller">
+                                                        <a class="hightlight"
+                                                           asp-controller = "News" asp-action = "NewsCategory" asp-route-categoryId = "@item.Id" >
+                                                            <b>
+                                                                @item.CateName
+                                                            </b>
+                                                        </a> <span datetime="@item.Date.ToString("yyyy-MM-dd HH:mm:ss")"  class="dim"></span>
+                                                    </p>
+                                                    <h3 class="heading">
+                                                        <a class="pretty-big"
+                                                           asp-controller = "News" asp-action = "Index" asp-route-id = "@item.Id" 
+                                                           title="@item.Title">
+                                                            @item.Title
+                                                        </a>@if (item.News_Hot)
+                                                        { <i class="ico hot ico_status"></i> }
+                                                    </h3>
+                                                    <p class="sapo">
+                                                        @item.Description
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+
+
+
+                                <div class="center-block">
+                                    @await Component.InvokeAsync("DemoComponent", Model)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="lpos lpos-2">
+        <div class="row">
+            <div class="gw-item w-37 col-xs-12 pad-l-24 wf-html">
+                <form id="SearchForm" action="@Url.Action("NewsSearch","News")" method="get">
+                    <div class="input-group search_sidebar">
+                        <input class="input-group-field input-quiet txtSearch" id=""
+                               type="text" placeholder="Tìm kiếm" name="search">
+                        <div class="input-group-button">
+                            <button type="submit" class="button-quiet">
+                                <i class="search ico ico_common"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            @{ await Html.RenderPartialAsync("~/Views/Home/NewsLatest.cshtml", ListNews);}
+
+            
+
+     <div class="w-item w-12 col-xs-4 wf-groupwidget  w324 ">
+        <div class="w-inner">
+            <div class="row gwwrap">
+                <div class="gw-item w-14 col-xs-12 wf-boxcats style-5 pad-l-24">
+                     @foreach (var itemevent in ListEvent.Take(4))
+                    {
+                        var ModelListNews = ListNews.Where(x => x.EventId == itemevent.Id).ToList();
+                            <div class="w-item w-12 col-xs-4 wf-groupwidget w308 no-pad-l">
+                                <div class="w-inner">
+                                    <div class="row gwwrap">
+                                        <div class="gw-item w-14 col-xs-12 wf-boxcats style-17 pad-l-13 event-list">
+                                            <div class="w-inner">
+                                                <div class="w-head event-head">
+                                                    <h3 class="w-title">
+                                                        <a href="@Url.Action("NewsEvent","News", new { eventId = itemevent.Id})"
+                                                           title="@itemevent.Name">
+                                                            @itemevent.Name
+                                                        </a>
+                                                    </h3>
+                                                </div>
+                                                @{ await Html.RenderPartialAsync("~/Views/Home/NewsEvent.cshtml", ModelListNews);}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            }
+        </div>
+            </div>
+        </div>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+

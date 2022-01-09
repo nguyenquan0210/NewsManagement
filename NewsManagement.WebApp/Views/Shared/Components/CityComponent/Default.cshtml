@@ -7,7 +7,7 @@
                 {
                     <li class="footer_topic texxtalign">
                         <a rel="nofollow"
-                           href="@Url.Action("Index" , "NewsCity", new { id = item.Id })" title="@item.Name">
+                           href="@Url.Action("NewsCity" , "News", new { cityId = item.Id })" title="@item.Name">
                             @item.Name
                         </a>
                     </li>

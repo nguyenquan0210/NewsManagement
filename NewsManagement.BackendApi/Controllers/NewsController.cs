@@ -36,6 +36,12 @@ namespace NewsManagement.BackendApi.Controllers
             return Ok(news);
         }
 
+        [HttpGet("newssave/{userId}")]
+        public async Task<IActionResult> GetNewsSave(Guid userId)
+        {
+            var news = await _newsSevice.GetSaveList(userId);
+            return Ok(news);
+        }
 
         [HttpGet("paging")]
         public async Task<IActionResult> GetAllPaging([FromQuery] GetManageNewsPagingRequest request)
@@ -43,7 +49,14 @@ namespace NewsManagement.BackendApi.Controllers
             var news = await _newsSevice.GetAllPaging(request);
             return Ok(news);
         }
-       
+
+        [HttpGet("pagingpublic")]
+        public async Task<IActionResult> GetAllPagingPublic([FromQuery] GetPublicNewsPagingRequest request)
+        {
+            var news = await _newsSevice.GetAllByCategoryId(request);
+            return Ok(news);
+        }
+
         [HttpGet("{newsId}")]
         public async Task<IActionResult> GetById(int newsId)
         {
@@ -87,7 +100,17 @@ namespace NewsManagement.BackendApi.Controllers
                 return BadRequest();
             return Ok();
         }
-        
+        [HttpPost("addcomment")]
+        public async Task<IActionResult> AddComment([FromBody] AddCommentRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var newsId = await _newsSevice.AddComment(request);
+         
+            return Ok(newsId);
+        }
 
 
         [HttpDelete("{Id}")]
@@ -100,6 +123,15 @@ namespace NewsManagement.BackendApi.Controllers
             var affectedResult = await _newsSevice.Delete(Id);
             
             return Ok(affectedResult);
+        }
+
+        [HttpGet("save/{checkstring}")]
+        public async Task<IActionResult> GetBySave(string checkstring)
+        {
+            var news = await _newsSevice.GetBySave(checkstring);
+            if (news == null)
+                return BadRequest("Cannot find product");
+            return Ok(news);
         }
     }
 }
