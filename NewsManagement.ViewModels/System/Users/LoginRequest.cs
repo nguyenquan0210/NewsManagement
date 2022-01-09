@@ -13,5 +13,7 @@ namespace NewsManagement.ViewModels.System.Users
         public string Password { get; set; }
 
         public bool RememberMe { get; set; }
+
+        public bool Check { get; set; }
     }
 }

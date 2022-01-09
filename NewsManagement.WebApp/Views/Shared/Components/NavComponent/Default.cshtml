@@ -14,7 +14,7 @@
     if (name.Length < 80 )
     {
         <li class="">
-            <a href="@Url.Action("Index", "News", new { idcat = item.Id, area = "" })" target="_self"
+            <a href="@Url.Action("NewsCategory", "News", new { categoryid = item.Id})" target="_self"
                title="@item.Name">@item.Name<span class="indicator"></span></a>
         </li>
     }
@@ -33,7 +33,7 @@
             if (name.Length >= 80 )
             {
                 <li>
-                    <a href="@Url.Action("Index", "News", new { idcat = item.Id, area = "" })" title="@item.Name">@item.Name</a>
+                    <a href="@Url.Action("NewsCategory", "News", new { categoryid = item.Id})" title="@item.Name">@item.Name</a>
                 </li>
             }
             i++;

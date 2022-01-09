@@ -1,0 +1,200 @@
+﻿@using NewsManagement.ViewModels.Catalog
+@using NewsManagement.ViewModels.Catalog.Events
+@using NewsManagement.ViewModels.Catalog.Newss
+@using NewsManagement.ViewModels.Common;
+@model PagedResult<NewsManagement.ViewModels.Catalog.Newss.NewsVm>
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+
+@{
+    ViewData["Title"] = "NewsCity";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var idcity = (CatalogVm)ViewBag.city;
+    var city = (List<CatalogVm>)ViewBag.Listcity;
+    var ListEvent = (List<EventVm>)ViewBag.Event;
+    var ListNews = (List<NewsVm>)ViewBag.News;
+    var i = 0;
+}
+<style>
+    .lpos-1 {
+        width: 664px;
+        padding-right: 0;
+        float: left;
+    }
+    .lpos-2 {
+        width: 316px;
+        padding-left: 0;
+        float: right;
+    }
+</style>
+<div class="clearfix wrap-contanter" data-sticky_parent>
+    <div class="lpos lpos-1">
+        <div class="row">
+            <div class="w-item w-357 col-xs-12 wf-hotposts style-1 ">
+                <div class="w-inner">
+                    <div class="wbox">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <ul class="nav sub-nav has-indicator ">
+                                    <li class="first pos-rel pos-reldemo">
+                                        <h1 class="title-24h input-prepend date" id="dpYears"
+                                            style="display:block;float:none;margin-left:5px;">
+                                            Tin tức @idcity.Name <span><i class="ico ico_25x25 clock"></i></span>
+                                        </h1>
+                                    </li>
+                                    <li class="pos-rel pos-reldemo"><span class="triangle right"></span></li>
+                                    <li class="province mg-r-10">
+                                        <a onclick="DownUp()"
+                                           id="click_province">
+                                            Chọn tỉnh <i id="iupdown" class='bx bx-chevrons-down'></i>
+                                        </a>
+                                    </li>
+                                    @foreach (var itemcity in city)
+                                    {
+                                        if (i < 5)
+                                        {
+                                            <li class="province">
+                                                <a href="@Url.Action("NewsCity", "News", new { cityId = itemcity.Id })">@itemcity.Name</a>
+                                            </li>
+                                        }
+                                        i++;
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row pos-rel">
+                            <div class="col-xs-12">
+                                <div class="inner" id="list_province" style="display:none;">
+                                    <div class="row col-up-4">
+                                        @foreach (var itemcity in city)
+                                        {
+                                            <div class="col">
+                                                <a href="@Url.Action("NewsCity", "News", new { cityId = itemcity.Id })">
+                                                    <label class="container_address"
+                                                           style="padding:5px 10px; text-align:center">@itemcity.Name</label>
+                                                    </a>
+                                                </div>
+                                            }
+                                    </div>
+                                </div>
+                                <div class="w-body list" id="">
+                                    @foreach (var item in Model.Items)
+                                    {
+                                        
+                                        <div class="media" id="">
+                                            <div class="media-left">
+                                                <a class="block w140 pos-rel"
+                                                   asp-controller = "News" asp-action = "Index" asp-route-id = "@item.Id" 
+                                                   title="Người mắc Covid-19 muốn điều trị tại nhà ở Hà Nội cần những điều kiện gì?">
+                                                    <img class="thumbnail"
+                                                         src="@(Configuration["BaseAddress"] + "/news-content/" + @item.Img)"
+                                                         width="100%"
+                                                         alt="@item.Title" />
+                                                </a>
+                                            </div>
+                                            <div class="media-body pos-rel">
+                                                <p class="smaller">
+                                                    <a class="dim" asp-controller = "News" asp-action = "NewsCategory" asp-route-categoryId = "@item.CategoryId" >
+                                                        <b>
+                                                            @item.CateName
+                                                        </b>
+                                                    </a> <span datetime="@item.Date.ToString("yyyy-MM-dd HH:mm:ss")" class="dim"></span>
+                                                </p>
+                                                <h3 class="heading">
+                                                    <a class="big"
+                                                       asp-controller = "News" asp-action = "Index" asp-route-id = "@item.Id" 
+                                                       title="@item.Title">
+                                                        @item.Title
+                                                    </a>
+                                                </h3>
+
+                                                <p class="sapo">
+                                                    @item.Description
+                                                </p>
+                                            </div>
+                                        </div>
+                                    }
+                                    <!-- paginator -->
+                                    <div class="center-block">
+                                        @await Component.InvokeAsync("DemoComponent", Model)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="lpos lpos-2">
+        <div class="row">
+            <div class="gw-item w-37 col-xs-12 pad-l-24 wf-html">
+                <form id="SearchForm" action="@Url.Action("NewsSearch","News")" method="get">
+                    <div class="input-group search_sidebar">
+                        <input class="input-group-field input-quiet txtSearch" id=""
+                               type="text" placeholder="Tìm kiếm" name="search">
+                        <div class="input-group-button">
+                            <button type="submit" class="button-quiet">
+                                <i class="search ico ico_common"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            @{ await Html.RenderPartialAsync("~/Views/Home/NewsLatest.cshtml", ListNews);}
+
+            
+
+     <div class="w-item w-12 col-xs-4 wf-groupwidget  w324 ">
+        <div class="w-inner">
+            <div class="row gwwrap">
+                <div class="gw-item w-14 col-xs-12 wf-boxcats style-5 pad-l-24">
+                     @foreach (var itemevent in ListEvent.Take(4))
+                    {
+                        var ModelListNews = ListNews.Where(x => x.EventId == itemevent.Id).ToList();
+                            <div class="w-item w-12 col-xs-4 wf-groupwidget w308 no-pad-l">
+                                <div class="w-inner">
+                                    <div class="row gwwrap">
+                                        <div class="gw-item w-14 col-xs-12 wf-boxcats style-17 pad-l-13 event-list">
+                                            <div class="w-inner">
+                                                <div class="w-head event-head">
+                                                    <h3 class="w-title">
+                                                        <a href="@Url.Action("NewsEvent","News", new { eventId = itemevent.Id})"
+                                                           title="@itemevent.Name">
+                                                            @itemevent.Name
+                                                        </a>
+                                                    </h3>
+                                                </div>
+                                                @{ await Html.RenderPartialAsync("~/Views/Home/NewsEvent.cshtml", ModelListNews);}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            }
+        </div>
+            </div>
+        </div>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function DownUp() {
+        var x = document.getElementById("list_province");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+        var i = document.getElementById("iupdown");
+        i.classList.toggle('bx-chevrons-down');
+        i.classList.toggle('bx-chevrons-up');
+
+
+    }
+</script>

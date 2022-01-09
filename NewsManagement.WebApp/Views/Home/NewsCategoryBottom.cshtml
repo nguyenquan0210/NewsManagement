@@ -18,34 +18,28 @@
 		display: block;
 	}
 </style>
-
-
-
 <div class="w-body">
 	<div class="row">
 		@{
 			i = 0;
 			foreach (var item in Model)
 			{
-				
 					if (i == 0)
 					{
 						var lengtit = item.Title.Length;
 						var lengdes = item.Description.Length;
 						<div class="col-xs-8">
 							<div class="media">
-								<a class="block"
-								   	href="@Url.Action("Detailt", "News", new { area = "", Id = item.Id })"
-								   	title="@item.Title">
-									<div class="pos-rel">
+								<a class="block" asp-controller = "News" asp-action = "Index" asp-route-id = "@item.Id" title="@item.Title" >
+									<div class="pos-rel" >
 										<img class="thumbnail"
-							 src="@(Configuration["BaseAddress"] + "/news-content/" + @item.Img)"
-							 alt="@item.Title" />
+										 src="@(Configuration["BaseAddress"] + "/news-content/" + @item.Img)"
+										 alt="@item.Title" />
 									</div>
 								</a>
 								<h2 class="heading">
 									<a class="big ovl"
-										   	href="@Url.Action("Detailt", "News", new { area = "", Id = item.Id })"
+										   	asp-controller = "News" asp-action = "Index" asp-route-id = "@item.Id" 
 										   	title="@item.Title">
 										@(lengtit > 75 ? item.Title.Substring(0,75) + "..." : item.Title)
 									</a> <time class="time friendly rel-time" datetime="@item.Date.ToString("yyyy-MM-dd HH:mm:ss")"></time>
@@ -57,23 +51,19 @@
 						</div>
 					}
 					i++;
-				
-
 			}
 		}
-
 		<div class="col-xs-4">
 			@{
 				i = 0;
 				foreach (var item in Model)
 				{
-					
 						if (i > 0 && i < 3)
 						{
 							var lengtit = item.Title.Length;
 							var lengdes = item.Description.Length;
 							<a class="block"
-						   	href="@Url.Action("Detailt", "News", new { area = "", Id = item.Id })"
+						   	asp-controller = "News" asp-action = "Index" asp-route-id = "@item.Id" 
 						   	title="@item.Title">
 								<div class="pos-rel">
 									<img class="thumbnail"
@@ -86,11 +76,8 @@
 							</a>
 						}
 						i++;
-					
 				}
 			}
-
-
 		</div>
 
 	</div>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NewsManagement.ApiIntegration;
+using NewsManagement.ViewModels.Common;
 using System.Threading.Tasks;
 
 namespace NewsManagement.WebApp.Controllers.Components
@@ -13,10 +14,9 @@ namespace NewsManagement.WebApp.Controllers.Components
 
             _categoryApiClient = categoryApiClient;
         }
-        public async Task<IViewComponentResult> InvokeAsync()
+        public Task<IViewComponentResult> InvokeAsync(PagedResultBase result)
         {
-            var items = await _categoryApiClient.GetMenu();
-            return View(items);
+            return Task.FromResult((IViewComponentResult)View("Default", result));
         }
     }
 }

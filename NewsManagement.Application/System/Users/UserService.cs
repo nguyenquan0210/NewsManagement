@@ -53,15 +53,11 @@ namespace NewsManagement.Application.System.Users
             {
                 return new ApiErrorResult<string>("Đăng nhập không đúng.");
             }
-            
-            
             var roles = await _userManager.GetRolesAsync(user);
-
+            
             var checkrole = roles.Where(x => x.ToUpper() == "ADMIN");
 
-            if (checkrole.Count() == 0) return new ApiErrorResult<string>("Chỉ nhận tài khoản admin.");
-
-
+            if (checkrole.Count() == 0 && request.Check) return new ApiErrorResult<string>("Chỉ nhận tài khoản admin.");
             var claims = new[]
             {
                 new Claim(ClaimTypes.Email,user.Email),
@@ -178,7 +174,7 @@ namespace NewsManagement.Application.System.Users
 
         public async Task<ApiResult<PagedResult<UserVm>>> GetUsersPaging(GetUserPagingRequest request)
         {
-            var query =  _userManager.GetUsersInRoleAsync(request.RoleName).Result;
+            var query = _userManager.GetUsersInRoleAsync(request.RoleName).Result;
 
             if (!string.IsNullOrEmpty(request.Keyword))
             {

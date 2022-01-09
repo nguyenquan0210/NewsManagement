@@ -12,7 +12,7 @@
 			<div class="media">
 				<div class="media-left">
 					<a class="block"
-			   	href="@Url.Action("Detailt", "News", new { area = "", id = item.Id })"
+			   	asp-controller = "News" asp-action = "Index" asp-route-id = "@item.Id" 
 			   	title="@item.Title">
 						<div class="pos-rel">
 							<img class="thumbnail w100 lazy" src="@(Configuration["BaseAddress"] + "/news-content/" + @item.Img)"
@@ -22,7 +22,7 @@
 				</div>
 				<div class="media-body">
 					<h3 class="heading normal">
-						<a href="@Url.Action("Detailt", "News", new { area = "", id = item.Id })"
+						<a asp-controller = "News" asp-action = "Index" asp-route-id = "@item.Id" 
 				   	title="@item.Title">
 							@(lengtit > 55 ? item.Title.Substring(0,55) + "..." : item.Title)
 						</a> <time class="time friendly rel-time" datetime="@item.Date.ToString("yyyy-MM-dd HH:mm:ss")"></time>

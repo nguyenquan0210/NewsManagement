@@ -1,0 +1,151 @@
+﻿@using NewsManagement.ViewModels.System.Users
+@model LoginRequest
+
+@{
+    ViewBag.Title = "Đăng Nhập";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="w-item w-53 col-xs-12 wf-post_normal style-1">
+    <div class="w-inner">
+        <div class="wbox article" id="article-228241">
+            <div class="w-body">
+                <!-- breadcrum --><div class="article-breadcrum">
+
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="@Url.Action("Index", "Home", new { area = "" })" itemprop="url">
+                                <span itemprop="title">Trang chủ</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="" itemprop="url"><span itemprop="title">Đăng Ký</span></a>
+                        </li>
+                        <li class="active"></li>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<link href="~/css/login.css" rel="stylesheet" />
+<div class="container_login " id="container_login" style="    margin-bottom: 100px;">
+    <div class="form-container_login sign-up-container_login" >
+        @using (Html.BeginForm("Signin", "Login", FormMethod.Post, new { @class = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <h1 class="h1">Tạo tài khoản</h1>
+
+            <div class="social-container_login">
+                <a href="#" class="a social"><i class="fa fa-facebook" ></i></a>
+                <a href="#" class="a social"><i class="fa fa-google"></i></a>
+            </div>
+            <span class="span">hoặc sử dụng email của bạn để đăng ký</span>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger nonestype" })
+
+            <input class="input" data-val="true" data-val-length="The field Name must be a string with a maximum length of 100." data-val-length-max="100" data-val-required="The Name field is required." id="Name" name="Name" placeholder="Họ tên" type="text" value="">
+            <span class="field-validation-valid text-danger" data-valmsg-for="Name" data-valmsg-replace="true"></span>
+
+
+            @Html.TextBoxFor(model => model.UserName, new { @class = "input", placeholder = "Tên tài khoản" })
+            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+
+
+            @Html.TextBoxFor(model => model.Password, new { @class = "input", placeholder = "Mật khẩu", @type = "password" })
+            if (Model != null)
+            {
+                <img onclick="myFunction()" style=' color: #646464; position: absolute;     left: 405px;top: 335px; width:24px;' src="~/img/show.png" />
+            }
+            else
+            {
+                <img onclick="myFunction()" style=' color: #646464; position: absolute;     left: 405px;top: 315px; width:24px;' src="~/img/show.png" />
+            }
+         
+            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+
+
+            <button class="button">Đăng ký</button>
+        }
+    </div>
+   
+<div class="form-container_login sign-in-container_login">
+    @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { @class = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <h1 class="h1">Đăng nhập</h1>
+        <div class="social-container_login">
+            <a href="#" class="a social"><i class="fa fa-facebook"></i></a>
+            <a href="#" class="a social"><i class="fa fa-google"></i></a>
+        </div>
+        <span>hoặc sử dụng tài khoản của bạn</span>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger nonestype" })
+
+        @Html.TextBoxFor(model => model.UserName, new { @class = "input", placeholder = "Họ tên" })
+        @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+
+        @Html.TextBoxFor(model => model.Password, new { id = "pass", @class = "input", placeholder = "Mật khẩu", @type = "password" })
+        if (Model != null)
+            {
+                <img onclick="myFunction()" style=' color: #646464; position: absolute;     left: 405px;top: 282px; width:24px;' src="~/img/show.png" />
+            }
+            else
+            {
+                <img onclick="myFunction()" style=' color: #646464; position: absolute;     left: 405px;top: 265px; width:24px;' src="~/img/show.png" />
+            }
+        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+
+
+        <a class="a" href="#">Quên mật khẩu?</a>
+        <button class="button">Đăng nhập</button>
+    }
+</div>
+    <div class="overlay-container_login">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <h1 class="h1">Chào mừng trở lại!</h1>
+                <p class="p_login">Để giữ kết nối với chúng tôi, vui lòng đăng nhập bằng thông tin cá nhân của bạn</p>
+                <button class="button ghost" id="signIn">Đăng nhập</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1 class="h1">Chào bạn!</h1>
+                <p class="p_login">Nhập thông tin cá nhân của bạn và bắt đầu hành trình với chúng tôi</p>
+                <button class="button ghost" id="signUp">Đăng ký</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script id="rendered-js">
+    const signUpButton = document.getElementById('signUp');
+    const signInButton = document.getElementById('signIn');
+    const container_login = document.getElementById('container_login');
+
+    signUpButton.addEventListener('click', () => {
+        container_login.classList.add("right-panel-active");
+    });
+
+    signInButton.addEventListener('click', () => {
+        container_login.classList.remove("right-panel-active");
+    });
+    function myFunction() {
+        var x = document.getElementById("Password");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+        var x = document.getElementById("pass");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+    //# sourceURL=pen.js</script>

@@ -10,7 +10,7 @@
                                 var lengdes = item.Description.Length;
                                 <div class="slide" data-swiper-slide-index="8" style="width: 150px; margin-right: 16px; ">
                                     <div class="media">
-                                        <a class="block" href="@Url.Action("Detailt", "News", new { area = "", id = item.Id })"
+                                        <a class="block" asp-controller = "News" asp-action = "Index" asp-route-id = "@item.Id" 
                                            title="@item.Title">
                                             <div class="pos-rel">
                                                 <img class="media-object" src="@(Configuration["BaseAddress"] + "/news-content/" + @item.Img)" style="border-radius: 10px;"

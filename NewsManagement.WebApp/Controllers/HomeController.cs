@@ -36,11 +36,10 @@ namespace NewsManagement.WebApp.Controllers
             _cityApiClient = cityApiClient;
             _categoryApiClient = categoryApiClient;
         }
-
         public async Task<IActionResult> Index()
         {
             ViewBag.Event = await _eventApiClient.GetEvent();
-            ViewBag.NewsHot = await _newsApiClient.GetNewsTop();
+            ViewBag.NewsTop = await _newsApiClient.GetNewsTop();
             ViewBag.NewsFocus = await _newsApiClient.NewsFocus(1);
             ViewBag.NewsTopView = await _newsApiClient.NewsFocus(100);
             ViewBag.Category = await _categoryApiClient.GetMenu();
@@ -48,13 +47,10 @@ namespace NewsManagement.WebApp.Controllers
             ViewBag.NewsVideo = await _newsApiClient.NewsVideo();
             return View();
         }
-
-
         public IActionResult Privacy()
         {
             return PartialView();
         }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

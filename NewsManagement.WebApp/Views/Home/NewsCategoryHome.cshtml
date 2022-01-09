@@ -1,18 +1,14 @@
-﻿
-@model IEnumerable<NewsManagement.ViewModels.Catalog.Newss.NewsVm>
+﻿@model IEnumerable<NewsManagement.ViewModels.Catalog.Newss.NewsVm>
 @inject Microsoft.Extensions.Configuration.IConfiguration Configuration
 @{
 	var i = 0;
 }
-
 <div class="w-body">
 	<div class="row">
 		@{
 			i = 0;
-
 			foreach (var item in Model)
 			{
-				
 					if (i == 0)
 					{
 						var lengtit = item.Title.Length;
@@ -20,8 +16,8 @@
 						<div class="col-xs-7">
 
 							<div class="media">
-								<a class="block"
-				   	href="@Url.Action("Detailt", "News", new { area = "", Id = item.Id })"
+								<a class="block" 
+				   	asp-controller = "News" asp-action = "Index" asp-route-id = "@item.Id" 
 				   	title="@item.Title">
 									<div class="pos-rel">
 										<img class="thumbnail"
@@ -44,7 +40,6 @@
 
 					}
 					i++;
-				
 			}
 		}
 
@@ -55,7 +50,7 @@
 				foreach (var item in Model)
 				{
 					
-						if (i > 0 && i < 5)
+						if (i > 0)
 						{
 							var lengtit = item.Title.Length;
 							var lengdes = item.Description.Length;
@@ -63,7 +58,7 @@
 
 								<div class="media-left">
 									<a class="block"
-					   	href="@Url.Action("Detailt", "News", new { area = "", Id = item.Id })"
+					   asp-controller = "News" asp-action = "Index" asp-route-id = "@item.Id" 
 					   	title="@item.Title">
 										<div class="pos-rel">
 											<img class="thumbnail w100"
@@ -74,7 +69,7 @@
 								</div>
 								<div class="media-body">
 									<h3 class="heading normal">
-										<a href="@Url.Action("Detailt", "News", new { area = "", Id = item.Id })"
+										<a asp-controller = "News" asp-action = "Index" asp-route-id = "@item.Id" 
 						   	title="@item.Title">
 											@(lengtit > 60 ? item.Title.Substring(0,60) + "..." : item.Title)
 										</a>
