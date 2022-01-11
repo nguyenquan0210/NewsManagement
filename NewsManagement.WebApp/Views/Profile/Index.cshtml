@@ -1,0 +1,254 @@
+﻿@model NewsManagement.ViewModels.System.Users.UserUpdateRequest
+
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@{
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/profile.css" rel="stylesheet" />
+<style>
+</style>
+<div class="clearfix wrap-contanter" data-sticky_parent>
+	<div class="w-item w-725 wf-submenu style-1 ">
+		<div class="w-inner">
+			<div class="sub-menu pos-rel">
+				<ul class="navpro sub-nav">
+					<li>
+						<ul class="breadcrumb">
+							<li itemscope="" itemtype="">
+								<a href="/" itemprop="url"><span itemprop="title">Trang chủ</span></a>
+							</li>
+							<li class="active">
+								Thông tin cá nhân
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="lpos lpos-1 col-lg-3">
+		<div class=" card position-sticky top-1">
+			<ul class="navpro flex-column bg-white border-radius-lg p-3">
+
+				<li class="nav-item">
+					<a class="nav-link text-body activea" data-scroll="" href="#profile">
+						<span class="text-sm">Hồ sơ</span>
+					</a>
+				</li>
+				<li class="nav-item pt-2">
+					<a class="nav-link text-body" data-scroll="" href="#changepass">
+						<span class="text-sm">Đổi mật khẩu</span>
+					</a>
+				</li>
+
+			</ul>
+		</div>
+	</div>
+	<div class="lpos lpos-2">
+		<div class="rowpro">
+			<div class="gw-item w-37 col-xs-12 pad-l-24 wf-html">
+				<form asp-action="Index" enctype="multipart/form-data" method="post">
+					@Html.AntiForgeryToken()
+					<div class="card " id="profile">
+						<div class="card-header">
+							<h5>Thay đổi thông tin</h5>
+
+						</div>
+
+						@if (TempData["AlertMessage"] != null)
+						{
+
+							<div class="validation-summary-errors  @TempData["AlertType"] nonestype">
+								<ul>
+									<li>@TempData["AlertMessage"]</li>
+								</ul>
+							</div>
+
+
+							<style>
+								.seachvisble {
+									display: none;
+								}
+							</style>
+						}
+						@*@Html.ValidationSummary(true, null, new { @class = "text-danger nonestype" })*@
+						<div class="card-body pt-0">
+							<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+							<div class="rowpro">
+								<div class="col-12">
+									<label asp-for="FirstName" class="form-label mt-4"></label>
+									<input asp-for="FirstName" class="multisteps-form__input form-control" />
+									<span asp-validation-for="FirstName" class="text-danger"></span>
+								</div>
+								<div class="col-12">
+									<label asp-for="LastName" class="form-label mt-4"></label>
+									<input asp-for="LastName" class="multisteps-form__input form-control" />
+									<span asp-validation-for="LastName" class="text-danger"></span>
+								</div>
+							</div>
+							<div class="rowpro">
+								<div class="col-12">
+									<label asp-for="Address" class="form-label mt-4"></label>
+									<input asp-for="Address" class="multisteps-form__input form-control" />
+									<span asp-validation-for="Address" class="text-danger"></span>
+								</div>
+								<div class="col-12">
+									<label asp-for="Dob" class="form-label mt-4"></label>
+									<input asp-for="Dob" class="multisteps-form__input form-control" />
+									<span asp-validation-for="Dob" class="text-danger"></span>
+								</div>
+
+								<div class="col-12">
+									<label asp-for="Email" class="form-label mt-4"></label>
+									<input asp-for="Email" class="multisteps-form__input form-control" />
+									<span asp-validation-for="Email" class="text-danger"></span>
+								</div>
+								<div class="col-12">
+									<label asp-for="PhoneNumber" class="form-label mt-4"></label>
+									<input asp-for="PhoneNumber" class="multisteps-form__input form-control" />
+									<span asp-validation-for="PhoneNumber" class="text-danger"></span>
+								</div>
+							</div>
+							<div class="rowpro">
+
+								<div class="col-7">
+									<label asp-for="ThumbnailImage" class="form-label mt-4"></label>
+									<input asp-for="ThumbnailImage" class="form-control" type="file" />
+									<span asp-validation-for="ThumbnailImage" class="text-danger"></span>
+								</div>
+								<div class="col-4" style="margin-left:20px;">
+									<label class="form-label mt-4"></label>
+									<div class="fileupload-new thumbnail form-control" style="min-width:190px; min-height:165px;">
+										<img style="max-width:200px; " id="src_img" src="@(Model.img != null ? @Configuration["BaseAddress"] + "/user-content/" + @Model.img : "")" alt="" class="w-100 border-radius-lg shadow-lg mt-3" />
+									</div>
+								</div>
+							</div>
+							<input asp-for="Id" type="hidden" />
+							<input asp-for="Status" type="hidden" />
+							<button class="btn bg-gradient-dark btn-sm float-end mt-6 mb-0">Thay đổi</button>
+						</div>
+					</div>
+				</form>
+
+				<form asp-action="ChangePassword" method="post">
+					@Html.AntiForgeryToken()
+					<div class="card mt-4" id="changepass">
+						<div class="card-header">
+							<h5>Thay đổi mật khẩu</h5>
+
+						</div>
+						@if (TempData["AlertMessage"] != null)
+						{
+
+							<div class="validation-summary-errors  @TempData["AlertType"] nonestype">
+								<ul>
+									<li>@TempData["AlertMessage"]</li>
+								</ul>
+							</div>
+
+
+							<style>
+								.seachvisble {
+									display: none;
+								}
+							</style>
+						}
+						<div class="card-body pt-0">
+							<div class="rowpro">
+								<div class="col-12">
+									<label class="form-label mt-4">Mật khẩu hiện tại</label>
+									<input class="multisteps-form__input form-control" type="password" data-val="true" 
+									data-val-required="Mật khẩu hiện tại là bắt buộc" id="currentPassword" name="currentPassword" >
+									<span class="field-validation-valid text-danger" data-valmsg-for="currentPassword" data-valmsg-replace="true"></span>
+								</div>
+								<div class="col-12">
+									<label class="form-label mt-4">Mật khẩu mới</label>
+									<input class="multisteps-form__input form-control" type="password" data-val="true" 
+									data-val-required="Mật khẩu mới là bắt buộc" id="NewPassword" name="NewPassword" >
+									<span class="field-validation-valid text-danger" data-valmsg-for="NewPassword" data-valmsg-replace="true"></span>
+
+								</div>
+								<div class="col-12">
+									<label class="form-label mt-4">Xác nhận mật khẩu</label>
+									<input class="multisteps-form__input form-control" type="password" data-val="true" 
+									 id="ConfirmPassword" name="ConfirmPassword" >
+									<span class="field-validation-valid text-danger" data-valmsg-for="ConfirmPassword" data-valmsg-replace="true"></span>
+								</div>
+							</div>
+
+							<h5 class="mt-5">Yêu cầu mật khẩu</h5>
+							<p class="text-muted mb-2">
+								Vui lòng làm theo hướng dẫn này để có một mật khẩu mạnh:
+							</p>
+							<ul class="text-muted ps-4 mb-0 float-start">
+								<li>
+									<span class="text-sm">Một chữ cái viết hoa, viết thường, ký tự số từ 10-99, kí tự đặt biệt</span>
+								</li>
+								<li>
+									<span class="text-sm">Tối thiểu 6 ký tự</span>
+								</li>
+								<li>
+									<span class="text-sm">Thay đổi nó thường xuyên</span>
+								</li>
+							</ul>
+							<button class="btn bg-gradient-dark btn-sm float-end mt-6 mb-0">Thay đổi</button>
+						</div>
+					</div>
+				</form>
+			</div>
+
+
+		</div>
+	</div>
+</div>
+
+<script id="rendered-js">
+	  $(function () {
+		  //Smooth scroll
+		  var $root = $('html, body');
+		  $('a').click(function () {
+			  $root.animate({
+						  scrollTop: $($.attr(this, 'href')).offset().top
+			  },
+				  800);
+						  return false;
+					  });
+		  //Sticky navigation on scroll.
+		  $(document).on('scroll', function () {
+						  if ($(this).scrollTop() > 90) {
+				  $('.lpos-1').addClass('lpos-1-sticky');
+	@*$('.card-header').addClass('mt-top');*@
+			  } else {
+				  $('.lpos-1').removeClass('lpos-1-sticky');
+	@* $('.card-header').removeClass('mt-top');*@
+			  }
+		  });
+		  //Add active class to the nav on click.
+		  $('.lpos-1 li a').click(function () {
+			  $('.lpos-1 li a').removeClass('activea');
+			  $(this).addClass('activea');
+		  });
+		  $('.lpos-1 li a').scroll(function () {
+			  $('.lpos-1 li a').removeClass('activea');
+			  $(this).addClass('activea');
+		  });
+	  });
+	//# sourceURL=pen.js
+</script>
+<script>
+	$(document).ready(function () {
+	});
+	$("#ThumbnailImage").change(function (event) {
+		var files = event.target.files;
+		$("#src_img").attr("src", window.URL.createObjectURL(files[0]));
+	});
+	$("#ThumbnailImage").change(function () {
+		var files = $('#ThumbnailImage').val();
+		$("#ThumbnailImage").attr("value", files.slice(12));
+	});
+
+
+</script>

@@ -1,5 +1,5 @@
 ﻿@using NewsManagement.ViewModels.System.Users
-@model LoginRequest
+@model PublicRegisterRequest
 
 @{
     ViewBag.Title = "Đăng Nhập";
@@ -32,35 +32,31 @@
 
 
 <link href="~/css/login.css" rel="stylesheet" />
-<div class="container_login " id="container_login" style="    margin-bottom: 100px;">
+<div class="container_login right-panel-active" id="container_login" style="    margin-bottom: 100px;">
     <div class="form-container_login sign-up-container_login" >
         <form asp-action="Register" method="post" class="form">
             @Html.AntiForgeryToken()
             <h1 class="h1">Tạo tài khoản</h1>
 
-            @*<div class="social-container_login">
-                <a href="#" class="a social"><i class="fa fa-facebook" ></i></a>
-                <a href="#" class="a social"><i class="fa fa-google"></i></a>
-            </div>*@
-           
             <span class="span">hoặc sử dụng email của bạn để đăng ký</span>
-             <br />
+            <br/>
             @Html.ValidationSummary(true, "", new { @class = "text-danger nonestype" })
 
-            <input class="input" data-val="true" data-val-length="Họ không được quá 100 ký tự." data-val-length-max="100" data-val-required="Họ là bắt buộc." id="LastName" name="LastName" placeholder="Họ" type="text" value="">
-            <span class="field-validation-valid text-danger" data-valmsg-for="LastName" data-valmsg-replace="true"></span>
+            <input class="input" asp-for="LastName" type="text" placeholder="Họ" >
+            <span asp-validation-for="LastName" class="text-danger"></span>
 
-            <input class="input" data-val="true" data-val-length="Tên không được quá 100 ký tự." data-val-length-max="100" data-val-required="Tên là bắt buộc." id="FirstName" name="FirstName" placeholder="Tên" type="text" value="">
-            <span class="field-validation-valid text-danger" data-valmsg-for="FirstName" data-valmsg-replace="true"></span>
+            <input class="input" asp-for="FirstName" type="text" placeholder="Tên" >
+            <span asp-validation-for="FirstName" class="text-danger"></span>
 
-             <input class="input" asp-for="UserName" type="text" placeholder="Tên đăng nhập" >
+            <input class="input" asp-for="UserName" type="text" placeholder="Tên đăng nhập" >
             <span asp-validation-for="UserName" class="text-danger"></span>
 
 
-           <input class="input" asp-for="Password" type="password" placeholder="Mật khẩu"  >
+           <input class="input" asp-for="Password" type="password" placeholder="Mật khẩu" id = "pass" >
             <span asp-validation-for="Password" class="text-danger"></span>
-             <input class="input" data-val="true" id="ConfirmPassword" name="ConfirmPassword" placeholder="Xác nhận mật khẩu" type="password" value="">
-            <span class="field-validation-valid text-danger" data-valmsg-for="ConfirmPassword" data-valmsg-replace="true"></span>
+
+            <input class="input" asp-for="ConfirmPassword" type="password" placeholder="Xác nhận mật khẩu">
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
 
             <button class="button">Đăng ký</button>
         </form>
@@ -70,12 +66,13 @@
     <form asp-action="Index" method="post" class="form">
         @Html.AntiForgeryToken()
         <h1 class="h1">Đăng nhập</h1>
-       @* <div class="social-container_login">
+        @*<div class="social-container_login">
             <a href="#" class="a social"><i class="fa fa-facebook"></i></a>
             <a href="#" class="a social"><i class="fa fa-google"></i></a>
         </div>*@
         <span>hoặc sử dụng tài khoản của bạn</span>
-         <br />
+            <br/>
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger nonestype" })
 
         <input class="input" asp-for="UserName" type="text" placeholder="Tên đăng nhập" >
@@ -83,17 +80,7 @@
 
         
          <input class="input" asp-for="Password" type="password" placeholder="Mật khẩu" id = "pass" >
-      @*  @if (Model != null)
-            {
-                <img onclick="myFunction()" style=' color: #646464; position: absolute;     left: 405px;top: 282px; width:24px;' src="~/img/show.png" />
-            }
-            else
-            {
-                <img onclick="myFunction()" style=' color: #646464; position: absolute;     left: 405px;top: 265px; width:24px;' src="~/img/show.png" />
-            }*@
-        
         <span asp-validation-for="Password" class="text-danger"></span>
-
 
         <a class="a" href="#">Quên mật khẩu?</a>
         <button class="button">Đăng nhập</button>

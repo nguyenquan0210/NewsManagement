@@ -64,6 +64,18 @@ namespace NewsManagement.ApiIntegration
             return int.Parse(result);
         }
 
+        public async Task<bool> AddView(int Id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+
+            var response = await client.GetAsync($"/api/news/addview/{Id}");
+            return response.IsSuccessStatusCode;
+        }
+
         public async Task<bool> Create(NewsCreateRequest request)
         {
             var client = _httpClientFactory.CreateClient();

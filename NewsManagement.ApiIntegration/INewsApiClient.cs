@@ -16,6 +16,8 @@ namespace NewsManagement.ApiIntegration
 
         Task<bool> Update(NewsUpdateRequest request);
 
+        Task<bool> AddView(int Id);
+
         Task<int> Delete(int Id);
 
         Task<PagedResult<NewsVm>> GetAllPaging(GetManageNewsPagingRequest request);
@@ -27,7 +29,6 @@ namespace NewsManagement.ApiIntegration
         Task<List<NewsVm>> GetNewsTop();
 
         Task<List<NewsVm>> NewsRelated(string keyword);
-
 
         Task<List<string>> GetNewsSearch( string keyword);
 

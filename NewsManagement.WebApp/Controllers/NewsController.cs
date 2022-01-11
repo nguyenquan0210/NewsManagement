@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using NewsManagement.ApiIntegration;
+using NewsManagement.Utilities.Constants;
 using NewsManagement.ViewModels.Catalog.Newss;
 using NewsManagement.ViewModels.Catalog.Ratings;
 using System.Threading.Tasks;
@@ -34,7 +36,6 @@ namespace NewsManagement.WebApp.Controllers
         }
         public async Task<IActionResult> Index(int Id)
         {
-           
             ViewBag.Event = await _eventApiClient.GetEvent();
             ViewBag.NewsCategory = await _newsApiClient.GetNewsTop();
             ViewBag.Rating = await _newsApiClient.GetAllRating(Id);
@@ -44,6 +45,23 @@ namespace NewsManagement.WebApp.Controllers
                 var userss = _userApiClient.GetByUserName(User.Identity.Name);
                 ViewBag.checksave = await _newsApiClient.GetBySave(userss.Result.ResultObj.Id.ToString() + Id);
             }
+            
+            var session = HttpContext.Session.GetString(SystemConstants.CheckNewsId);
+            if(session != null)
+            {
+                if (session.Contains("," + Id.ToString() + ",") == false)
+                {
+                    session = session + "," + Id.ToString() + ",";
+                    HttpContext.Session.SetString(SystemConstants.CheckNewsId, session);
+                    await _newsApiClient.AddView(Id);
+                }
+            }
+            else
+            {
+                HttpContext.Session.SetString(SystemConstants.CheckNewsId, "," + Id.ToString() + ",");
+                await _newsApiClient.AddView(Id);
+            }
+            
             
             return View(await _newsApiClient.GetById(Id));
         }

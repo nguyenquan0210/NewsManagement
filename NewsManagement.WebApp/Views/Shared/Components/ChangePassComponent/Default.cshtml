@@ -1,0 +1,65 @@
+﻿@model NewsManagement.ViewModels.System.Users.ChangePasswordRequest
+
+<form asp-action="Index" enctype="multipart/form-data" method="post">
+    @Html.AntiForgeryToken()
+    <div class="card mt-4" id="changepass">
+        <div class="card-header">
+            <h5>Thay đổi mật khẩu</h5>
+
+        </div>
+        @if (TempData["AlertMessage"] != null)
+        {
+
+            <div class="validation-summary-errors  @TempData["AlertType"] nonestype">
+                <ul>
+                    <li>@TempData["AlertMessage"]</li>
+                </ul>
+            </div>
+
+
+            <style>
+                .seachvisble {
+                    display: none;
+                }
+            </style>
+        }
+    <div class="card-body pt-0">
+        <div class="rowpro">
+            <div class="col-12">
+                <label asp-for="currentPassword" class="form-label mt-4"></label>
+				<input asp-for="currentPassword" class="multisteps-form__input form-control" type="password" />
+				<span asp-validation-for="currentPassword" class="text-danger"></span>
+            </div>
+            <div class="col-12">
+                <label asp-for="NewPassword" class="form-label mt-4"></label>
+				<input asp-for="NewPassword" class="multisteps-form__input form-control" type="password"/>
+				<span asp-validation-for="NewPassword" class="text-danger"></span>
+
+            </div>
+            <div class="col-12">
+                <label asp-for="ConfirmPassword" class="form-label mt-4"></label>
+				<input asp-for="ConfirmPassword" class="multisteps-form__input form-control" type="password"/>
+				<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+
+            </div>
+        </div>
+
+        <h5 class="mt-5">Yêu cầu mật khẩu</h5>
+        <p class="text-muted mb-2">
+            Vui lòng làm theo hướng dẫn này để có một mật khẩu mạnh:
+        </p>
+        <ul class="text-muted ps-4 mb-0 float-start">
+            <li>
+                <span class="text-sm">Một chữ cái viết hoa, viết thường, ký tự số từ 10-99, kí tự đặt biệt</span>
+            </li>
+            <li>
+                <span class="text-sm">Tối thiểu 6 ký tự</span>
+            </li>
+            <li>
+                <span class="text-sm">Thay đổi nó thường xuyên</span>
+            </li>
+        </ul>
+        <button class="btn bg-gradient-dark btn-sm float-end mt-6 mb-0">Thay đổi</button>
+    </div>
+    </div>
+</form>

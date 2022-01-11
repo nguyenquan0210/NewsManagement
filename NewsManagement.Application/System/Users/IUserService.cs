@@ -13,7 +13,9 @@ namespace NewsManagement.Application.System.Users
         
         Task<ApiResult<string>> Authencate(LoginRequest request);
 
-        Task<ApiResult<bool>> Register(ManageRegisterRequest request);
+        Task<ApiResult<bool>> ChangePassword(ChangePasswordRequest request);
+
+        Task<ApiResult<bool>> Register(PublicRegisterRequest request);
 
         Task<ApiResult<bool>> ManageRegister(ManageRegisterRequest request);
 
@@ -21,7 +23,7 @@ namespace NewsManagement.Application.System.Users
 
         Task<ApiResult<bool>> Update(Guid id, UserUpdateRequest request);
 
-        Task<ApiResult<PagedResult<UserVm>>> GetUsersPaging(GetUserPagingRequest request);
+        ApiResult<PagedResult<UserVm>> GetUsersPaging(GetUserPagingRequest request);
 
         Task<ApiResult<PagedResult<UserVm>>> GetUsersAllPaging(GetUserPagingRequest request);
 

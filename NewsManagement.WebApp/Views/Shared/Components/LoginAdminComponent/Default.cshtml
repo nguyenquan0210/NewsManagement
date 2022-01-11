@@ -1,0 +1,5 @@
+﻿@{
+	var token = (string)ViewBag.token;
+}
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+<li class="p "><a href="@(Configuration["BaseAddressAdmin"]+"/Login/LoginClient/?token="+token)" class="btn bg-gradient-info mb-0 h-100 position-relative z-index-2 " style="font-size:11px !important;"> @User.Identity.Name  </a></li>
