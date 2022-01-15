@@ -58,6 +58,8 @@ namespace NewsManagement.WebApp
 
             services.AddTransient<INewsApiClient, NewsApiClient>();
 
+            services.AddTransient<IContactApiClient, ContactApiClient>();
+
             IMvcBuilder builder = services.AddRazorPages();
 
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");

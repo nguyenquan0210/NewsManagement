@@ -32,7 +32,14 @@
     </ol>
     <h6 class="font-weight-bolder mb-0">Danh sách chủ đề tin tức</h6>
 }
-
+@section Search{
+	<form asp-controller="Topic" asp-action="Index"  method="get">
+		<div class="input-group">
+			<button type="submit" class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></button>
+			<input name="keyword" type="text" class="form-control" placeholder="Type here..." value ="@ViewBag.Keyword">
+		</div>
+	</form>
+}
 
 <div class="container-fluid py-4">
     <div class="row">
@@ -44,7 +51,7 @@
                         <div>
                             <h5 class="mb-0">Tất cả chủ đề tin tức</h5>
                             <p class="text-sm mb-0">
-                                Chủ đề truy vấn nhiều bảng không thể xóa.
+                                Chủ đề tin tức.
                             </p>
                         </div>
                         <div class="ms-auto my-auto mt-lg-0 mt-4">
@@ -72,7 +79,7 @@
                 }
                 <div class="card-body px-0 pb-0">
                     <div class="table-responsive">
-                        <table class="table table-flush" id="products-list">
+                        <table class="table table-flush" id="list">
                             <thead class="thead-light">
                                 <tr>
                                     <th>Mã chủ đề</th>
@@ -115,6 +122,7 @@
                                 </tr>
                             </tfoot>
                         </table>
+                        @await Component.InvokeAsync("DemoPage", Model)
                     </div>
                 </div>
             </div>
@@ -174,11 +182,11 @@
 @section jsFooter{
     <script src="~/js/plugins/datatables.js"></script>
     <script>
-        if (document.getElementById('products-list')) {
-            const dataTableSearch = new simpleDatatables.DataTable("#products-list", {
-                searchable: true,
+        if (document.getElementById('list')) {
+            const dataTableSearch = new simpleDatatables.DataTable("#list", {
+                searchable: false,
                 fixedHeight: false,
-                perPage: 7
+                paging: false
             });
             document.querySelectorAll(".export").forEach(function (el) {
                 el.addEventListener("click", function (e) {

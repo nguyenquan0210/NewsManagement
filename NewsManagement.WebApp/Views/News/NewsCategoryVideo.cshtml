@@ -1,0 +1,83 @@
+﻿@using NewsManagement.ViewModels.Catalog.Events
+@using NewsManagement.ViewModels.Catalog.Newss
+@using NewsManagement.ViewModels.Common;
+@model PagedResult<NewsManagement.ViewModels.Catalog.Newss.NewsVm>
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+
+@{
+	ViewData["Title"] = "NewsCategoryVideo";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	var ListNewsCate = (List<NewsVm>)ViewBag.ListNewsCate;
+}
+
+<div class="lpos lpos-1">
+	<div class="row">
+		<div class="w-item w-725 col-xs-12 wf-submenu style-1 ">
+			<div class="w-inner">
+				<div class="article-breadcrum">
+					<ul class="breadcrumb">
+						<li itemscope="" itemtype="">
+							<a href="/" itemprop="url"><span itemprop="title">Trang chủ</span></a>
+						</li>
+						<li class="active">Danh sách bài viết bạn đã lưu</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="w-item w-356 col-xs-12 wf-listpost wf-postposition style-video ">
+			<div class="w-inner">
+				<div class="w-body">
+					@foreach (var item in ListNewsCate.Take(1))
+					{
+						<div class="row">
+							<div class="col-xs-9 w680">
+								<div id="abdplayer">
+									<a asp-controller="News" asp-action="Index" asp-route-id="@item.Id" title="@item.Title">
+										<img class="thumbnail" src="@(Configuration["BaseAddress"] + "/news-content/" + @item.Img)" alt="@item.Title" width="100%">
+									</a>
+								</div>
+							</div>
+							<div class="col-xs-3 w316">
+								<div class="video-info">
+									<h3 class="heading huge mg-b-10"><a asp-controller="News" asp-action="Index" asp-route-id="@item.Id" title="@item.Title">@item.Title</a>
+										<time class="time friendly rel-time" datetime="@item.Date.ToString("yyyy-MM-dd HH:mm:ss")"></time>
+										
+										</h3>
+									<p class="sapo mg-b-10">@item.Description</p>
+									@*<div class="center-block">
+										<a asp-controller="News" asp-action="Index" asp-route-id="@item.Id" title="@item.Title" class="block button pad-8">Xem và Bình luận</a>
+									</div>*@
+								</div>
+							</div>
+						</div>
+					}
+				</div>
+				
+				<div class="wbox">
+					<div class="w-body">
+						<div class="load-content">
+							<div class="row col-up-4">
+								@foreach (var item in Model.Items)
+					{
+						var lengtit = item.Title.Length;
+								<div class="col">
+									<a class="block mg-b-25"  asp-controller="News" asp-action="Index" asp-route-id="@item.Id" title="@item.Title">
+										<div class="pos-rel mg-b-10"> 
+											<img class="thumbnail" src="@(Configuration["BaseAddress"] + "/news-content/" + @item.Img)" alt="@item.Title" style="min-height: 152px">
+										</div>
+											<p class="heading big thin mg-b-10">@(lengtit > 75 ? item.Title.Substring(0,75) + "..." : item.Title)
+												<time class="time friendly rel-time" datetime="2022-01-14 15:20:38"></time></p>
+										</a>
+								</div>
+									}		
+										<div class="center-block">
+											 @await Component.InvokeAsync("DemoComponent", Model)
+										</div>
+									</div>
+								</div>
+							</div>
+				</div>
+		</div>
+
+	</div>
+</div>

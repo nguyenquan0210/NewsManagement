@@ -54,15 +54,14 @@
                                 </ul>
                                 <ul class="nav pull-left">
                                     <!--li><a href="https://tintuc.vn/tin-dia-phuong" class="uppercase hightlight">Tin tức 63 tỉnh</a></li-->
-                                    <li style="padding: 0.5rem 0rem !important;"><a href="@Url.Action("NewsNew","NewsCity")" class="uppercase">Tin mới</a></li>
+                                    <li style="padding: 0.5rem 0rem !important;"><a href="@Url.Action("NewsLatest","News")" class="uppercase">Tin mới</a></li>
                                 </ul>
                                 <ul class="nav pull-left" id="header_address"></ul>
                                 <ul class="nav pull-right navbar-nav d-lg-block d-none">
                                     <li style="padding: 0.5rem 0rem !important;">
                                        <form id="SearchForm" action="@Url.Action("NewsSearch","News")" method="get">
-                                            <div class="input-group search_sidebar">
-                                                <input class="input-group-field input-quiet txtSearch" id=""
-                                                       type="text" placeholder="Tìm kiếm" name="search">
+                                            <div class="input-group ">
+                                                <input class="input-group-field input-quiet txtSearch" id="" style=" border-radius: 5px  0 0 5px;"  type="text" placeholder="Tìm kiếm" name="search" value ="@ViewBag.search">
                                                 <div class="input-group-button">
                                                     <button type="submit" class="button-quiet">
                                                         <i class="search ico ico_common"></i>
@@ -135,10 +134,10 @@
                                         <li><a rel="nofollow" href="@Url.Action("Index", "Home", new { area =""})">Trang chủ</a></li>
                                         <li><a rel="nofollow" href="/">Ảnh</a></li>
                                         <li><a rel="nofollow" href="/">Video</a></li>
-                                        <li><a rel="nofollow" href="/">Tin mới nhất</a></li>
-                                        <li><a rel="nofollow" href="/">Tin tức 24h</a></li>
-                                        <li><a rel="nofollow" href="/">Đọc báo 24h</a></li>
-                                        <li><a rel="nofollow" href="/">Báo mới</a></li>
+                                        <li><a rel="nofollow" href="@Url.Action("NewsLatest","News")">Tin mới nhất</a></li>
+                                        <li><a rel="nofollow" href="@Url.Action("NewsLatest","News")">Tin tức 24h</a></li>
+                                        <li><a rel="nofollow" href="@Url.Action("NewsLatest","News")">Đọc báo 24h</a></li>
+                                        <li><a rel="nofollow" href="@Url.Action("NewsLatest","News")">Báo mới</a></li>
                                     </ul>
                                 </div>
                                @await Component.InvokeAsync("CategoryFooter")

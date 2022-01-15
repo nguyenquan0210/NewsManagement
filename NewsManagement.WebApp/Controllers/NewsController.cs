@@ -112,6 +112,23 @@ namespace NewsManagement.WebApp.Controllers
             }
             return View(data);
         }
+        public async Task<IActionResult> NewsCategoryVideo(int categoryid, int pageIndex = 1, int pageSize = 20)
+        {
+            var request = new GetPublicNewsPagingRequest()
+            {
+                CategoryId = categoryid,
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
+            var data = await _newsApiClient.PublicGetAllPaging(request);
+            ViewBag.cate = await _categoryApiClient.GetById(categoryid);
+            ViewBag.ListNewsCate = await _newsApiClient.GetNewsCategory(categoryid);
+            if (TempData["result"] != null)
+            {
+                ViewBag.SuccessMsg = TempData["result"];
+            }
+            return View(data);
+        }
         public async Task<IActionResult> NewsSave()
         {
             var userss = _userApiClient.GetByUserName(User.Identity.Name);
@@ -124,7 +141,14 @@ namespace NewsManagement.WebApp.Controllers
             }
             return View(data);
         }
-        public async Task<IActionResult> NewsCity(int cityId, int pageIndex = 1, int pageSize = 10)
+        
+        [HttpPost]
+        public async Task<IActionResult> DeleteSave(int saveId)
+        {
+            var result = await _newsApiClient.DeleteSave(saveId);
+            return Json(new { response = result });
+        }
+        public async Task<IActionResult> NewsCity(int cityId, int pageIndex = 1, int pageSize = 18)
         {
             var request = new GetPublicNewsPagingRequest()
             {
@@ -143,7 +167,7 @@ namespace NewsManagement.WebApp.Controllers
             }
             return View(data);
         }
-        public async Task<IActionResult> NewsEvent(int eventId, int pageIndex = 1, int pageSize = 10)
+        public async Task<IActionResult> NewsEvent(int eventId, int pageIndex = 1, int pageSize = 18)
         {
             var request = new GetPublicNewsPagingRequest()
             {
@@ -179,7 +203,7 @@ namespace NewsManagement.WebApp.Controllers
             }
             return View(data);
         }
-        public async Task<IActionResult> NewsSearch(string search, int pageIndex = 1, int pageSize = 10)
+        public async Task<IActionResult> NewsSearch(string search, int pageIndex = 10, int pageSize = 18)
         {
             var request = new GetPublicNewsPagingRequest()
             {
@@ -191,6 +215,25 @@ namespace NewsManagement.WebApp.Controllers
             ViewBag.Event = await _eventApiClient.GetEvent();
             ViewBag.News = await _newsApiClient.GetNewsTop();
             ViewBag.search = search;
+            if (TempData["result"] != null)
+            {
+                ViewBag.SuccessMsg = TempData["result"];
+            }
+            return View(data);
+        }
+        public async Task<IActionResult> NewsLatest(int pageIndex = 1, int pageSize = 18)
+        {
+            var request = new GetPublicNewsPagingRequest()
+            {
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
+            var data = await _newsApiClient.PublicGetAllPaging(request);
+            ViewBag.Event = await _eventApiClient.GetEvent();
+            ViewBag.City = await _cityApiClient.GetCity();
+            ViewBag.NewsTop = await _newsApiClient.GetNewsTop();
+            ViewBag.NewsFocus = await _newsApiClient.NewsFocus(1);
+            ViewBag.NewsTopView = await _newsApiClient.NewsFocus(100);
             if (TempData["result"] != null)
             {
                 ViewBag.SuccessMsg = TempData["result"];

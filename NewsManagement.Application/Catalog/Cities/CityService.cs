@@ -62,10 +62,10 @@ namespace NewsManagement.Application.Catalog.Cities
 
         public async Task<PagedResult<CatalogVm>> GetAllPaging(GetCatalogPagingRequest request)
         {
-            var query = _context.Cities;
+            var query = from c in _context.Cities select c; 
             //2. filter
             if (!string.IsNullOrEmpty(request.Keyword))
-                query.Where(x => x.Name.Contains(request.Keyword));
+               query = query.Where(x => x.Name.Contains(request.Keyword));
 
             int totalRow = await query.CountAsync();
 

@@ -124,6 +124,17 @@ namespace NewsManagement.BackendApi.Controllers
             
             return Ok(affectedResult);
         }
+        [HttpDelete("deletesave/{saveId}")]
+        public async Task<IActionResult> DeleteSave([FromRoute] int saveId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var affectedResult = await _newsSevice.DeleteComment(saveId);
+
+            return Ok(affectedResult);
+        }
 
         [HttpGet("save/{checkstring}")]
         public async Task<IActionResult> GetBySave(string checkstring)

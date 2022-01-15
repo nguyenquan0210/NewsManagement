@@ -72,11 +72,11 @@ namespace NewsManagement.AdminApp.Controllers
 
             if (result)
             {
-                TempData["AlertMessage"] = "Thêm mới thể loại thành công";
+                TempData["AlertMessage"] = "Thêm mới tin tức thành công";
                 TempData["AlertType"] = "alert-success";
                 return RedirectToAction("Index");
             }
-            TempData["AlertMessage"] = "Thêm mới thể loại bị lỗi";
+            TempData["AlertMessage"] = "Thêm mới tin tức bị lỗi";
             TempData["AlertType"] = "alert-warning";
             return View(request);
         }
@@ -124,11 +124,11 @@ namespace NewsManagement.AdminApp.Controllers
             var result = await _newsApiClient.Update(request);
             if (result)
             {
-                TempData["AlertMessage"] = "Thay đổi thể loại thành công";
+                TempData["AlertMessage"] = "Thay đổi thông tin tin tức thành công";
                 TempData["AlertType"] = "alert-success";
                 return RedirectToAction("Index");
             }
-            TempData["AlertMessage"] = "Thay đổi thể loại bị lỗi";
+            TempData["AlertMessage"] = "Thay đổi thông tin tin tức bị lỗi";
             TempData["AlertType"] = "alert-warning";
             return View(request);
         }

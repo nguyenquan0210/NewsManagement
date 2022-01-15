@@ -135,6 +135,20 @@ namespace NewsManagement.Data.Extensions
                 Expire_Date = DateTime.Now.AddMonths(1),
                 Status = Status.Active }
             );
+            modelBuilder.Entity<Contact>().HasData(
+                new Contact()
+                {
+                    Id = 1,
+                    Email = "nguyenquan52000@gmail.com",
+                    Address = "Thôn An Lương Xã Tam Anh Bắc Núi Thành Quảng Nam",
+                    Company = "Trung tâm phát triển phần mềm - ĐH Đà Nẵng",
+                    Click = 0 ,
+                    Contact_Advertise = "ads@tintuc.vn - Điện thoại: 0964.705.888",
+                    Hotline = "(+84) 236.2240.741",
+                    Leader = "Nguyễn Đình Quân",
+                    License = "<p>Giấy ph&eacute;p hoạt động số 3049/GP-TTĐT do Sở TTTT H&agrave; Nội cấp ng&agrave;y 07/11/2014.</p>< p > Giấy x & aacute; c nhận số: 4164 / GXN - TTĐT, do sở TTTT H & agrave; Nội cấp ng & agrave; y 19 / 10 / 2018.</ p >< p > Giấy ph & eacute; p sửa đổi bổ sung số: 4294 / GP - TTĐT, do sở TTTT H & agrave; Nội cấp ng & agrave; y 30 / 10 / 2018.</ p >",
+                    Position = "Phó Giám Đốc"
+                });
         }
     }
 }

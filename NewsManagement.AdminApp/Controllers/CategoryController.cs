@@ -87,11 +87,11 @@ namespace NewsManagement.AdminApp.Controllers
             var result = await _categoryApiClient.Update(request);
             if (result)
             {
-                TempData["AlertMessage"] = "Thay đổi thể loại thành công";
+                TempData["AlertMessage"] = "Thay đổi thông tin thể loại thành công";
                 TempData["AlertType"] = "alert-success";
                 return RedirectToAction("Index");
             }
-            TempData["AlertMessage"] = "Thay đổi thể loại bị lỗi";
+            TempData["AlertMessage"] = "Thay đổi thông tin thể loại bị lỗi";
             TempData["AlertType"] = "alert-warning";
             return View(request);
         }

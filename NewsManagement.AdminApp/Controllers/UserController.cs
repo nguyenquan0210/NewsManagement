@@ -30,14 +30,27 @@ namespace NewsManagement.AdminApp.Controllers
 
         public async Task<IActionResult> Index(string keyword, string rolename, int pageIndex = 1, int pageSize = 10)
         {
-             
+             if(ViewBag.Role != null)
+            {
+                var role = ViewBag.Role;
+            }
             List<SelectListItem> selectListItems = new List<SelectListItem>()
             {
-                new SelectListItem(text: "Tất cả", value: "all"),
-                new SelectListItem(text: "Nhân viên", value: "staff"),
                 new SelectListItem(text: "Khách Hàng", value: "client"),
                 new SelectListItem(text: "Người dùng", value: "user")
             };
+            if (User.IsInRole("admin"))
+            {
+                selectListItems.Add(new SelectListItem(text: "Tất cả", value: "all"));
+                selectListItems.Add(new SelectListItem(text: "Nhân viên", value: "staff"));
+            }
+            else
+            {
+                if (rolename == null)
+                {
+                    rolename = "user";
+                }
+            }
             ViewBag.rolename = selectListItems.Select(x => new SelectListItem()
             {
                 Text = x.Text,
@@ -54,6 +67,8 @@ namespace NewsManagement.AdminApp.Controllers
             };
             var data = await _userApiClient.GetUsersPagings(request);
             ViewBag.Keyword = keyword;
+            if(rolename != null)
+                ViewBag.Role = rolename;
             if (TempData["result"] != null)
             {
                 ViewBag.SuccessMsg = TempData["result"];
@@ -86,8 +101,8 @@ namespace NewsManagement.AdminApp.Controllers
 
             if (result.IsSuccessed)
             {
-                TempData["result"] = "Thêm mới người dùng thành công";
-
+                TempData["AlertMessage"] = "Thêm mới người dùng thành công";
+                TempData["AlertType"] = "alert-success";
                 return RedirectToAction("Index");
             }
 
@@ -131,7 +146,8 @@ namespace NewsManagement.AdminApp.Controllers
             var result = await _userApiClient.UpdateUser(request.Id, request);
             if (result.IsSuccessed)
             {
-                TempData["result"] = "Cập nhật người dùng thành công";
+                TempData["AlertMessage"] = "Thay đổi thông tin người dùng thành công";
+                TempData["AlertType"] = "alert-success";
                 return RedirectToAction("Index");
             }
 

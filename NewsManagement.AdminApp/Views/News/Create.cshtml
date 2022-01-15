@@ -30,7 +30,14 @@
     </ol>
     <h6 class="font-weight-bolder mb-0">Thêm tin tức</h6>
 }
-
+@section Search{
+	<form asp-controller="News" asp-action="Index"  method="get">
+		<div class="input-group">
+			<button type="submit" class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></button>
+			<input name="keyword" type="text" class="form-control" placeholder="Type here..." value ="@ViewBag.Keyword">
+		</div>
+	</form>
+}
 <div class="container-fluid my-3 py-3">
     <div class="row mb-5">
         <div class="col-lg-12 mt-lg-0 mt-4">
@@ -41,7 +48,7 @@
                     <div class="card-header">
                         <h5>Thêm tin tức</h5>
                         <p class="text-sm mb-0">
-                            Thành phố nơi các nhà báo tin tức hoạt động.
+                            Tin tức.
                         </p>
                     </div>
                     @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
