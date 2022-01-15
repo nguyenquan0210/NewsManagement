@@ -70,7 +70,7 @@ namespace NewsManagement.BackendApi.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Register([FromBody] ManageRegisterRequest request)
+        public async Task<IActionResult> Register([FromBody] PublicRegisterRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -84,7 +84,7 @@ namespace NewsManagement.BackendApi.Controllers
         }
 
         //PUT: http://localhost/api/users/id
-        [HttpPut("{id}")]
+        [HttpPut("updateuser/{id}")]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> Update(Guid id, [FromForm] UserUpdateRequest request)
         {
@@ -98,7 +98,19 @@ namespace NewsManagement.BackendApi.Controllers
             }
             return Ok(result);
         }
-        
+        [HttpPut("changepass")]
+        public async Task<IActionResult> ChangePass([FromBody] ChangePasswordRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _userService.ChangePassword(request);
+            if (!result.IsSuccessed)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
         [HttpPut("{id}/roles")]
         public async Task<IActionResult> RoleAssign(Guid id, [FromBody] RoleAssignRequest request)
         {
@@ -121,7 +133,7 @@ namespace NewsManagement.BackendApi.Controllers
             {
                 if(request.RoleName.ToUpper() != "ALL")
                 {
-                    var userinrole = await _userService.GetUsersPaging(request);
+                    var userinrole = _userService.GetUsersPaging(request);
                     return Ok(userinrole);
                 }
             }

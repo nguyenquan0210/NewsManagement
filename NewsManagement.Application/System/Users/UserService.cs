@@ -54,17 +54,18 @@ namespace NewsManagement.Application.System.Users
                 return new ApiErrorResult<string>("Đăng nhập không đúng.");
             }
             var roles = await _userManager.GetRolesAsync(user);
-            
-            var checkrole = roles.Where(x => x.ToUpper() == "ADMIN");
+            var checkrole = roles.Where(x => x.ToUpper() == "ADMIN"|| x.ToUpper() == "STAFF");
 
-            if (checkrole.Count() == 0 && request.Check) return new ApiErrorResult<string>("Chỉ nhận tài khoản admin.");
+            if (checkrole.Count() == 0 && request.Check) return new ApiErrorResult<string>("Chỉ nhận quản trị viên.");
+
             var claims = new[]
             {
-                new Claim(ClaimTypes.Email,user.Email),
+                //new Claim(ClaimTypes.Email,user.Email),
                 new Claim(ClaimTypes.GivenName,user.FirstName),
                 new Claim(ClaimTypes.Role, string.Join(";",roles)),
                 new Claim(ClaimTypes.Name, request.UserName)
             };
+
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
@@ -172,7 +173,7 @@ namespace NewsManagement.Application.System.Users
             return new ApiSuccessResult<PagedResult<UserVm>>(pagedResult);
         }
 
-        public async Task<ApiResult<PagedResult<UserVm>>> GetUsersPaging(GetUserPagingRequest request)
+        public  ApiResult<PagedResult<UserVm>> GetUsersPaging(GetUserPagingRequest request)
         {
             var query = _userManager.GetUsersInRoleAsync(request.RoleName).Result;
 
@@ -209,45 +210,38 @@ namespace NewsManagement.Application.System.Users
             return new ApiSuccessResult<PagedResult<UserVm>>(pagedResult);
         }
 
-        public async Task<ApiResult<bool>> Register(ManageRegisterRequest request)
+        public async Task<ApiResult<bool>> Register(PublicRegisterRequest request)
         {
             var user = await _userManager.FindByNameAsync(request.UserName);
+            var role = await _roleManager.FindByNameAsync(request.NameRole);
             if (user != null)
             {
                 return new ApiErrorResult<bool>("Tài khoản đã tồn tại");
             }
-            if (await _userManager.FindByEmailAsync(request.Email) != null)
-            {
-                return new ApiErrorResult<bool>("Emai đã tồn tại");
-            }
-
              user = new AppUser()
             {
-                Dob = request.Dob,
-                Email = request.Email,
-                Address = request.Address,
+                Dob = DateTime.Now.AddYears(-12),
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 UserName = request.UserName,
-                PhoneNumber = request.PhoneNumber,
-                Status = Status.Active,
-                Img =  await this.SaveFile(request.ThumbnailImage)
-
+                Status = Status.Active
              };
             var result = await _userManager.CreateAsync(user, request.Password);
             if (result.Succeeded)
             {
-                return new ApiSuccessResult<bool>();
+                if (await _userManager.IsInRoleAsync(user, role.Name) == false)
+                {
+                    var rs = await _userManager.AddToRoleAsync(user, role.Name);
+
+                    if (rs.Succeeded)
+                    {
+                        return new ApiSuccessResult<bool>();
+                    }
+                }
             }
             return new ApiErrorResult<bool>("Đăng ký không thành công");
         }
-        private async Task<string> SaveFile(IFormFile file)
-        {
-            var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
-            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
-            await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
-            return  fileName;
-        }
+        
         public async Task<ApiResult<bool>> ManageRegister(ManageRegisterRequest request)
         {
             var user = await _userManager.FindByNameAsync(request.UserName);
@@ -290,7 +284,13 @@ namespace NewsManagement.Application.System.Users
             }
             return new ApiErrorResult<bool>("Đăng ký không thành công");
         }
-
+        private async Task<string> SaveFile(IFormFile file)
+        {
+            var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
+            await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
+            return fileName;
+        }
         public async Task<ApiResult<bool>> RoleAssign(Guid id, RoleAssignRequest request)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
@@ -322,22 +322,22 @@ namespace NewsManagement.Application.System.Users
 
         public async Task<ApiResult<bool>> Update(Guid id, UserUpdateRequest request)
         {
-            var userfind = await _userManager.FindByIdAsync(id.ToString());
+            var user = await _userManager.FindByIdAsync(id.ToString());
             if (await _userManager.Users.AnyAsync(x => x.Email == request.Email && x.Id != id))
             {
                 return new ApiErrorResult<bool>("Emai đã tồn tại");
             }
             if (request.ThumbnailImage != null)
             {
-                if(userfind.Img != null)
+                if(user.Img != null)
                 {
-                    await _storageService.DeleteFileAsync(userfind.Img);
+                    await _storageService.DeleteFileAsync(user.Img);
                 }
 
-                userfind.Img = await this.SaveFile(request.ThumbnailImage);
+                user.Img = await this.SaveFile(request.ThumbnailImage);
 
             }
-            var user = await _userManager.FindByIdAsync(id.ToString());
+            
             user.Dob = request.Dob;
             user.Email = request.Email;
             user.FirstName = request.FirstName;
@@ -369,7 +369,9 @@ namespace NewsManagement.Application.System.Users
                 Dob = user.Dob,
                 Id = user.Id,
                 LastName = user.LastName,
-                UserName = user.UserName
+                UserName = user.UserName,
+                Img = user.Img,
+                Address = user.Address
             };
             return new ApiSuccessResult<UserVm>(userVm);
         }
@@ -389,12 +391,24 @@ namespace NewsManagement.Application.System.Users
                     return new ApiSuccessResult<bool>();
                 }
             }
-            
-          
-
             return new ApiErrorResult<bool>("Cập nhật không thành công");
         }
 
-        
+        public async Task<ApiResult<bool>> ChangePassword(ChangePasswordRequest request)
+        {
+            var user = await _userManager.FindByNameAsync(request.UserName);
+            if (user == null) return new ApiErrorResult<bool>("Tài khoản không tồn tại");
+            var checkpass = await _userManager.CheckPasswordAsync(user, request.currentPassword);
+            if (!checkpass)
+            {
+                return new ApiErrorResult<bool>("Mật khẩu không đúng.");
+            }
+            var result = await _userManager.ChangePasswordAsync(user, request.currentPassword, request.NewPassword);
+            if (result.Succeeded)
+            {
+                return new ApiSuccessResult<bool>();
+            }
+            return new ApiErrorResult<bool>("Đổi mật khẩu không thành công!");
+        }
     }
 }

@@ -65,7 +65,7 @@ namespace NewsManagement.BackendApi.Controllers
                 return BadRequest("Cannot find product");
             return Ok(news);
         }
-        [HttpPut("addview")]
+        [HttpGet("addview/{Id}")]
         public async Task<IActionResult> AddView(int Id)
         {
             await _newsSevice.UpdateView(Id);

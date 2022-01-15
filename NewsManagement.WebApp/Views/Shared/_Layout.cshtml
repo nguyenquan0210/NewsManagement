@@ -1,4 +1,6 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http
+@using NewsManagement.Utilities.Constants
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -72,13 +74,20 @@
                                     @if(!User.Identity.IsAuthenticated)
                                     {
                                         <li class="p "><a href="@Url.Action("Index","Login", new { area = "" })" class="btn bg-gradient-info mb-0 h-100 position-relative z-index-2 " style="font-size:11px !important;">Đăng nhập</a></li>
-                                        <li style="padding: 0.5rem 0rem !important;"><a href="@Url.Action("Signin","Login", new { area = "" })" class="btn bg-gradient-info mb-0 h-100 position-relative z-index-2 " style="font-size:11px !important;">Đăng ký</a></li>
+                                        <li style="padding: 0.5rem 0rem !important;"><a asp-controller="Login" asp-action="Register" class="btn bg-gradient-info mb-0 h-100 position-relative z-index-2 " style="font-size:11px !important;">Đăng ký</a></li>
 
                                     }
                                     else
                                     {
-                                        <li class="p "><a href="" class="btn bg-gradient-info mb-0 h-100 position-relative z-index-2 " style="font-size:11px !important;"> @User.Identity.Name  </a></li>
-                                          
+                                        if (User.IsInRole("user")||User.IsInRole("client"))
+                                        {
+                                            <li class="p "><a asp-controller="Profile" asp-action="Index" class="btn bg-gradient-info mb-0 h-100 position-relative z-index-2 " style="font-size:11px !important;"> @User.Identity.Name  </a></li>
+                                        }
+                                        else
+                                        {
+                                            @await Component.InvokeAsync("LoginAdminComponent")
+                                        }
+
                                         <li style="padding: 0.5rem 0rem !important;"> <a asp-controller="Login" asp-action="Logout" class="btn bg-gradient-info mb-0 h-100 position-relative z-index-2 " style="font-size:11px !important;">Đăng xuất</a></li>
                                    
                                     }

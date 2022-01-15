@@ -67,7 +67,25 @@ namespace NewsManagement.AdminApp.Controllers
 
             return RedirectToAction("Index", "Home");
         }
+        [HttpGet]
+        public async Task<IActionResult> LoginClient(string token)
+        {
+            var userPrincipal = this.ValidateToken(token);
 
+            var authProperties = new AuthenticationProperties
+            {
+                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
+                IsPersistent = false
+            };
+
+            HttpContext.Session.SetString(SystemConstants.AppSettings.Token, token);
+
+            await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                        userPrincipal,
+                        authProperties);
+            return RedirectToAction("Index", "Home");
+        }
         private ClaimsPrincipal ValidateToken(string jwtToken)
         {
             IdentityModelEventSource.ShowPII = true;
@@ -85,8 +103,8 @@ namespace NewsManagement.AdminApp.Controllers
 
             return principal;
         }
-
         
+
     }
     
 }

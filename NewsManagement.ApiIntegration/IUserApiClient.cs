@@ -16,9 +16,13 @@ namespace NewsManagement.ApiIntegration
 
         Task<ApiResult<bool>> RegisterUser(ManageRegisterRequest registerRequest);
 
+        Task<ApiResult<bool>> PublicRegisterUser(PublicRegisterRequest registerRequest);
+
         Task<ApiResult<bool>> AddUserRole(RequestRoleUser request);
 
         Task<ApiResult<bool>> UpdateUser(Guid id, UserUpdateRequest request);
+
+        Task<ApiResult<bool>> ChangePassword(ChangePasswordRequest request);
 
         Task<ApiResult<UserVm>> GetById(Guid id);
 
