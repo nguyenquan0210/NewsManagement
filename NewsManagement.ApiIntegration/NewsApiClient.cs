@@ -117,6 +117,11 @@ namespace NewsManagement.ApiIntegration
             return await Delete($"/api/news/" + Id);
         }
 
+        public async Task<int> DeleteSave(int saveId)
+        {
+            return await Delete($"/api/news/deletesave/" + saveId);
+        }
+
         public async Task<List<SelectListItem>> GetAll(int? Id)
         {
             var data = await GetListAsync<NewsVm>($"/api/news/all");
@@ -174,7 +179,7 @@ namespace NewsManagement.ApiIntegration
         public async Task<List<string>> GetNewsSearch(string keyword)
         {
             var data = await GetListAsync<NewsVm>($"/api/news");
-            var result =  data.Where(x => x.Title.Contains(keyword)).Take(10).Select(x=>x.Title.Substring(0, 30)).ToList();
+            var result =  data.Where(x => x.Title.ToUpper().Contains(keyword.ToUpper())).Take(10).Select(x=>x.Title.Substring(0, 30)).ToList();
             return result;
         }
 

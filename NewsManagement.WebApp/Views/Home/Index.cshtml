@@ -38,7 +38,7 @@
                 </div>
             </div>
         </div>
-        @{ await Html.RenderPartialAsync("NewsTop" ,NewsTop);}
+        @{ await Html.RenderPartialAsync("NewsTop" ,NewsTop.Take(10));}
         @**@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -114,7 +114,7 @@
                                         <div class="w-inner">
                                             <div class="w-head">
                                                 <h3 class="w-title">
-                                                    <a href="@Url.Action("NewsCategory", "News", new { categoryId = itemcatehome.Id })"
+                                                    <a asp-action="NewsCategory" asp-controller="News" asp-route-categoryid="@itemcatehome.Id"
                                                        title="@itemcatehome.Name">
                                                         @itemcatehome.Name <i class="fa fa-angle-double-right"
                                                                               style="color:#29a2fb"></i>
@@ -133,7 +133,7 @@
 	                                        <div class="w-inner">
 		                                        <div class="w-head">
 			                                        <h3 class="w-title">
-				                                        <a href="@Url.Action("NewsCategory", "News", new { categoryId = itemcatehome.Id })"
+				                                        <a asp-action="@(itemcatehome.Name.ToUpper() == "VIDEO" ? "NewsCategoryVideo" : "NewsCategory")" asp-controller="News" asp-route-categoryid="@itemcatehome.Id"
 				                                           title="@itemcatehome.Name">
 					                                        @itemcatehome.Name <i class="fa fa-angle-double-right"
 									                                         style="color:#29a2fb"></i>
@@ -253,7 +253,6 @@
                                                 </div>
                                             </div>
                                             <script>
-                                              
                                                 $("#tabli_" + @j).click(function () {
                                                     var tabli_ = $("#tabli_"+ @j);
                                                     var tab_ = $("#tab_"+ @j);

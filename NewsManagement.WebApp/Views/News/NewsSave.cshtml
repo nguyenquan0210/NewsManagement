@@ -13,7 +13,7 @@
                     <div class="w-inner">
                         <div class="article-breadcrum">
                             <ul class="breadcrumb">
-                                <li itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                                <li itemscope="" itemtype="">
                                     <a href="/" itemprop="url"><span itemprop="title">Trang chủ</span></a>
                                 </li>
                                 <li class="active">Danh sách bài viết bạn đã lưu</li>
@@ -25,13 +25,13 @@
                     <div class="w-inner">
                         <div class="wbox">
                             <div class="w-head">
-                                <h1 class="w-title"> <a href="javascript:void(0)" title="Tin tức  mới nhất">Tin tức đã lưu</a>  </h1>
+                                <h1 class="w-title"> <a href="" title="Tin tức  mới nhất">Tin tức đã lưu</a>  </h1>
                             </div>
                             @foreach (var item in Model)
                             {
                                 var lengtit = item.Title.Length;
                                 var lengdes = item.Description.Length;
-                                <div id="save_@item.Id" class="w-body list">
+                                <div id="save_@item.SaveId" class="w-body list">
                                     <div class="media">
                                         <div class="media-left">
                                             <a class="block w150 pos-rel" asp-controller = "News" asp-action = "Index" asp-route-id = "@item.Id" title="@item.Title">
@@ -39,12 +39,12 @@
 
                                             </a>
                                         </div>
-                                        <div class="media-body">
+                                        <div class="media-body" >
                                             <h3 class="heading"><a class="pretty-big" asp-controller = "News" asp-action = "Index" asp-route-id = "@item.Id" title="@item.Title">@(lengtit > 100 ? item.Title.Substring(0,100) + "..." : item.Title)</a></h3>
                                             <p class=""><a asp-controller = "News" asp-action = "Index" asp-route-id = "@item.Id" title="@item.Title">@(lengdes > 200 ? item.Description.Substring(0,200) + "..." : item.Description)</a></p>
                                             <p style="margin-top:5px;"><a>Thời gian lưu bài: @item.Date.ToString("dd/MM/yyyy")</a></p>
-                                            <p>
-                                                <a onclick="Delete(@item.Id)" style="color:#ff0000" class="del_follow collapsed">Xóa</a>
+                                            <p >
+                                                <a  onclick="DeleteSaves(@item.SaveId)"  style="color:#ff0000" class="del_follow collapsed"><i class='bx bxs-x-circle' style='color:#f84646'  ></i> Xóa</a>
                                             </p>
                                         </div>
                                     </div>
@@ -59,24 +59,24 @@
         </div>
     </div>
 </div>
-<script src="~/assets/admin/js/plugins/jquery.js"></script>
-<script src="~/assets/admin/js/plugins/jquery.min.js"></script>
 
 <script>
-    
-    var Delete = function (id) {
+    var DeleteSaves = function (id) {
+       console.log(id);
         $.ajax({
             url: "/News/DeleteSave",
             data: {
-                id: id
+                saveId: id
             },
             dataType: "json",
             type: "POST",
             success: function (result) {
-                if (result == true) {
-                    $("#save_" + id).remove();
+                if (result.response == 1) {
+                   $("#save_" + id).remove();
                 }
             }
         })
     }
+    
+    
 </script>

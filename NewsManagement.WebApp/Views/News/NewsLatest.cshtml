@@ -1,0 +1,319 @@
+﻿@using NewsManagement.ViewModels.Catalog
+@using NewsManagement.ViewModels.Catalog.Events
+@using NewsManagement.ViewModels.Catalog.Newss
+@using NewsManagement.ViewModels.Common;
+@model PagedResult<NewsVm>
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+
+@{
+    ViewData["Title"] = "NewsLatest";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var Event = (List<EventVm>)ViewBag.Event;
+    var city = (List<CatalogVm>)ViewBag.city;
+    var NewsTop = (List<NewsVm>)ViewBag.NewsTop;
+    var NewsForcus = (List<NewsVm>)ViewBag.NewsFocus;
+    var NewsTopView = (List<NewsVm>)ViewBag.NewsTopVew;
+      var i = 0;
+    var d = 1;
+}
+
+<style>
+    .lpos-1 {
+        width: 664px;
+        padding-right: 0;
+        float: left;
+    }
+    .lpos-2 {
+        width: 316px;
+        padding-left: 0;
+        float: right;
+    }
+    .list > .media:first-child {
+        margin-top: 0px; 
+    }
+    .w-body > .newsnew {
+        height: 339px;
+    }
+</style>
+
+<div class="lpos lpos-0">
+    <div class="row">
+        <div class="w-item w-3 col-xs-12 wf-toptopics style-1 css">
+            <div class="w-inner">
+                <div class="wbox">
+                    <ul class="nav sub-nav">
+                        <li>
+                            <a href="javascript:void(0)" class="uppercase button dark">Dòng sự kiện</a>
+                        </li>
+                         @foreach (var item in Event)
+                        {
+                            if (i < 4)
+                            {
+                                <li>
+                                    <a href="@Url.Action("NewsEvent", "News", new { eventId = item.Id})">
+                                        @item.Name
+                                    </a>
+                                </li>
+                            }
+
+                            i++;
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+       @{ await Html.RenderPartialAsync("~/Views/Home/NewsTop.cshtml" ,NewsTop.Take(10));}
+        @**@
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+       
+@if (NewsForcus != null)
+    {
+        <div class="w-item w-9 col-xs-12 wf-homepopulars style-1 ">
+            <div class="w-inner">
+                <div class="w-head line-through">
+                    <h2 class="w-title">
+                        <a href="javascript:void(0)" title="Tiêu điểm">Tiêu điểm</a>
+                    </h2>
+                    <hr class="line no-mg pos-abs left right" />
+                </div>
+                 @{ await Html.RenderPartialAsync("~/Views/Home/NewsFocus.cshtml", NewsForcus);}
+            </div>
+        </div>
+    }
+@if (NewsTopView != null)
+    {
+        <div class="w-item w-9 col-xs-12 wf-homepopulars style-1 ">
+            <div class="w-inner">
+                <div class="w-head line-through">
+                    <h2 class="w-title">
+                        <a href="javascript:void(0)" title="Tiêu điểm">Đọc nhiều</a>
+                    </h2>
+                    <hr class="line no-mg pos-abs left right" />
+                </div>
+                 @{ await Html.RenderPartialAsync("~/Views/Home/NewsFocus.cshtml", NewsTopView );}
+            </div>
+        </div>
+    }
+        <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-1b93190375e9ccc259df3a57c1abc0e64599724ae30d7ea4c6877eb615f89387.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.3.5/js/swiper.min.js"></script>
+
+        <script id="rendered-js">
+            $(document).ready(function () {
+                $('.customer-logos').slick({
+                    slidesToShow: 6,
+                    slidesToScroll: 3,
+                    autoplay: true,
+                    autoplaySpeed: 1500,
+                    arrows: false,
+                    dots: false,
+                    pauseOnHover: false,
+                    responsive: [{
+                        breakpoint: 768,
+                        settings: {
+                            slidesToShow: 4
+                        }
+                    }, {
+                        breakpoint: 520,
+                        settings: {
+                            slidesToShow: 3
+                        }
+                    }]
+                });
+            });
+                    //# sourceURL=pen.js
+        </script>
+    </div>
+</div>
+<div class="row">
+    <div class="w-item w-3 col-xs-12 wf-toptopics style-1 css" style="padding:5px;"></div>
+</div>
+
+<div class="clearfix wrap-contanter" data-sticky_parent>
+    <div class="lpos lpos-1">
+        <div class="row">
+            <div class="w-item w-357 col-xs-12 wf-hotposts style-1 ">
+                <div class="w-inner">
+                    <div class="wbox">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <ul class="nav sub-nav has-indicator ">
+                                    <li class="first pos-rel pos-reldemo">
+                                        <h1 class="title-24h input-prepend date" id="dpYears"
+                                            style="display:block;float:none;margin-left:5px;">
+                                            Tin tức 24h <span><i class="ico ico_25x25 clock"></i></span>
+                                        </h1>
+                                    </li>
+                                    <li class="pos-rel pos-reldemo"><span class="triangle right"></span></li>
+                                    <li class="province mg-r-10">
+                                        <a onclick="DownUp()"
+                                           id="click_province">
+                                            Chọn tỉnh <i id="iupdown" class='bx bx-chevrons-down'></i>
+
+                                        </a>
+                                    </li>
+                                    @{ i = 0;
+                                        foreach (var itemcity in city)
+                                    {
+                                        if (i < 5)
+                                        {
+                                            <li class="province">
+                                                <a href="@Url.Action("NewsCity", "News", new { cityId = itemcity.Id })">@itemcity.Name</a>
+                                            </li>
+                                        }
+                                        i++;
+                                    }}
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row pos-rel">
+                            <div class="col-xs-12">
+                                <div class="inner" id="list_province" style="display:none;">
+                                    <div class="row col-up-4">
+                                        @foreach (var itemcity in city)
+                                        {
+                                            <div class="col">
+                                                <a href="@Url.Action("NewsCity", "News", new { cityId = itemcity.Id })">
+                                                    <label class="container_address"
+                                                           style="padding:5px 10px; text-align:center">@itemcity.Name</label>
+                                                    </a>
+                                                </div>
+                                            }
+                                    </div>
+                                </div>
+                                <div class="w-body list page24h">
+                                    @{
+                                        
+
+                                        foreach (var item in Model.Items)
+                                        {
+
+                                            
+                                                var lengtit = item.Title.Length;
+                                                var lengdes = item.Description.Length;
+
+                                                <div class="media newsnew col-xs-6 @(d == 1 ? "clearfix" : "")">
+                                                    <div class="">
+                                                        <a class="block pos-rel"
+                                                           asp-controller = "News" asp-action = "Index" asp-route-id = "@item.Id" 
+                                                           title="@item.Title">
+                                                            <img class="thumbnail"
+                                                                 src="@(Configuration["BaseAddress"] + "/news-content/" + @item.Img)"
+                                                                 width="100%"
+                                                                 alt="@item.Title" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <p class="smaller">
+                                                            <a class="dim"
+                                                               asp-controller = "News" asp-action = "NewsCategory" asp-route-categoryId = "@item.CategoryId"><b>Xã hội</b></a>
+                                                            <time class="time friendly rel-time" datetime="@item.Date.ToString("yyyy-MM-dd HH:mm:ss")"></time>
+                                                        </p>
+                                                        <h3 class="heading">
+                                                            <a class="pretty-big"
+                                                              asp-controller = "News" asp-action = "Index" asp-route-id = "@item.Id" 
+                                                               title="@item.Title">
+                                                                @(lengtit > 75 ? item.Title.Substring(0,75) + "..." : item.Title)
+                                                            </a>
+                                                        </h3>
+                                                        <p class="sapo">
+                                                            @(lengdes > 125 ? item.Description.Substring(0,125) + "..." : item.Description)
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                if (d == 2)
+                                                {
+                                                    d = 0;
+                                                }
+                                                d++;
+                                            
+
+                                        }
+                                    }
+
+
+
+                                <div class="center-block clearfix">
+
+                                    @await Component.InvokeAsync("DemoComponent", Model)
+
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="lpos lpos-2">
+        <div class="row">
+            <div class="gw-item w-37 col-xs-12 pad-l-24 wf-html">
+                <form id="SearchForm" action="@Url.Action("NewsSearch","News")" method="get">
+                    <div class="input-group search_sidebar">
+                        <input class="input-group-field input-quiet txtSearch" id=""
+                               type="text" placeholder="Tìm kiếm" name="search">
+                        <div class="input-group-button">
+                            <button type="submit" class="button-quiet">
+                                <i class="search ico ico_common"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            @{ await Html.RenderPartialAsync("~/Views/Home/NewsLatest.cshtml", NewsTop);}
+
+            
+
+     <div class="w-item w-12 col-xs-4 wf-groupwidget  w324 ">
+        <div class="w-inner">
+            <div class="row gwwrap">
+                <div class="gw-item w-14 col-xs-12 wf-boxcats style-5 pad-l-24">
+                     @foreach (var itemevent in Event.Take(4))
+                    {
+                        var ModelListNews = NewsTop.Where(x => x.EventId == itemevent.Id).ToList();
+                            <div class="w-item w-12 col-xs-4 wf-groupwidget w308 no-pad-l">
+                                <div class="w-inner">
+                                    <div class="row gwwrap">
+                                        <div class="gw-item w-14 col-xs-12 wf-boxcats style-17 pad-l-13 event-list">
+                                            <div class="w-inner">
+                                                <div class="w-head event-head">
+                                                    <h3 class="w-title">
+                                                        <a href="@Url.Action("NewsEvent","News", new { eventId = itemevent.Id})"
+                                                           title="@itemevent.Name">
+                                                            @itemevent.Name
+                                                        </a>
+                                                    </h3>
+                                                </div>
+                                                @{ await Html.RenderPartialAsync("~/Views/Home/NewsEvent.cshtml", ModelListNews);}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            }
+        </div>
+            </div>
+        </div>
+    </div>
+
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function DownUp() {
+        var x = document.getElementById("list_province");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+        var i = document.getElementById("iupdown");
+        i.classList.toggle('bx-chevrons-down');
+        i.classList.toggle('bx-chevrons-up');
+    }
+</script>

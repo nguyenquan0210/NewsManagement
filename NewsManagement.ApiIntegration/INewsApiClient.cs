@@ -49,5 +49,7 @@ namespace NewsManagement.ApiIntegration
         Task<List<NewsVm>> GetListSave(Guid userId);
 
         Task<AddCommentRequest> GetBySave(string checkstring);
+
+        Task<int> DeleteSave(int saveId);
     }
 }

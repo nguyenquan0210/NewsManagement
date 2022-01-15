@@ -11,7 +11,6 @@ namespace NewsManagement.ViewModels.System.Users
     {
         public ChangePasswordRequestValidator()
         {
-            
             RuleFor(x => x.currentPassword).NotEmpty().WithMessage("Mật khẩu hiện tại là bắt buộc");
 
             RuleFor(x => x.NewPassword).NotEmpty().WithMessage("Mật khẩu mới là bắt buộc")

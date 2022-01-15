@@ -10,6 +10,7 @@ using NewsManagement.Data.Enums;
 using NewsManagement.ViewModels.Common;
 using NewsManagement.ViewModels.System.Users;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
@@ -179,7 +180,7 @@ namespace NewsManagement.Application.System.Users
 
             if (!string.IsNullOrEmpty(request.Keyword))
             {
-                query.Where(x => x.UserName.Contains(request.Keyword)
+                query = (IList<AppUser>)query.Where(x => x.UserName.Contains(request.Keyword)
                  || x.PhoneNumber.Contains(request.Keyword));
             }
             //3. Paging

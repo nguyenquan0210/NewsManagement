@@ -18,7 +18,7 @@
                         <ul class="nav vertical">
                             <li class="texxtalign">
                                 <a rel="nofollow" class="uppercase" title="@item.Name"
-                                   href="@Url.Action("NewsCategory", "News", new { categoryId = item.Id})">
+                                   asp-action="@(item.Name.ToUpper() == "VIDEO" ? "NewsCategoryVideo" : "NewsCategory")" asp-controller="News" asp-route-categoryid="@item.Id" >
                                     <h2>@item.Name</h2>
                                 </a>
                                

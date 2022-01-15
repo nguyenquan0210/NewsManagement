@@ -37,6 +37,8 @@ namespace NewsManagement.ViewModels.Catalog.Newss
 
         public int CategoryId { get; set; }
 
+        public int SaveId { get; set; }
+
         public DateTime Date { get; set; }
 
         public int View { get; set; }

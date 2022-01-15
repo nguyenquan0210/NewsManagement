@@ -94,7 +94,8 @@ namespace NewsManagement.Application.Catalog.Newss
             if (checkrole.Count() == 0) query = query.Where(x => x.n.UserId.ToString() == user.Id.ToString());
                         
             if (!string.IsNullOrEmpty(request.Keyword))
-                query = query.Where(x => x.n.Title.Contains(request.Keyword));
+                query = query.Where(x => x.n.Title.Contains(request.Keyword)
+                || x.c.Name.Contains(request.Keyword)|| x.n.Keyword.Contains(request.Keyword));
 
             int totalRow = await query.CountAsync();
             var data = await query.Skip((request.PageIndex - 1) * request.PageSize)
@@ -312,7 +313,7 @@ namespace NewsManagement.Application.Catalog.Newss
                         join c in _context.Categories on e.CategoryId equals c.Id
                         join cm in _context.Comments on n.Id equals cm.NewsId
                         where cm.UserId == userId && cm.Type == false
-                        select new { n, c };
+                        select new { n, cm };
             var data = await query.Select(x => new NewsVm()
             {
                 Id = x.n.Id,
@@ -321,8 +322,7 @@ namespace NewsManagement.Application.Catalog.Newss
                 Img = x.n.Img,
                 Date = x.n.Date,
                 View = x.n.Viewss,
-                CateName = x.c.Name,
-                CategoryId = x.c.Id,
+                SaveId = x.cm.Id,
                 EventId = x.n.EventId,
                 Keyword = x.n.Keyword,
                 CityId = x.n.CityId,
@@ -331,9 +331,13 @@ namespace NewsManagement.Application.Catalog.Newss
             return data;
         }
 
-        public Task<int> DeleteComment(int commentId)
+        public async Task<int> DeleteComment(int commentId)
         {
-            throw new NotImplementedException();
+            var news = await _context.Comments.FindAsync(commentId);
+            if (news == null) return 0;
+            _context.Comments.Remove(news);
+            await _context.SaveChangesAsync();
+            return 1;
         }
 
         public async Task<AddCommentRequest> GetBySave(string checkstring)

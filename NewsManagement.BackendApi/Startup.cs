@@ -13,6 +13,7 @@ using Microsoft.OpenApi.Models;
 using NewsManagement.Application.Catalog.Categories;
 using NewsManagement.Application.Catalog.Categoriess;
 using NewsManagement.Application.Catalog.Cities;
+using NewsManagement.Application.Catalog.Contacts;
 using NewsManagement.Application.Catalog.Events;
 using NewsManagement.Application.Catalog.Newss;
 using NewsManagement.Application.Catalog.Ratings;
@@ -58,6 +59,7 @@ namespace NewsManagement.BackendApi
             services.AddTransient<ITopicService, TopicService>();
             services.AddTransient<ICityService, CityService>();
             services.AddTransient<IRatingService, RatingService>();
+            services.AddTransient<IContactService, ContactService>();
 
             services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
             services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();

@@ -6,16 +6,15 @@ namespace NewsManagement.WebApp.Controllers.Components
 {
     public class FooterComponent : ViewComponent
     {
-        private readonly ICategoryApiClient _categoryApiClient;
+        private readonly IContactApiClient _contactApiClient;
 
-        public FooterComponent(ICategoryApiClient categoryApiClient)
+        public FooterComponent(IContactApiClient contactApiClient)
         {
-
-            _categoryApiClient = categoryApiClient;
+            _contactApiClient = contactApiClient;
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var items = await _categoryApiClient.GetMenu();
+            var items = await _contactApiClient.GetById();
             return View(items);
         }
     }

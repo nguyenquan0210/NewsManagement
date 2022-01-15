@@ -20,6 +20,7 @@ namespace NewsManagement.WebApp.Controllers
         private readonly IEventApiClient _eventApiClient;
         private readonly ITopicApiClient _topicApiClient;
         private readonly ICityApiClient _cityApiClient;
+        private readonly IContactApiClient _contactApiClient;
 
         public HomeController(ILogger<HomeController> logger,
             INewsApiClient newsApiClient,
