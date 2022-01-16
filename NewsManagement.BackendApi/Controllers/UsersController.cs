@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NewsManagement.Application.System.ActiveUsers;
 using NewsManagement.Application.System.Users;
 using NewsManagement.ViewModels.System.Users;
 using System;
@@ -16,10 +17,12 @@ namespace NewsManagement.BackendApi.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IActiveUserService _activeUserService;
 
-        public UsersController(IUserService userService)
+        public UsersController(IUserService userService, IActiveUserService activeUserService)
         {
             _userService = userService;
+            _activeUserService = activeUserService;
         }
 
         [HttpPost("authenticate")]
@@ -35,6 +38,17 @@ namespace NewsManagement.BackendApi.Controllers
             {
                 return BadRequest(result);
             }
+            if (request.Check==false)
+            {
+                var listActive = _activeUserService.ListActiveUser().Result.Where(x =>x.DateActive.ToShortDateString() == DateTime.Now.ToShortDateString());
+                var user = await _userService.GetByUserName(request.UserName);
+                var activeUser = listActive.FirstOrDefault(x=>x.UserId == user.ResultObj.Id);
+                if(activeUser != null)
+                     await _activeUserService.UpdateActiveUser(activeUser.Id);
+                else
+                    await _activeUserService.AddActiveUser(user.ResultObj.Id);
+            }
+           
             return Ok(result);
         }
 
@@ -161,6 +175,18 @@ namespace NewsManagement.BackendApi.Controllers
         {
             var result = await _userService.Delete(Id);
             return Ok(result);
+        }
+        [HttpGet("activeusers")]
+        public async Task<IActionResult> GetActiveUser()
+        {
+            var activeUsers = await _activeUserService.ListActiveUser();
+            return Ok(activeUsers);
+        }
+        [HttpGet("newuser")]
+        public  IActionResult GetNewUser()
+        {
+            var activeUsers = _userService.GetNewUser();
+            return Ok(activeUsers);
         }
     }
 }

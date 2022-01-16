@@ -60,6 +60,7 @@ namespace NewsManagement.Data.Extensions
                 FirstName = "Quan",
                 LastName = "Nguyen",
                 Dob = new DateTime(2000, 10, 02),
+                Date = new DateTime(2021, 12, 17),
                 Address = "Quảng Nam City",
                 Img = "userAdmin.png"
             });

@@ -16,7 +16,7 @@ namespace NewsManagement.WebApp.Controllers.Components
             _newsApiClient = newsApiClient;
             _categoryApiClient = categoryApiClient;
         }
-        public async Task<IViewComponentResult> InvokeAsync(int categoryid, int pageIndex = 5, int pageSize = 10)
+        public async Task<IViewComponentResult> InvokeAsync(int categoryid, int pageIndex = 1, int pageSize = 18)
         {
             var request = new GetPublicNewsPagingRequest()
             {

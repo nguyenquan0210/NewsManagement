@@ -8,6 +8,7 @@
 	ViewData["Title"] = "NewsCategoryVideo";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 	var ListNewsCate = (List<NewsVm>)ViewBag.ListNewsCate;
+	var i = -1;
 }
 
 <div class="lpos lpos-1">
@@ -27,8 +28,11 @@
 		<div class="w-item w-356 col-xs-12 wf-listpost wf-postposition style-video ">
 			<div class="w-inner">
 				<div class="w-body">
-					@foreach (var item in ListNewsCate.Take(1))
-					{
+					@{
+						var radom = new Random().Next(20);
+					foreach (var item in ListNewsCate.Take(20))
+					{ 
+						if(i == radom){
 						<div class="row">
 							<div class="col-xs-9 w680">
 								<div id="abdplayer">
@@ -49,7 +53,10 @@
 									</div>*@
 								</div>
 							</div>
-						</div>
+								</div>
+							}
+							i++;
+						}
 					}
 				</div>
 				

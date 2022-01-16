@@ -16,6 +16,8 @@ namespace NewsManagement.Data.Entities
 
         public DateTime Dob { get; set; }
 
+        public DateTime Date { get; set; }
+
         public string Address { get; set; }
 
         public string Img { get; set; }

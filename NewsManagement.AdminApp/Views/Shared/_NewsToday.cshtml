@@ -1,0 +1,43 @@
+﻿@using NewsManagement.ViewModels.Catalog.Newss
+@model IEnumerable<NewsVm>
+
+@{
+    var mothbefore = Model.Count(x => x.Date.ToShortDateString() == DateTime.Now.ToShortDateString());
+    var mothafter = Model.Count(x => x.Date.ToShortDateString()== DateTime.Now.ToShortDateString());
+
+    double h = mothafter - mothbefore;
+    double pt = 0;
+    if (mothbefore == 0)
+    {
+        pt = 100;
+        if (mothafter == 0)
+        {
+            pt = 0;
+        }
+    }
+    else
+    {
+        pt = h * 100 / mothbefore;
+    }
+}
+
+<div class="card  mb-4" onclick="window.location.href='@Url.Action("Index", "Statistic")'">
+    <div class="card-body p-3">
+        <div class="row">
+            <div class="col-8">
+                <div class="numbers">
+                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Bài Viết Hôm Nay</p>
+                    <h5 class="font-weight-bolder mb-0">
+                        +@mothafter
+                        <span class="@(h<0?"text-danger":"text-success") text-sm font-weight-bolder">@(h<0 ? Math.Round(pt, 2).ToString(): "+" + Math.Round(pt, 2).ToString())%</span>
+                    </h5>
+                </div>
+            </div>
+            <div class="col-4 text-end">
+                <div class="icon icon-shape bg-gradient-info shadow text-center border-radius-md">
+                    <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

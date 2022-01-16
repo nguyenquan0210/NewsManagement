@@ -34,5 +34,7 @@ namespace NewsManagement.Application.System.Users
         Task<int> Delete(Guid id);
 
         Task<ApiResult<bool>> RoleAssign(Guid id, RoleAssignRequest request);
+
+        List<UserVm> GetNewUser();
     }
 }

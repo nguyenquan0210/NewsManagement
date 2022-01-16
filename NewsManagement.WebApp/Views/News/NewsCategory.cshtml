@@ -54,12 +54,12 @@
                     <div class="wbox">
                         <div class="w-body">
                             @{
-                                i = 0;
-
+                                i = -5;
+                                var radom = new Random().Next(20);
                                 foreach (var item in Model)
                                 {
 
-                                    if (i == 0)
+                                    if (i == radom)
                                     {
                                         <div class="gradient-box pos-rel clearfix mg-b-10">
                                             <div class="big-img pull-right">
@@ -101,12 +101,12 @@
 
                             <div class="row col-up-4">
                                 @{
-                                    i = 0;
+                                    i = -5;
 
                                     foreach (var item in Model)
                                     {
 
-                                        if (i > 0 && i < 5)
+                                        if (i > radom && i < radom+5)
                                         {
                                             var lengtit = item.Title.Length;
                                             var lengdes = item.Description.Length;

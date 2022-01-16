@@ -203,7 +203,7 @@ namespace NewsManagement.WebApp.Controllers
             }
             return View(data);
         }
-        public async Task<IActionResult> NewsSearch(string search, int pageIndex = 10, int pageSize = 18)
+        public async Task<IActionResult> NewsSearch(string search, int pageIndex = 1, int pageSize = 18)
         {
             var request = new GetPublicNewsPagingRequest()
             {

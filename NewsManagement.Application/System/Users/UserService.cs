@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using NewsManagement.Application.Common;
+using NewsManagement.Data.EF;
 using NewsManagement.Data.Entities;
 using NewsManagement.Data.Enums;
 using NewsManagement.ViewModels.Common;
@@ -28,7 +29,6 @@ namespace NewsManagement.Application.System.Users
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IConfiguration _config;
         private readonly IStorageService _storageService;
-        
         public UserService(UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             RoleManager<AppRole> roleManager,
@@ -225,7 +225,8 @@ namespace NewsManagement.Application.System.Users
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 UserName = request.UserName,
-                Status = Status.Active
+                Status = Status.Active,
+                Date = DateTime.Now
              };
             var result = await _userManager.CreateAsync(user, request.Password);
             if (result.Succeeded)
@@ -266,6 +267,7 @@ namespace NewsManagement.Application.System.Users
                 UserName = request.UserName,
                 PhoneNumber = request.PhoneNumber,
                 Status = Status.Active,
+                Date = DateTime.Now,
                 Img =   await this.SaveFile(request.ThumbnailImage)
 
             };
@@ -410,6 +412,17 @@ namespace NewsManagement.Application.System.Users
                 return new ApiSuccessResult<bool>();
             }
             return new ApiErrorResult<bool>("Đổi mật khẩu không thành công!");
+        }
+
+        public List<UserVm> GetNewUser()
+        {
+            var query = _userManager.GetUsersInRoleAsync("user").Result;
+            var data =  query.Select(x => new UserVm()
+               {
+                   Date = x.Date
+               }).ToList();
+
+            return data;
         }
     }
 }

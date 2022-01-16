@@ -1,4 +1,5 @@
 ﻿using NewsManagement.ViewModels.Common;
+using NewsManagement.ViewModels.System.ActiveUsers;
 using NewsManagement.ViewModels.System.Users;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,8 @@ namespace NewsManagement.ApiIntegration
         Task<ApiResult<string>> Authenticate(LoginRequest request);
 
         Task<ApiResult<PagedResult<UserVm>>> GetUsersPagings(GetUserPagingRequest request);
+
+        Task<List<UserVm>> GetNewUsers();
 
         Task<ApiResult<bool>> RegisterUser(ManageRegisterRequest registerRequest);
 
@@ -33,5 +36,9 @@ namespace NewsManagement.ApiIntegration
         Task<ApiResult<bool>> UpdateStatus(Guid id, UserUpdateStatusRequest request);
 
         Task<ApiResult<bool>> RoleAssign(Guid id, RoleAssignRequest request);
+
+        Task<List<GetMonth>> GetActiveUserDay(string month, string year);
+
+        Task<List<ActiveUserVm>> GetActiveUser();
     }
 }

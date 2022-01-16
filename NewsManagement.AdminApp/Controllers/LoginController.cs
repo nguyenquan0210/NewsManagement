@@ -40,7 +40,7 @@ namespace NewsManagement.AdminApp.Controllers
         {
             if (!ModelState.IsValid)
                 return View(ModelState);
-
+            request.Check = true;
             var result = await _userApiClient.Authenticate(request);
             if (result.ResultObj == null)
             {
