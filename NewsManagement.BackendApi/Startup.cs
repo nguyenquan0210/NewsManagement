@@ -19,6 +19,7 @@ using NewsManagement.Application.Catalog.Newss;
 using NewsManagement.Application.Catalog.Ratings;
 using NewsManagement.Application.Catalog.Topics;
 using NewsManagement.Application.Common;
+using NewsManagement.Application.System.ActiveUsers;
 using NewsManagement.Application.System.Users;
 using NewsManagement.Data.EF;
 using NewsManagement.Data.Entities;
@@ -60,6 +61,7 @@ namespace NewsManagement.BackendApi
             services.AddTransient<ICityService, CityService>();
             services.AddTransient<IRatingService, RatingService>();
             services.AddTransient<IContactService, ContactService>();
+            services.AddTransient<IActiveUserService, ActiveUserService>();
 
             services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
             services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();

@@ -45,6 +45,20 @@ namespace NewsManagement.Application.Catalog.Ratings
             return rs;
         }
 
+        public async Task<List<NewsRating>> GetAllRating()
+        {
+            var query = from r in _context.Ratings
+                        join n in _context.Newss on r.NewsId equals n.Id
+                        select new  { n, r };
+            var data = await query.Select(x => new NewsRating() {
+                Id = x.r.Id,
+                NewsId = x.r.NewsId,
+                Date = x.n.Date,
+                Value = x.r.Value
+            }).ToListAsync();
+            return data;
+        }
+
         public async Task<RatingVm> GetByCheckRating(string checkRating)
         {
             var rating = await _context.Ratings.FirstOrDefaultAsync(x=> x.Checkrating == checkRating);

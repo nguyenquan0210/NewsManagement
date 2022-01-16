@@ -173,7 +173,7 @@ namespace NewsManagement.ApiIntegration
         {
             var data = await GetListAsync<NewsVm>($"/api/news/newstop");
             data = data.Where(x => x.CategoryId == categoryId).ToList();
-            return data.Take(5).ToList();
+            return data.Take(20).ToList();
         }
 
         public async Task<List<string>> GetNewsSearch(string keyword)
@@ -181,6 +181,69 @@ namespace NewsManagement.ApiIntegration
             var data = await GetListAsync<NewsVm>($"/api/news");
             var result =  data.Where(x => x.Title.ToUpper().Contains(keyword.ToUpper())).Take(10).Select(x=>x.Title.Substring(0, 30)).ToList();
             return result;
+        }
+
+        public async Task<List<StatisticNews>> GetNewsStatitic(string month, string year)
+        {
+            var data = await GetListAsync<NewsVm>($"/api/news/newstop"); 
+            var ratings = await GetListAsync<NewsVm>($"/api/rating/newrating");
+            var datenews = data.Where(x => x.Date.ToString("MM/yyyy") == month + "/" + year).Select(x => x.Date.ToString("dd/MM/yyyy")).Distinct();
+            List<StatisticNews> model = new List<StatisticNews>();
+
+            foreach (var item in datenews)
+            {
+                model.Add(new StatisticNews
+                {
+                    date = item,
+                    view = data.Where(x => x.Date.ToString("dd/MM/yyyy") == item).Sum(x => x.View),
+                    count = data.Count(x => x.Date.ToString("dd/MM/yyyy") == item),
+                    rating = ratings.Count(x => x.Date.ToString("dd/MM/yyyy") == item)
+                });
+
+            }
+            return model.OrderBy(x=>x.date).ToList();
+        }
+
+        public async Task<List<StatisticNews>> GetNewsStatiticDay(string day, string month, string year)
+        {
+            var data = await GetListAsync<NewsVm>($"/api/news/newstop");
+            var ratings = await GetListAsync<NewsVm>($"/api/rating/newrating");
+            var datenews = data.Where(x => x.Date.ToString("dd/MM/yyyy") == day + "/" + month + "/" + year).Select(x => x.Date.ToString("dd/MM/yyyy HH")).Distinct();
+            List<StatisticNews> model = new List<StatisticNews>();
+
+            foreach (var item in datenews)
+            {
+                model.Add(new StatisticNews
+                {
+                    date = item + "h",
+                    view = data.Where(x => x.Date.ToString("dd/MM/yyyy HH") == item).Sum(x => x.View),
+                    count = data.Count(x => x.Date.ToString("dd/MM/yyyy HH") == item),
+                    rating = ratings.Count(x => x.Date.ToString("dd/MM/yyyy HH") == item)
+                });
+
+            }
+            return model.OrderBy(x => x.date).ToList();
+        }
+
+        public async Task<List<StatisticNews>> GetNewsStatiticYear(string year)
+        {
+            var data = await GetListAsync<NewsVm>($"/api/news/newstop");
+            var ratings = await GetListAsync<NewsVm>($"/api/rating/newrating");
+            var datenews = data.Where(x => x.Date.ToString("yyyy") == year).Select(x => x.Date.ToString("MM/yyyy")).Distinct();
+            List<StatisticNews> model = new List<StatisticNews>();
+
+            foreach (var item in datenews)
+            {
+                model.Add(new StatisticNews
+                {
+                    date = item,
+                    view = data.Where(x => x.Date.ToString("MM/yyyy") == item).Sum(x => x.View),
+                    count = data.Count(x => x.Date.ToString("MM/yyyy") == item),
+                    rating = ratings.Count(x => x.Date.ToString("MM/yyyy") == item)
+                });
+
+            }
+            return model.OrderBy(x => x.date).ToList();
         }
 
         public async Task<List<NewsVm>> GetNewsTop()

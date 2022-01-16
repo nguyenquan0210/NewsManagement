@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using NewsManagement.ViewModels.Common;
+using NewsManagement.ViewModels.System.ActiveUsers;
 using NewsManagement.ViewModels.System.Users;
 using Newtonsoft.Json;
 using System;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace NewsManagement.ApiIntegration
 {
-    public class UserApiClient : IUserApiClient
+    public class UserApiClient : BaseApiClient, IUserApiClient
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _configuration;
@@ -23,6 +24,7 @@ namespace NewsManagement.ApiIntegration
         public UserApiClient(IHttpClientFactory httpClientFactory,
                    IHttpContextAccessor httpContextAccessor,
                     IConfiguration configuration)
+            : base(httpClientFactory, httpContextAccessor, configuration)
         {
             _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
@@ -247,6 +249,33 @@ namespace NewsManagement.ApiIntegration
                 return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(result);
 
             return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(result);
+        }
+
+        public async Task<List<GetMonth>> GetActiveUserDay(string month, string year)
+        {
+            var response = await GetListAsync<ActiveUserVm>($"/api/users/activeusers");
+
+            List<GetMonth> counts = new List<GetMonth>();
+            var date = response.Where(x => x.DateActive.ToString("MM/yyyy") == month.ToString() + "/" + year.ToString()).Select(x => x.DateActive.ToString("dd/MM/yyyy")).Distinct();
+
+            foreach (var item in date)
+            {
+                counts.Add(new GetMonth { date = item, count = response.Count(x => x.DateActive.ToString("dd/MM/yyyy") == item) });
+
+            }
+            return counts;
+        }
+
+        public async Task<List<UserVm>> GetNewUsers()
+        {
+            var data = await GetListAsync<UserVm>($"/api/users/newuser");
+            return data;
+        }
+
+        public async Task<List<ActiveUserVm>> GetActiveUser()
+        {
+            var data = await GetListAsync<ActiveUserVm>($"/api/users/activeusers");
+            return data;
         }
     }
 }

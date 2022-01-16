@@ -40,5 +40,7 @@ namespace NewsManagement.ViewModels.System.Users
         public string Img { get; set; }
 
         public IList<string> Roles { get; set; }
+
+        public DateTime Date { get; set; }
     }
 }

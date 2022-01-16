@@ -34,5 +34,11 @@ namespace NewsManagement.BackendApi.Controllers
             var rating = await _ratingService.GetList(newsid);
             return Ok(rating);
         }
+        [HttpGet("newrating")]
+        public async Task<IActionResult> GetNewsRating()
+        {
+            var rating = await _ratingService.GetAllRating();
+            return Ok(rating);
+        }
     }
 }

@@ -15,6 +15,8 @@ namespace NewsManagement.Application.Catalog.Ratings
 
         Task<List<RatingVm>> GetList(int NewsId);
 
+        Task<List<NewsRating>> GetAllRating();
+
         Task<RatingVm> GetByCheckRating(string checkRating);
     }
 }

@@ -51,5 +51,9 @@ namespace NewsManagement.ApiIntegration
         Task<AddCommentRequest> GetBySave(string checkstring);
 
         Task<int> DeleteSave(int saveId);
+
+        Task<List<StatisticNews>> GetNewsStatitic(string month, string year);
+        Task<List<StatisticNews>> GetNewsStatiticDay(string day, string month, string year);
+        Task<List<StatisticNews>> GetNewsStatiticYear(string year);
     }
 }

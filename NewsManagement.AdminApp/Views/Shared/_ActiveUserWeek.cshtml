@@ -1,0 +1,26 @@
+﻿@using NewsManagement.ViewModels.System.ActiveUsers
+@model IEnumerable<ActiveUserVm>
+
+@{
+    double mothbefore = Model.Count(x => x.DateActive <= DateTime.Now.AddDays(-7) && x.DateActive > DateTime.Now.AddDays(-14));
+    double mothafter = Model.Count(x => x.DateActive > DateTime.Now.AddDays(-7));
+
+    double h = mothafter - mothbefore;
+    double pt = 0;
+    if (mothbefore == 0)
+    {
+        pt = 100;
+        if (mothafter == 0)
+        {
+            pt = 0;
+        }
+    }
+    else
+    {
+        pt = h * 100 / mothbefore;
+    }
+
+}
+
+<h6 class="ms-2 mt-4 mb-0"> Người dùng đang hoạt động </h6>
+<p class="text-sm ms-2"> (<span class="font-weight-bolder">@(h<0 ? Math.Round(pt, 2).ToString(): "+" + Math.Round(pt, 2).ToString())%</span>) so với tuần trước </p>
